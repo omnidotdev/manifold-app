@@ -1,7 +1,7 @@
 import { Dialog as ArkDialog, Portal } from "@ark-ui/react";
 import { X } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import cn from "@/lib/utils";
 
 import type { ComponentProps, PropsWithChildren } from "react";
 
