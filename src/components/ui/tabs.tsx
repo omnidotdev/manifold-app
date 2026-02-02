@@ -14,6 +14,26 @@ const TabsRoot = ({
   <ArkTabs.Root className={cn("w-full", className)} {...rest} />
 );
 
+const Tabs = ({
+  className,
+  value,
+  onValueChange,
+  children,
+  ...rest
+}: Omit<ComponentProps<typeof ArkTabs.Root>, "value" | "onValueChange"> & {
+  value?: string;
+  onValueChange?: (value: string) => void;
+}) => (
+  <ArkTabs.Root
+    className={cn("w-full", className)}
+    value={value}
+    onValueChange={(e) => onValueChange?.(e.value)}
+    {...rest}
+  >
+    {children}
+  </ArkTabs.Root>
+);
+
 const TabsList = ({
   className,
   ...rest
@@ -67,6 +87,7 @@ const TabsIndicator = ({
 );
 
 export {
+  Tabs,
   TabsRoot,
   TabsList,
   TabsTrigger,
