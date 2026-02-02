@@ -113,3 +113,64 @@ export const getCancelSubscriptionUrl = createServerFn({ method: "POST" })
 
     return session.url;
   });
+
+// Workspace-based subscription functions (for org billing)
+
+const workspaceSchema = z.object({
+  workspaceId: z.string(),
+});
+
+const manageBillingSchema = z.object({
+  workspaceId: z.string(),
+  returnUrl: z.string().url(),
+});
+
+/**
+ * Get subscription for a workspace.
+ */
+export const getSubscription = createServerFn()
+  .inputValidator((data) => workspaceSchema.parse(data))
+  .handler(async ({ data }) => {
+    // TODO: Integrate with Aether for workspace subscriptions
+    // For now, return null (no active subscription)
+    return null as {
+      status: string;
+      cancelAt: number | null;
+      currentPeriodEnd: number;
+      product: {
+        name: string;
+        description: string;
+        marketing_features: { name: string }[];
+      } | null;
+    } | null;
+  });
+
+/**
+ * Get billing portal URL for a workspace.
+ */
+export const getManageBillingUrl = createServerFn({ method: "POST" })
+  .inputValidator((data) => manageBillingSchema.parse(data))
+  .handler(async ({ data }) => {
+    // TODO: Integrate with Aether billing portal
+    return data.returnUrl;
+  });
+
+/**
+ * Revoke (cancel) a workspace subscription.
+ */
+export const revokeSubscription = createServerFn({ method: "POST" })
+  .inputValidator((data) => workspaceSchema.parse(data))
+  .handler(async () => {
+    // TODO: Integrate with Aether
+    return { success: true };
+  });
+
+/**
+ * Reactivate a canceled workspace subscription.
+ */
+export const reactivateSubscription = createServerFn({ method: "POST" })
+  .inputValidator((data) => workspaceSchema.parse(data))
+  .handler(async () => {
+    // TODO: Integrate with Aether
+    return { success: true };
+  });
