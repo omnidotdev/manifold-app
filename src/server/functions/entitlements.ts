@@ -1,0 +1,61 @@
+import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+
+import { getEntitlements as getEntitlementsFromAether } from "@/lib/aether/client";
+import { authMiddleware } from "@/server/middleware";
+
+import type { EntitlementsResponse } from "@/lib/aether/client";
+
+const entitySchema = z.object({
+  entityType: z.string(),
+  entityId: z.string().uuid(),
+  productId: z.string().optional(),
+});
+
+const checkEntitlementSchema = z.object({
+  entityType: z.string(),
+  entityId: z.string().uuid(),
+  productId: z.string(),
+  featureKey: z.string(),
+});
+
+/**
+ * Get all entitlements for an entity.
+ */
+export const getEntitlements = createServerFn()
+  .inputValidator((data) => entitySchema.parse(data))
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }): Promise<EntitlementsResponse | null> => {
+    return getEntitlementsFromAether(
+      data.entityType,
+      data.entityId,
+      data.productId,
+      context.session.accessToken,
+    );
+  });
+
+/**
+ * Check if an entity has a specific entitlement.
+ * Returns the entitlement value if found, null otherwise.
+ */
+export const checkEntitlement = createServerFn()
+  .inputValidator((data) => checkEntitlementSchema.parse(data))
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }): Promise<string | null> => {
+    const entitlements = await getEntitlementsFromAether(
+      data.entityType,
+      data.entityId,
+      data.productId,
+      context.session.accessToken,
+    );
+
+    if (!entitlements) {
+      return null;
+    }
+
+    const entitlement = entitlements.entitlements.find(
+      (e) => e.featureKey === data.featureKey,
+    );
+
+    return entitlement?.value ?? null;
+  });

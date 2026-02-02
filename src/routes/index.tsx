@@ -1,0 +1,142 @@
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import {
+  FileJson,
+  Network,
+  Box,
+  Container,
+  Search,
+  History,
+  Shield,
+  Layers,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import createMetaTags from "@/lib/util/createMetaTags";
+
+export const Route = createFileRoute("/")({
+  beforeLoad: ({ context: { auth } }) => {
+    if (auth) throw redirect({ to: "/schemas" });
+  },
+  head: () => ({
+    meta: createMetaTags({
+      title: "Manifold - Schema Registry",
+      description:
+        "Centralized schema management for OpenAPI, GraphQL, JSON Schema, WASM, and Container artifacts.",
+    }),
+  }),
+  component: HomePage,
+});
+
+/**
+ * Home page / Landing.
+ */
+function HomePage() {
+  return (
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col">
+      {/* Hero Section */}
+      <section className="flex flex-1 flex-col items-center justify-center gap-8 px-4 py-16 text-center">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+            One Place for All Your
+            <span className="text-primary"> API Schemas</span>
+          </h1>
+          <p className="max-w-2xl text-lg text-muted-foreground">
+            Manage, version, and share OpenAPI specs, GraphQL schemas, JSON
+            Schema definitions, WASM modules, and container manifests from a
+            single registry.
+          </p>
+        </div>
+
+        <div className="flex gap-4">
+          <Button size="lg" asChild>
+            <Link to="/schemas">View Schemas</Link>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <Link to="/pricing">Get Started</Link>
+          </Button>
+        </div>
+
+        {/* Schema Type Icons */}
+        <div className="mt-8 flex gap-8">
+          <SchemaTypeIcon
+            icon={<FileJson className="h-8 w-8" />}
+            label="OpenAPI"
+          />
+          <SchemaTypeIcon
+            icon={<Network className="h-8 w-8" />}
+            label="GraphQL"
+          />
+          <SchemaTypeIcon
+            icon={<Box className="h-8 w-8" />}
+            label="JSON Schema"
+          />
+          <SchemaTypeIcon icon={<Layers className="h-8 w-8" />} label="WASM" />
+          <SchemaTypeIcon
+            icon={<Container className="h-8 w-8" />}
+            label="Container"
+          />
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-muted/50 px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-12 text-center text-3xl font-bold">
+            Enterprise-ready schema management
+          </h2>
+
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <FeatureCard
+              icon={<Search className="h-8 w-8" />}
+              title="Schema Discovery"
+              description="Search and browse all your API schemas in one centralized location."
+            />
+            <FeatureCard
+              icon={<History className="h-8 w-8" />}
+              title="Version History"
+              description="Track changes over time with full version history and diff views."
+            />
+            <FeatureCard
+              icon={<Shield className="h-8 w-8" />}
+              title="Validation"
+              description="Automatic schema validation ensures your APIs are always correct."
+            />
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function SchemaTypeIcon({
+  icon,
+  label,
+}: {
+  icon: React.ReactNode;
+  label: string;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-2 text-muted-foreground">
+      {icon}
+      <span className="text-sm">{label}</span>
+    </div>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="rounded-lg border bg-card p-6 shadow-sm">
+      <div className="mb-4 text-primary">{icon}</div>
+      <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+      <p className="text-muted-foreground">{description}</p>
+    </div>
+  );
+}
