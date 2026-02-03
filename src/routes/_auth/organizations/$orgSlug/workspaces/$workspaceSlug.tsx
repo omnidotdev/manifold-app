@@ -19,14 +19,14 @@ export const Route = createFileRoute(
  */
 function WorkspaceLayout() {
   const { workspaceSlug } = Route.useParams();
-  const { workspaces, setActiveWorkspace } = useWorkspace();
+  const { workspaces } = useWorkspace();
 
   const workspace = workspaces.find((w) => w.slug === workspaceSlug);
 
   if (!workspace) {
     return (
       <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold text-destructive">
+        <h1 className="font-bold text-2xl text-destructive">
           Workspace not found
         </h1>
         <p className="mt-2 text-muted-foreground">

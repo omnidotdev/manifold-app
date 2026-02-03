@@ -73,8 +73,8 @@ const AvatarImage = ({
 );
 
 interface AvatarProps extends ComponentProps<typeof AvatarRoot> {
-  src: string | Blob | undefined;
-  alt: string | undefined;
+  src?: string;
+  alt?: string;
   fallback: ReactNode;
 }
 
@@ -94,11 +94,14 @@ const Avatar = ({
 );
 
 export {
+  /** @knipignore */
   Avatar,
   AvatarRoot,
   AvatarFallback,
   AvatarImage,
+  /** @knipignore */
   AvatarProvider,
+  /** @knipignore */
   useAvatar,
   type AvatarProps,
 };

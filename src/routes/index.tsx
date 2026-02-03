@@ -1,13 +1,13 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import {
-  FileJson,
-  Network,
   Box,
   Container,
-  Search,
+  FileJson,
   History,
-  Shield,
   Layers,
+  Network,
+  Search,
+  Shield,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ function HomePage() {
       {/* Hero Section */}
       <section className="flex flex-1 flex-col items-center justify-center gap-8 px-4 py-16 text-center">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+          <h1 className="font-bold text-4xl tracking-tight sm:text-6xl">
             One Place for All Your
             <span className="text-primary"> API Schemas</span>
           </h1>
@@ -81,7 +81,7 @@ function HomePage() {
       {/* Features Section */}
       <section className="bg-muted/50 px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-center text-3xl font-bold">
+          <h2 className="mb-12 text-center font-bold text-3xl">
             Enterprise-ready schema management
           </h2>
 
@@ -135,7 +135,7 @@ function FeatureCard({
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
       <div className="mb-4 text-primary">{icon}</div>
-      <h3 className="mb-2 text-xl font-semibold">{title}</h3>
+      <h3 className="mb-2 font-semibold text-xl">{title}</h3>
       <p className="text-muted-foreground">{description}</p>
     </div>
   );

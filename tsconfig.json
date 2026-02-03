@@ -1,5 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["e2e/**/*"],
   "compilerOptions": {
     "target": "es2022",
     "jsx": "react-jsx",
@@ -14,7 +15,8 @@
     "types": [
       "vite/client",
       // enable Serwist to properly type `virtual:serwist`
-      "@serwist/vite/typings"
+      "@serwist/vite/typings",
+      "@types/bun"
     ],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

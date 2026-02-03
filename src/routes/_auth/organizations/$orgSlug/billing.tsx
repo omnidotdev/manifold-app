@@ -71,12 +71,12 @@ function OrgBillingPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-2xl font-bold">Billing</h1>
+      <h1 className="mb-6 font-bold text-2xl">Billing</h1>
 
       <div className="space-y-6">
         {/* Current Plan */}
         <section className="rounded-lg border p-6">
-          <h2 className="mb-4 text-lg font-semibold">Current Plan</h2>
+          <h2 className="mb-4 font-semibold text-lg">Current Plan</h2>
           {isLoadingSubscription ? (
             <div className="animate-pulse">
               <div className="h-8 w-32 rounded bg-muted" />
@@ -85,16 +85,20 @@ function OrgBillingPage() {
           ) : (
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-2xl font-bold">{planName}</p>
-                <p className="text-sm text-muted-foreground">{planDescription}</p>
+                <p className="font-bold text-2xl">{planName}</p>
+                <p className="text-muted-foreground text-sm">
+                  {planDescription}
+                </p>
                 {isCanceling && subscription?.cancelAt && (
-                  <p className="mt-2 text-sm text-amber-600">
+                  <p className="mt-2 text-amber-600 text-sm">
                     Cancels on{" "}
-                    {new Date(subscription.cancelAt * 1000).toLocaleDateString()}
+                    {new Date(
+                      subscription.cancelAt * 1000,
+                    ).toLocaleDateString()}
                   </p>
                 )}
                 {isSubscribed && subscription?.currentPeriodEnd && (
-                  <p className="mt-1 text-xs text-muted-foreground">
+                  <p className="mt-1 text-muted-foreground text-xs">
                     {isCanceling ? "Access until" : "Renews"}{" "}
                     {new Date(
                       subscription.currentPeriodEnd * 1000,
@@ -135,11 +139,12 @@ function OrgBillingPage() {
         {subscription?.product?.marketing_features &&
           subscription.product.marketing_features.length > 0 && (
             <section className="rounded-lg border p-6">
-              <h2 className="mb-4 text-lg font-semibold">Plan Features</h2>
+              <h2 className="mb-4 font-semibold text-lg">Plan Features</h2>
               <ul className="space-y-2">
                 {subscription.product.marketing_features.map((feature, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm">
                     <svg
+                      aria-hidden="true"
                       className="h-4 w-4 text-green-500"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -161,8 +166,8 @@ function OrgBillingPage() {
 
         {/* Usage - TODO: Wire to entitlements */}
         <section className="rounded-lg border p-6">
-          <h2 className="mb-4 text-lg font-semibold">Usage</h2>
-          <p className="text-sm text-muted-foreground">
+          <h2 className="mb-4 font-semibold text-lg">Usage</h2>
+          <p className="text-muted-foreground text-sm">
             Usage metrics will appear here once entitlements are configured.
           </p>
         </section>
@@ -170,8 +175,8 @@ function OrgBillingPage() {
         {/* Billing Portal */}
         {isSubscribed && (
           <section className="rounded-lg border p-6">
-            <h2 className="mb-4 text-lg font-semibold">Payment & Invoices</h2>
-            <p className="mb-4 text-sm text-muted-foreground">
+            <h2 className="mb-4 font-semibold text-lg">Payment & Invoices</h2>
+            <p className="mb-4 text-muted-foreground text-sm">
               Manage your payment methods, view invoices, and update billing
               information.
             </p>

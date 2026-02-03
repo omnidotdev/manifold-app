@@ -22,7 +22,7 @@ function OrgMembersPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Members</h1>
+        <h1 className="font-bold text-2xl">Members</h1>
         {!isPersonal && (
           <button
             type="button"
@@ -35,7 +35,7 @@ function OrgMembersPage() {
 
       {isPersonal && (
         <div className="mb-6 rounded-lg border border-muted bg-muted/50 p-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Personal organizations can only have one member (you).
           </p>
         </div>
@@ -45,11 +45,11 @@ function OrgMembersPage() {
         <table className="w-full">
           <thead>
             <tr className="border-b bg-muted/50">
-              <th className="px-4 py-3 text-left text-sm font-medium">User</th>
-              <th className="px-4 py-3 text-left text-sm font-medium">Role</th>
-              <th className="px-4 py-3 text-left text-sm font-medium">Teams</th>
+              <th className="px-4 py-3 text-left font-medium text-sm">User</th>
+              <th className="px-4 py-3 text-left font-medium text-sm">Role</th>
+              <th className="px-4 py-3 text-left font-medium text-sm">Teams</th>
               {!isPersonal && (
-                <th className="px-4 py-3 text-right text-sm font-medium">
+                <th className="px-4 py-3 text-right font-medium text-sm">
                   Actions
                 </th>
               )}
@@ -61,11 +61,11 @@ function OrgMembersPage() {
                 <span className="font-medium">You</span>
               </td>
               <td className="px-4 py-3">
-                <span className="rounded bg-primary/10 px-2 py-1 text-xs text-primary">
+                <span className="rounded bg-primary/10 px-2 py-1 text-primary text-xs">
                   {org.roles[0] || "member"}
                 </span>
               </td>
-              <td className="px-4 py-3 text-sm text-muted-foreground">
+              <td className="px-4 py-3 text-muted-foreground text-sm">
                 {org.teams.length > 0
                   ? org.teams.map((t) => t.name).join(", ")
                   : "—"}

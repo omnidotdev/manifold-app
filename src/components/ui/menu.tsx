@@ -193,23 +193,33 @@ const MenuItemShortcut = ({
 );
 
 export {
+  /** @knipignore */
   MenuArrow,
+  /** @knipignore */
   MenuArrowTip,
   MenuContent,
   MenuItem,
   MenuItemGroup,
   MenuItemGroupLabel,
+  /** @knipignore */
   MenuCheckboxItem,
+  /** @knipignore */
   MenuRadioItem,
+  /** @knipignore */
   MenuRadioItemGroup,
   MenuItemText,
+  /** @knipignore */
   MenuItemIndicator,
   MenuPositioner,
+  /** @knipignore */
   MenuProvider,
   MenuRoot,
   MenuSeparator,
   MenuTrigger,
+  /** @knipignore */
   MenuTriggerItem,
+  /** @knipignore */
   MenuItemShortcut,
+  /** @knipignore */
   PrimitiveMenuIndicator,
 };

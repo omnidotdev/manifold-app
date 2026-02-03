@@ -85,9 +85,9 @@ export const renderWithProviders = (
     context: { auth },
   });
 
-  const Wrapper = ({ children }: WrapperProps) => (
+  const Wrapper = ({ children: _children }: WrapperProps) => (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router}>{children}</RouterProvider>
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 

@@ -1,9 +1,9 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
+import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 import { useOrganization } from "@/lib/context";
 
 export const Route = createFileRoute("/_auth/organizations/$orgSlug")({
-  beforeLoad: async ({ params, context }) => {
+  beforeLoad: async ({ params, context: _context }) => {
     // Validate org slug exists in user's organizations
     // This will be populated from context in a real app
     return { orgSlug: params.orgSlug };
@@ -24,7 +24,7 @@ function OrgLayout() {
   if (!org) {
     return (
       <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold text-destructive">
+        <h1 className="font-bold text-2xl text-destructive">
           Organization not found
         </h1>
         <p className="mt-2 text-muted-foreground">

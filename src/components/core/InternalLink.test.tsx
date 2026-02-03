@@ -40,9 +40,9 @@ describe("InternalLink", () => {
   });
 
   test("renders children content", async () => {
-    await renderWithRouter(<InternalLink to="/about">About Us</InternalLink>);
+    await renderWithRouter(<InternalLink to="/pricing">Pricing</InternalLink>);
 
-    expect(screen.getByText("About Us")).toBeDefined();
+    expect(screen.getByText("Pricing")).toBeDefined();
   });
 
   test("applies button variant styles", async () => {

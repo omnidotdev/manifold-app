@@ -21,28 +21,34 @@ function WorkspaceSettingsPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-2xl font-bold">Workspace Settings</h1>
+      <h1 className="mb-6 font-bold text-2xl">Workspace Settings</h1>
 
       <div className="space-y-6">
         <section className="rounded-lg border p-6">
-          <h2 className="mb-4 text-lg font-semibold">General</h2>
+          <h2 className="mb-4 font-semibold text-lg">General</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium">Workspace Name</label>
+              <label htmlFor="ws-name" className="block font-medium text-sm">
+                Workspace Name
+              </label>
               <input
+                id="ws-name"
                 type="text"
                 defaultValue={workspace.name}
                 className="mt-1 w-full rounded-md border px-3 py-2"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">Slug</label>
+              <label htmlFor="ws-slug" className="block font-medium text-sm">
+                Slug
+              </label>
               <input
+                id="ws-slug"
                 type="text"
                 defaultValue={workspace.slug}
                 className="mt-1 w-full rounded-md border px-3 py-2"
               />
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="mt-1 text-muted-foreground text-xs">
                 Used in URLs. Must be unique within the organization.
               </p>
             </div>
@@ -50,10 +56,10 @@ function WorkspaceSettingsPage() {
         </section>
 
         <section className="rounded-lg border border-destructive/50 p-6">
-          <h2 className="mb-4 text-lg font-semibold text-destructive">
+          <h2 className="mb-4 font-semibold text-destructive text-lg">
             Danger Zone
           </h2>
-          <p className="mb-4 text-sm text-muted-foreground">
+          <p className="mb-4 text-muted-foreground text-sm">
             Permanently delete this workspace and all its data.
           </p>
           <button

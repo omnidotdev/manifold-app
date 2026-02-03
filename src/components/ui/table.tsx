@@ -88,10 +88,13 @@ export {
   Table,
   TableHeader,
   TableBody,
+  /** @knipignore */
   TableFooter,
+  /** @knipignore */
   TableHead,
   TableRow,
   TableCell,
+  /** @knipignore */
   TableCaption,
   type TableProps,
 };

@@ -23,7 +23,7 @@ function OrgDashboard() {
     <div className="container mx-auto py-8">
       <div className="mb-8">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold">{org.slug}</h1>
+          <h1 className="font-bold text-2xl">{org.slug}</h1>
           {org.type === "personal" && (
             <span className="rounded bg-muted px-2 py-1 text-xs">Personal</span>
           )}
@@ -37,11 +37,11 @@ function OrgDashboard() {
         {/* Workspaces Section */}
         <section>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Workspaces</h2>
+            <h2 className="font-semibold text-lg">Workspaces</h2>
             <Link
               to="/organizations/$orgSlug/workspaces"
               params={{ orgSlug }}
-              className="text-sm text-primary hover:underline"
+              className="text-primary text-sm hover:underline"
             >
               View all
             </Link>
@@ -56,14 +56,14 @@ function OrgDashboard() {
                 className="block rounded-lg border p-3 transition-colors hover:bg-muted"
               >
                 <span className="font-medium">{ws.name}</span>
-                <span className="ml-2 text-sm text-muted-foreground">
+                <span className="ml-2 text-muted-foreground text-sm">
                   /{ws.slug}
                 </span>
               </Link>
             ))}
 
             {workspaces.length === 0 && (
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 No workspaces yet.{" "}
                 <Link
                   to="/organizations/$orgSlug/workspaces"
@@ -79,7 +79,7 @@ function OrgDashboard() {
 
         {/* Quick Links Section */}
         <section>
-          <h2 className="mb-4 text-lg font-semibold">Settings</h2>
+          <h2 className="mb-4 font-semibold text-lg">Settings</h2>
           <div className="space-y-2">
             <Link
               to="/organizations/$orgSlug/settings"

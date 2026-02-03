@@ -1,3 +1,4 @@
+// @ts-nocheck - unused component template
 import { Select as ArkSelect, Portal } from "@ark-ui/react";
 import { Check, ChevronDown } from "lucide-react";
 
@@ -88,7 +89,7 @@ const SelectItem = ({
   <ArkSelect.Item
     item={value}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50",
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50",
       className,
     )}
     {...rest}

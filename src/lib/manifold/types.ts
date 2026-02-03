@@ -1,9 +1,4 @@
-export type SchemaType =
-  | "openapi"
-  | "graphql"
-  | "json"
-  | "wasm"
-  | "container";
+export type SchemaType = "openapi" | "graphql" | "json" | "wasm" | "container";
 
 export interface Schema {
   id: string;

@@ -24,7 +24,7 @@ function WorkspaceDashboard() {
   return (
     <div className="container mx-auto py-8">
       {/* Breadcrumb */}
-      <nav className="mb-6 text-sm text-muted-foreground">
+      <nav className="mb-6 text-muted-foreground text-sm">
         <Link
           to="/organizations/$orgSlug"
           params={{ orgSlug }}
@@ -45,7 +45,7 @@ function WorkspaceDashboard() {
       </nav>
 
       <div className="mb-8">
-        <h1 className="text-2xl font-bold">{workspace.name}</h1>
+        <h1 className="font-bold text-2xl">{workspace.name}</h1>
         <p className="text-muted-foreground">/{workspace.slug}</p>
       </div>
 
@@ -54,7 +54,7 @@ function WorkspaceDashboard() {
         <p className="text-muted-foreground">
           This is where your app-specific workspace content goes.
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-muted-foreground text-sm">
           Examples: projects list, dashboard widgets, activity feed, etc.
         </p>
       </div>

@@ -11,11 +11,11 @@ export const Route = createFileRoute("/_auth/organizations/")({
  * Shows all organizations the user is a member of.
  */
 function OrganizationsPage() {
-  const { organizations, personalOrganization } = useOrganization();
+  const { organizations } = useOrganization();
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-2xl font-bold">Organizations</h1>
+      <h1 className="mb-6 font-bold text-2xl">Organizations</h1>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {organizations.map((org) => (
@@ -33,11 +33,11 @@ function OrganizationsPage() {
                 </span>
               )}
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 text-muted-foreground text-sm">
               {org.roles.join(", ")}
             </p>
             {org.teams.length > 0 && (
-              <p className="mt-2 text-xs text-muted-foreground">
+              <p className="mt-2 text-muted-foreground text-xs">
                 Teams: {org.teams.map((t) => t.name).join(", ")}
               </p>
             )}

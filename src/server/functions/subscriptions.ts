@@ -30,7 +30,7 @@ export const getSubscriptions = createServerFn()
 
     return subscriptions.data.map((sub) => ({
       id: sub.id,
-      customerId: context.customer?.id,
+      customerId: context.customer!.id,
       price: sub.items.data[0].price,
     }));
   });
@@ -130,7 +130,7 @@ const manageBillingSchema = z.object({
  */
 export const getSubscription = createServerFn()
   .inputValidator((data) => workspaceSchema.parse(data))
-  .handler(async ({ data }) => {
+  .handler(async ({ data: _data }) => {
     // TODO: Integrate with Aether for workspace subscriptions
     // For now, return null (no active subscription)
     return null as {

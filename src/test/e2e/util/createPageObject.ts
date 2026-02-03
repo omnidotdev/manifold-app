@@ -14,6 +14,8 @@ interface Params<D extends object> extends PageObjectContext {
   baseUrl: string;
   /** Additional, per-context data. */
   metadata?: D;
+  /** Additional page-specific helpers. */
+  [key: string]: unknown;
 }
 
 interface PageObject<D extends object> extends Params<D> {

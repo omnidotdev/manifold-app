@@ -10,7 +10,10 @@ const Switch = ({
   checked,
   onCheckedChange,
   ...rest
-}: Omit<ComponentProps<typeof ArkSwitch.Root>, "checked" | "onCheckedChange"> & {
+}: Omit<
+  ComponentProps<typeof ArkSwitch.Root>,
+  "checked" | "onCheckedChange"
+> & {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 }) => (

@@ -1,38 +1,36 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
 import {
-  Plus,
-  Search,
-  Grid,
-  List,
-  FileJson,
-  Network,
   Box,
   Container,
-  Layers,
-  MoreHorizontal,
   Download,
+  FileJson,
+  Grid,
+  Layers,
+  List,
+  MoreHorizontal,
+  Network,
   Pencil,
+  Plus,
+  Search,
   Trash2,
 } from "lucide-react";
+import { useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  MenuRoot,
-  MenuTrigger,
   MenuContent,
   MenuItem,
+  MenuRoot,
+  MenuTrigger,
 } from "@/components/ui/menu";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SCHEMA_TYPE_COLORS, SCHEMA_TYPE_LABELS } from "@/lib/manifold/types";
 import createMetaTags from "@/lib/util/createMetaTags";
+
 import type { Schema, SchemaType } from "@/lib/manifold/types";
-import {
-  SCHEMA_TYPE_LABELS,
-  SCHEMA_TYPE_COLORS,
-} from "@/lib/manifold/types";
 
 export const Route = createFileRoute("/_auth/schemas")({
   head: () => ({
@@ -144,11 +142,11 @@ function SchemasPage() {
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
-              <h1 className="text-2xl font-semibold">Schemas</h1>
+              <h1 className="font-semibold text-2xl">Schemas</h1>
 
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     placeholder="Search schemas..."
                     value={searchQuery}
@@ -159,12 +157,12 @@ function SchemasPage() {
 
                 <Tabs
                   value={filterType}
-                  onValueChange={(v) =>
-                    setFilterType(v as SchemaType | "all")
-                  }
+                  onValueChange={(v) => setFilterType(v as SchemaType | "all")}
                 >
                   <TabsList>
-                    <TabsTrigger value="all">All ({schemas.length})</TabsTrigger>
+                    <TabsTrigger value="all">
+                      All ({schemas.length})
+                    </TabsTrigger>
                     <TabsTrigger value="openapi">
                       OpenAPI ({typeCounts.openapi || 0})
                     </TabsTrigger>
@@ -182,14 +180,14 @@ function SchemasPage() {
             <div className="flex items-center gap-3">
               <div className="flex rounded-md border bg-background">
                 <Button
-                  variant={viewMode === "grid" ? "default" : "ghost"}
+                  variant={viewMode === "grid" ? "solid" : "ghost"}
                   size="icon"
                   onClick={() => setViewMode("grid")}
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
                 <Button
-                  variant={viewMode === "list" ? "default" : "ghost"}
+                  variant={viewMode === "list" ? "solid" : "ghost"}
                   size="icon"
                   onClick={() => setViewMode("list")}
                 >
@@ -222,7 +220,9 @@ function SchemasPage() {
                         {getSchemaIcon(schema.type)}
                       </div>
                       <div>
-                        <CardTitle className="text-base">{schema.name}</CardTitle>
+                        <CardTitle className="text-base">
+                          {schema.name}
+                        </CardTitle>
                         <Badge
                           className={`mt-1 text-xs ${SCHEMA_TYPE_COLORS[schema.type]}`}
                         >
@@ -258,15 +258,12 @@ function SchemasPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="line-clamp-2 text-sm text-muted-foreground">
+                  <p className="line-clamp-2 text-muted-foreground text-sm">
                     {schema.description}
                   </p>
-                  <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                  <div className="mt-4 flex items-center justify-between text-muted-foreground text-xs">
                     <span>v{schema.metadata?.version || "1.0.0"}</span>
-                    <span>
-                      Updated{" "}
-                      {schema.updatedAt.toLocaleDateString()}
-                    </span>
+                    <span>Updated {schema.updatedAt.toLocaleDateString()}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -278,11 +275,17 @@ function SchemasPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b bg-muted/50">
-                    <th className="p-4 text-left text-sm font-medium">Name</th>
-                    <th className="p-4 text-left text-sm font-medium">Type</th>
-                    <th className="p-4 text-left text-sm font-medium">Version</th>
-                    <th className="p-4 text-left text-sm font-medium">Updated</th>
-                    <th className="p-4 text-right text-sm font-medium">Actions</th>
+                    <th className="p-4 text-left font-medium text-sm">Name</th>
+                    <th className="p-4 text-left font-medium text-sm">Type</th>
+                    <th className="p-4 text-left font-medium text-sm">
+                      Version
+                    </th>
+                    <th className="p-4 text-left font-medium text-sm">
+                      Updated
+                    </th>
+                    <th className="p-4 text-right font-medium text-sm">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -298,7 +301,7 @@ function SchemasPage() {
                           </div>
                           <div>
                             <div className="font-medium">{schema.name}</div>
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-muted-foreground text-sm">
                               {schema.description}
                             </div>
                           </div>
@@ -331,7 +334,7 @@ function SchemasPage() {
         {filteredSchemas.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <FileJson className="mb-4 h-12 w-12 text-muted-foreground" />
-            <h3 className="mb-2 text-lg font-semibold">No schemas found</h3>
+            <h3 className="mb-2 font-semibold text-lg">No schemas found</h3>
             <p className="text-muted-foreground">
               {searchQuery
                 ? "Try adjusting your search or filters"

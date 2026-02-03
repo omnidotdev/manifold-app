@@ -21,7 +21,7 @@ function OrgSettingsPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-2xl font-bold">Organization Settings</h1>
+      <h1 className="mb-6 font-bold text-2xl">Organization Settings</h1>
 
       {isPersonal && (
         <div className="mb-6 rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-4">
@@ -33,13 +33,14 @@ function OrgSettingsPage() {
 
       <div className="space-y-6">
         <section className="rounded-lg border p-6">
-          <h2 className="mb-4 text-lg font-semibold">General</h2>
+          <h2 className="mb-4 font-semibold text-lg">General</h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium">
+              <label htmlFor="org-name" className="block font-medium text-sm">
                 Organization Name
               </label>
               <input
+                id="org-name"
                 type="text"
                 defaultValue={org.slug}
                 disabled={isPersonal}
@@ -47,8 +48,11 @@ function OrgSettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">Slug</label>
+              <label htmlFor="org-slug" className="block font-medium text-sm">
+                Slug
+              </label>
               <input
+                id="org-slug"
                 type="text"
                 defaultValue={org.slug}
                 disabled={isPersonal}
@@ -60,10 +64,10 @@ function OrgSettingsPage() {
 
         {!isPersonal && (
           <section className="rounded-lg border border-destructive/50 p-6">
-            <h2 className="mb-4 text-lg font-semibold text-destructive">
+            <h2 className="mb-4 font-semibold text-destructive text-lg">
               Danger Zone
             </h2>
-            <p className="mb-4 text-sm text-muted-foreground">
+            <p className="mb-4 text-muted-foreground text-sm">
               Permanently delete this organization and all its data.
             </p>
             <button

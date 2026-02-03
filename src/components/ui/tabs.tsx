@@ -88,11 +88,15 @@ const TabsIndicator = ({
 
 export {
   Tabs,
+  /** @knipignore */
   TabsRoot,
   TabsList,
   TabsTrigger,
   TabsContent,
+  /** @knipignore */
   TabsIndicator,
+  /** @knipignore */
   TabsProvider,
+  /** @knipignore */
   TabsContext,
 };
