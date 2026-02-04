@@ -129,13 +129,13 @@ export interface FileRoutesByFullPath {
   '/schemas': typeof AuthSchemasRoute
   '/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/organizations/': typeof AuthOrganizationsIndexRoute
+  '/organizations': typeof AuthOrganizationsIndexRoute
   '/organizations/$orgSlug/billing': typeof AuthOrganizationsOrgSlugBillingRoute
   '/organizations/$orgSlug/members': typeof AuthOrganizationsOrgSlugMembersRoute
   '/organizations/$orgSlug/settings': typeof AuthOrganizationsOrgSlugSettingsRoute
   '/organizations/$orgSlug/': typeof AuthOrganizationsOrgSlugIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugRouteWithChildren
-  '/organizations/$orgSlug/workspaces/': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
+  '/organizations/$orgSlug/workspaces': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/settings': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugIndexRoute
 }
@@ -185,13 +185,13 @@ export interface FileRouteTypes {
     | '/schemas'
     | '/organizations/$orgSlug'
     | '/api/auth/$'
-    | '/organizations/'
+    | '/organizations'
     | '/organizations/$orgSlug/billing'
     | '/organizations/$orgSlug/members'
     | '/organizations/$orgSlug/settings'
     | '/organizations/$orgSlug/'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug'
-    | '/organizations/$orgSlug/workspaces/'
+    | '/organizations/$orgSlug/workspaces'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/settings'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/'
   fileRoutesByTo: FileRoutesByTo
@@ -250,7 +250,7 @@ declare module '@tanstack/react-router' {
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -285,7 +285,7 @@ declare module '@tanstack/react-router' {
     '/_auth/organizations/': {
       id: '/_auth/organizations/'
       path: '/organizations'
-      fullPath: '/organizations/'
+      fullPath: '/organizations'
       preLoaderRoute: typeof AuthOrganizationsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
@@ -334,7 +334,7 @@ declare module '@tanstack/react-router' {
     '/_auth/organizations/$orgSlug/workspaces/': {
       id: '/_auth/organizations/$orgSlug/workspaces/'
       path: '/workspaces'
-      fullPath: '/organizations/$orgSlug/workspaces/'
+      fullPath: '/organizations/$orgSlug/workspaces'
       preLoaderRoute: typeof AuthOrganizationsOrgSlugWorkspacesIndexRouteImport
       parentRoute: typeof AuthOrganizationsOrgSlugRoute
     }
