@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
+  useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
@@ -16,6 +17,7 @@ import { ErrorBoundary, Footer, Header } from "@/components/layout";
 import auth from "@/lib/auth/auth";
 import app from "@/lib/config/app.config";
 import { isDevEnv } from "@/lib/config/env.config";
+import { fetchMaintenanceMode } from "@/lib/flags";
 import appCss from "@/lib/styles/globals.css?url";
 import createMetaTags from "@/lib/util/createMetaTags";
 import ThemeProvider from "@/providers/ThemeProvider";
@@ -44,15 +46,43 @@ function ComingSoon() {
 }
 
 /**
+ * Maintenance page shown when the maintenance mode flag is enabled.
+ */
+function MaintenancePage() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-indigo-900 to-indigo-800 p-8 text-white">
+      <div className="text-center">
+        <div className="mb-6 text-9xl">🍩</div>
+        <h1 className="mb-4 font-bold text-4xl">Undergoing Transformation</h1>
+        <p className="max-w-md text-lg text-indigo-200">
+          Manifold is smoothing out some singularities. We'll be back in your
+          neighborhood shortly.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Root route.
  */
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
+  isMaintenanceMode: boolean;
 }>()({
   beforeLoad: async () => {
     const session = await fetchSession();
 
-    return { auth: session };
+    // Pass user context to Unleash for @omni.dev admin bypass
+    const context = session?.user?.email
+      ? { userId: session.user.id, email: session.user.email }
+      : undefined;
+    const { isMaintenanceMode } = await fetchMaintenanceMode({ data: context });
+
+    // Skip auth when maintenance page is shown
+    if (isMaintenanceMode) return { auth: null, isMaintenanceMode };
+
+    return { auth: session, isMaintenanceMode };
   },
   head: () => ({
     meta: [
@@ -122,6 +152,17 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
+  const { isMaintenanceMode } = useRouteContext({ from: "__root__" });
+
+  // Show maintenance page when flag is enabled
+  if (isMaintenanceMode) {
+    return (
+      <RootDocument>
+        <MaintenancePage />
+      </RootDocument>
+    );
+  }
+
   // Note: Production teaser is intentionally disabled for this app
   // To enable, uncomment the isDevEnv check below
   // if (!isDevEnv) {
