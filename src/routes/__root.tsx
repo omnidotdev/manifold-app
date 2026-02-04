@@ -52,7 +52,7 @@ function MaintenancePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-indigo-900 to-indigo-800 p-8 text-white">
       <div className="text-center">
-        <div className="mb-6 text-9xl">📚</div>
+        <div className="mb-6 text-9xl">➰</div>
         <h1 className="mb-4 font-bold text-4xl">Undergoing Transformation</h1>
         <p className="max-w-md text-lg text-indigo-200">
           Manifold is smoothing out some singularities. We'll be back in your
