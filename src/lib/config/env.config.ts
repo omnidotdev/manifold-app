@@ -1,3 +1,5 @@
+const env = { ...import.meta.env, ...process.env };
+
 /**
  * Environment variables.
  */
@@ -18,7 +20,12 @@ export const {
   // authorization
   VITE_AUTHZ_API_URL: AUTHZ_API_URL,
   VITE_AUTHZ_ENABLED: AUTHZ_ENABLED,
-} = { ...import.meta.env, ...process.env };
+} = env;
+
+// Feature flags
+export const FLAGS_API_HOST = env.FLAGS_API_HOST || env.VITE_FLAGS_API_HOST;
+export const FLAGS_CLIENT_KEY =
+  env.FLAGS_CLIENT_KEY || env.VITE_FLAGS_CLIENT_KEY;
 
 export const API_GRAPHQL_URL = `${API_BASE_URL}/graphql`;
 
