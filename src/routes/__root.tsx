@@ -154,12 +154,18 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   const { isMaintenanceMode } = useRouteContext({ from: "__root__" });
 
-  // Show maintenance page when flag is enabled
+  // Show maintenance page when flag is enabled (bypass Header/Footer)
   if (isMaintenanceMode) {
     return (
-      <RootDocument>
-        <MaintenancePage />
-      </RootDocument>
+      <html suppressHydrationWarning lang="en" className="dark">
+        <head>
+          <HeadContent />
+        </head>
+        <body>
+          <MaintenancePage />
+          <Scripts />
+        </body>
+      </html>
     );
   }
 
