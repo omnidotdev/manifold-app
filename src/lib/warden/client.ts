@@ -1,4 +1,4 @@
-import { AUTHZ_ENABLED, AUTHZ_API_URL } from "@/lib/config/env.config";
+import { AUTHZ_API_URL, AUTHZ_ENABLED } from "@/lib/config/env.config";
 
 /**
  * Check if a user has permission on a resource.

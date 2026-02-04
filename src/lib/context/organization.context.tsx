@@ -1,10 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useState } from "react";
+
+import type { ReactNode } from "react";
 
 /**
  * Organization from IDP JWT claims.
