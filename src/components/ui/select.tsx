@@ -1,4 +1,3 @@
-// @ts-nocheck - unused component template
 import { Select as ArkSelect, Portal } from "@ark-ui/react";
 import { Check, ChevronDown } from "lucide-react";
 
@@ -16,6 +15,7 @@ const Select = ({
   onValueChange?: (value: string) => void;
   required?: boolean;
 }>) => (
+  // @ts-expect-error -- Ark UI requires `collection` but this wrapper uses child-based items
   <ArkSelect.Root
     value={value ? [value] : []}
     onValueChange={(e) => onValueChange?.(e.value[0])}
@@ -85,7 +85,7 @@ const SelectItem = ({
   children,
   value,
   ...rest
-}: ComponentProps<typeof ArkSelect.Item> & { value: string }) => (
+}: Omit<ComponentProps<typeof ArkSelect.Item>, "item"> & { value: string }) => (
   <ArkSelect.Item
     item={value}
     className={cn(

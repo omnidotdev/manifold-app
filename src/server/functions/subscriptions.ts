@@ -138,6 +138,8 @@ export const getSubscription = createServerFn()
   .inputValidator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
+    if (!context.session.accessToken) throw new Error("No access token");
+
     return aetherGetSubscription(
       "workspace",
       data.workspaceId,
@@ -152,6 +154,8 @@ export const getManageBillingUrl = createServerFn({ method: "POST" })
   .inputValidator((data) => manageBillingSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
+    if (!context.session.accessToken) throw new Error("No access token");
+
     try {
       return await aetherGetBillingPortalUrl(
         "workspace",
@@ -172,6 +176,8 @@ export const revokeSubscription = createServerFn({ method: "POST" })
   .inputValidator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
+    if (!context.session.accessToken) throw new Error("No access token");
+
     await aetherCancelSubscription(
       "workspace",
       data.workspaceId,
@@ -188,6 +194,8 @@ export const reactivateSubscription = createServerFn({ method: "POST" })
   .inputValidator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
+    if (!context.session.accessToken) throw new Error("No access token");
+
     await aetherRenewSubscription(
       "workspace",
       data.workspaceId,
