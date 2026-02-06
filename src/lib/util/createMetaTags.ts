@@ -1,16 +1,19 @@
 import app from "@/lib/config/app.config";
 import { BASE_URL } from "@/lib/config/env.config";
 
-// TODO JSDoc
+/** Parameters for generating page meta tags */
 interface Params {
+  /** Page title, appended to site name */
   title?: string;
+  /** Page description for SEO */
   description?: string;
+  /** Open Graph image URL */
   image?: string;
+  /** Comma-separated keywords */
   keywords?: string;
+  /** Canonical page URL */
   url?: string;
 }
-
-// TODO improve type safety
 
 /**
  * Create meta tags.
