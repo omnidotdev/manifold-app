@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
+import { CreateNamespaceModal } from "@/components/namespace";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
@@ -19,13 +20,17 @@ function WorkspacesPage() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-bold text-2xl">Workspaces</h1>
-        <button
-          type="button"
-          className="rounded-lg bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
-        >
-          Create Workspace
-        </button>
+        <h1 className="font-bold text-2xl">Namespaces</h1>
+        <CreateNamespaceModal
+          trigger={
+            <button
+              type="button"
+              className="rounded-lg bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
+            >
+              Create Namespace
+            </button>
+          }
+        />
       </div>
 
       {isLoading ? (
@@ -46,7 +51,7 @@ function WorkspacesPage() {
 
           {workspaces.length === 0 && (
             <p className="col-span-full text-muted-foreground">
-              No workspaces yet. Create one to get started.
+              No namespaces yet. Create one to get started.
             </p>
           )}
         </div>

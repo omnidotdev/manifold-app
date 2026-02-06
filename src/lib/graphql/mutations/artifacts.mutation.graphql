@@ -1,0 +1,22 @@
+mutation CreateArtifact($input: CreateArtifactInput!) {
+  createArtifact(input: $input) {
+    artifact {
+      id
+      rowId
+      repositoryId
+      digest
+      size
+      mediaType
+      createdAt
+    }
+  }
+}
+
+mutation DeleteArtifact($input: DeleteArtifactInput!) {
+  deleteArtifact(input: $input) {
+    artifact {
+      rowId
+      digest
+    }
+  }
+}

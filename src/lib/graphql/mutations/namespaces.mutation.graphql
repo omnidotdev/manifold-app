@@ -1,0 +1,30 @@
+mutation CreateNamespace($input: CreateNamespaceInput!) {
+  createNamespace(input: $input) {
+    namespace {
+      id
+      rowId
+      name
+      description
+    }
+  }
+}
+
+mutation UpdateNamespace($input: UpdateNamespaceInput!) {
+  updateNamespace(input: $input) {
+    namespace {
+      id
+      rowId
+      name
+      description
+    }
+  }
+}
+
+mutation DeleteNamespace($input: DeleteNamespaceInput!) {
+  deleteNamespace(input: $input) {
+    namespace {
+      rowId
+      name
+    }
+  }
+}

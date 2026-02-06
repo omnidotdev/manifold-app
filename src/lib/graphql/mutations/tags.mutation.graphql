@@ -1,0 +1,33 @@
+mutation CreateTag($input: CreateTagInput!) {
+  createTag(input: $input) {
+    tag {
+      id
+      rowId
+      repositoryId
+      artifactId
+      name
+      createdAt
+    }
+  }
+}
+
+mutation UpdateTag($input: UpdateTagInput!) {
+  updateTag(input: $input) {
+    tag {
+      id
+      rowId
+      artifactId
+      name
+      updatedAt
+    }
+  }
+}
+
+mutation DeleteTag($input: DeleteTagInput!) {
+  deleteTag(input: $input) {
+    tag {
+      rowId
+      name
+    }
+  }
+}

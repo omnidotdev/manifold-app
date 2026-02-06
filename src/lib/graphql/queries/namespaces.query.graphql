@@ -1,0 +1,62 @@
+query Namespaces($condition: NamespaceCondition, $first: Int, $offset: Int) {
+  namespaces(condition: $condition, first: $first, offset: $offset) {
+    nodes {
+      id
+      rowId
+      name
+      description
+      createdAt
+      repositories {
+        totalCount
+      }
+    }
+    totalCount
+  }
+}
+
+query Namespace($rowId: UUID!) {
+  namespace(rowId: $rowId) {
+    id
+    rowId
+    name
+    description
+    createdAt
+    updatedAt
+    repositories {
+      nodes {
+        id
+        rowId
+        name
+        description
+        artifactType
+        isPublic
+        createdAt
+        artifacts {
+          totalCount
+        }
+        tags {
+          totalCount
+        }
+      }
+      totalCount
+    }
+  }
+}
+
+query NamespaceByName($name: String!) {
+  namespaceByName(name: $name) {
+    id
+    rowId
+    name
+    description
+    repositories {
+      nodes {
+        id
+        rowId
+        name
+        artifactType
+        isPublic
+      }
+    }
+  }
+}

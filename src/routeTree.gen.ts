@@ -14,7 +14,6 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthSchemasRouteImport } from './routes/_auth/schemas'
 import { Route as AuthProfileRouteImport } from './routes/_auth/profile'
-import { Route as AuthDashboardRouteImport } from './routes/_auth/dashboard'
 import { Route as AuthOrganizationsIndexRouteImport } from './routes/_auth/organizations/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthOrganizationsOrgSlugRouteImport } from './routes/_auth/organizations/$orgSlug'
@@ -49,11 +48,6 @@ const AuthSchemasRoute = AuthSchemasRouteImport.update({
 const AuthProfileRoute = AuthProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthDashboardRoute = AuthDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthOrganizationsIndexRoute = AuthOrganizationsIndexRouteImport.update({
@@ -124,7 +118,6 @@ const AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
-  '/dashboard': typeof AuthDashboardRoute
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
   '/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
@@ -142,7 +135,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
-  '/dashboard': typeof AuthDashboardRoute
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
@@ -160,7 +152,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/pricing': typeof PricingRoute
-  '/_auth/dashboard': typeof AuthDashboardRoute
   '/_auth/profile': typeof AuthProfileRoute
   '/_auth/schemas': typeof AuthSchemasRoute
   '/_auth/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
@@ -180,7 +171,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/pricing'
-    | '/dashboard'
     | '/profile'
     | '/schemas'
     | '/organizations/$orgSlug'
@@ -198,7 +188,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/pricing'
-    | '/dashboard'
     | '/profile'
     | '/schemas'
     | '/api/auth/$'
@@ -215,7 +204,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/pricing'
-    | '/_auth/dashboard'
     | '/_auth/profile'
     | '/_auth/schemas'
     | '/_auth/organizations/$orgSlug'
@@ -273,13 +261,6 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthProfileRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/dashboard': {
-      id: '/_auth/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/organizations/': {
@@ -408,7 +389,6 @@ const AuthOrganizationsOrgSlugRouteWithChildren =
   )
 
 interface AuthRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
   AuthProfileRoute: typeof AuthProfileRoute
   AuthSchemasRoute: typeof AuthSchemasRoute
   AuthOrganizationsOrgSlugRoute: typeof AuthOrganizationsOrgSlugRouteWithChildren
@@ -416,7 +396,6 @@ interface AuthRouteChildren {
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
   AuthProfileRoute: AuthProfileRoute,
   AuthSchemasRoute: AuthSchemasRoute,
   AuthOrganizationsOrgSlugRoute: AuthOrganizationsOrgSlugRouteWithChildren,

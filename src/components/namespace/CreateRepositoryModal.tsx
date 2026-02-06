@@ -20,12 +20,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateRepositoryMutation } from "@/generated/graphql";
-import {
-  ARTIFACT_TYPE_LABELS,
-  type ArtifactType,
-} from "@/lib/manifold/registry.types";
+import { ARTIFACT_TYPE_LABELS } from "@/lib/manifold/registry.types";
 
 import type { PropsWithChildren } from "react";
+import type { ArtifactType } from "@/lib/manifold/registry.types";
 
 interface Props {
   /** Namespace ID to create the repository in */

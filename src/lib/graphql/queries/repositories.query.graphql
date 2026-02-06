@@ -1,0 +1,70 @@
+query Repository($rowId: UUID!) {
+  repository(rowId: $rowId) {
+    id
+    rowId
+    namespaceId
+    name
+    description
+    artifactType
+    isPublic
+    createdAt
+    updatedAt
+    namespace {
+      id
+      rowId
+      name
+    }
+    artifacts(orderBy: [PRIMARY_KEY_DESC]) {
+      nodes {
+        id
+        rowId
+        digest
+        size
+        mediaType
+        content
+        createdAt
+      }
+      totalCount
+    }
+    tags {
+      nodes {
+        id
+        rowId
+        name
+        artifactId
+        createdAt
+        updatedAt
+        artifact {
+          digest
+          size
+        }
+      }
+      totalCount
+    }
+  }
+}
+
+query RepositoriesByNamespace($namespaceId: UUID!, $first: Int, $offset: Int) {
+  repositories(
+    condition: { namespaceId: $namespaceId }
+    first: $first
+    offset: $offset
+  ) {
+    nodes {
+      id
+      rowId
+      name
+      description
+      artifactType
+      isPublic
+      createdAt
+      artifacts {
+        totalCount
+      }
+      tags {
+        totalCount
+      }
+    }
+    totalCount
+  }
+}

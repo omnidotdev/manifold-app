@@ -1,0 +1,35 @@
+mutation CreateRepository($input: CreateRepositoryInput!) {
+  createRepository(input: $input) {
+    repository {
+      id
+      rowId
+      namespaceId
+      name
+      description
+      artifactType
+      isPublic
+    }
+  }
+}
+
+mutation UpdateRepository($input: UpdateRepositoryInput!) {
+  updateRepository(input: $input) {
+    repository {
+      id
+      rowId
+      name
+      description
+      artifactType
+      isPublic
+    }
+  }
+}
+
+mutation DeleteRepository($input: DeleteRepositoryInput!) {
+  deleteRepository(input: $input) {
+    repository {
+      rowId
+      name
+    }
+  }
+}
