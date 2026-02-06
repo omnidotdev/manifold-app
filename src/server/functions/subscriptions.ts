@@ -4,7 +4,13 @@ import { z } from "zod";
 import app from "@/lib/config/app.config";
 import { BASE_URL, STRIPE_PORTAL_CONFIG_ID } from "@/lib/config/env.config";
 import payments from "@/lib/payments";
-import { customerMiddleware } from "@/server/middleware";
+import {
+  cancelSubscription as aetherCancelSubscription,
+  getBillingPortalUrl as aetherGetBillingPortalUrl,
+  getSubscription as aetherGetSubscription,
+  renewSubscription as aetherRenewSubscription,
+} from "@/lib/aether/client";
+import { authMiddleware, customerMiddleware } from "@/server/middleware";
 
 const checkoutSchema = z.object({
   priceId: z.string().startsWith("price_"),
@@ -130,19 +136,13 @@ const manageBillingSchema = z.object({
  */
 export const getSubscription = createServerFn()
   .inputValidator((data) => workspaceSchema.parse(data))
-  .handler(async ({ data: _data }) => {
-    // TODO: Integrate with Aether for workspace subscriptions
-    // For now, return null (no active subscription)
-    return null as {
-      status: string;
-      cancelAt: number | null;
-      currentPeriodEnd: number;
-      product: {
-        name: string;
-        description: string;
-        marketing_features: { name: string }[];
-      } | null;
-    } | null;
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }) => {
+    return aetherGetSubscription(
+      "workspace",
+      data.workspaceId,
+      context.session.accessToken,
+    );
   });
 
 /**
@@ -150,9 +150,19 @@ export const getSubscription = createServerFn()
  */
 export const getManageBillingUrl = createServerFn({ method: "POST" })
   .inputValidator((data) => manageBillingSchema.parse(data))
-  .handler(async ({ data }) => {
-    // TODO: Integrate with Aether billing portal
-    return data.returnUrl;
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }) => {
+    try {
+      return await aetherGetBillingPortalUrl(
+        "workspace",
+        data.workspaceId,
+        "",
+        data.returnUrl,
+        context.session.accessToken,
+      );
+    } catch {
+      return data.returnUrl;
+    }
   });
 
 /**
@@ -160,8 +170,14 @@ export const getManageBillingUrl = createServerFn({ method: "POST" })
  */
 export const revokeSubscription = createServerFn({ method: "POST" })
   .inputValidator((data) => workspaceSchema.parse(data))
-  .handler(async () => {
-    // TODO: Integrate with Aether
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }) => {
+    await aetherCancelSubscription(
+      "workspace",
+      data.workspaceId,
+      context.session.accessToken,
+    );
+
     return { success: true };
   });
 
@@ -170,7 +186,13 @@ export const revokeSubscription = createServerFn({ method: "POST" })
  */
 export const reactivateSubscription = createServerFn({ method: "POST" })
   .inputValidator((data) => workspaceSchema.parse(data))
-  .handler(async () => {
-    // TODO: Integrate with Aether
+  .middleware([authMiddleware])
+  .handler(async ({ data, context }) => {
+    await aetherRenewSubscription(
+      "workspace",
+      data.workspaceId,
+      context.session.accessToken,
+    );
+
     return { success: true };
   });

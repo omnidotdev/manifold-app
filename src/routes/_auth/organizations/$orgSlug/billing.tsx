@@ -24,9 +24,7 @@ function OrgBillingPage() {
 
   const org = organizations.find((o) => o.slug === orgSlug);
 
-  // TODO: Get workspaceId from context or URL params
-  // For now, this is a placeholder - in a real app, billing might be
-  // at the organization level or workspace level depending on your model
+  // Billing is scoped to the organization level
   const workspaceId = org?.id ?? "";
 
   // Fetch subscription data
