@@ -54,7 +54,7 @@ function MaintenancePage() {
       <div className="text-center">
         <div className="mb-6 text-9xl">➰</div>
         <h1 className="mb-4 font-bold text-4xl">Undergoing Transformation</h1>
-        <p className="max-w-md text-lg text-indigo-200">
+        <p className="max-w-md text-indigo-200 text-lg">
           Manifold is smoothing out some singularities. We'll be back in your
           neighborhood shortly.
         </p>

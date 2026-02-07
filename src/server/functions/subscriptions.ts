@@ -29,14 +29,16 @@ export const getSubscriptions = createServerFn()
   .handler(async ({ context }) => {
     if (!context.customer) return [];
 
+    const { id: customerId } = context.customer;
+
     const subscriptions = await payments.subscriptions.list({
-      customer: context.customer.id,
+      customer: customerId,
       status: "active",
     });
 
     return subscriptions.data.map((sub) => ({
       id: sub.id,
-      customerId: context.customer!.id,
+      customerId,
       price: sub.items.data[0].price,
     }));
   });
@@ -53,10 +55,10 @@ export const getCheckoutUrl = createServerFn({ method: "POST" })
 
     if (!customer) {
       customer = await payments.customers.create({
-        email: context.session.user.email!,
+        email: context.session.user.email ?? "",
         name: context.session.user.name ?? undefined,
         metadata: {
-          externalId: context.session.user.identityProviderId!,
+          externalId: context.session.user.identityProviderId ?? "",
         },
       });
     }
@@ -73,7 +75,7 @@ export const getCheckoutUrl = createServerFn({ method: "POST" })
       },
     });
 
-    return checkout.url!;
+    return checkout.url ?? "";
   });
 
 /**
