@@ -30,7 +30,7 @@ const PricingPage = () => {
   const tabs = useTabs({ defaultValue: "month" });
 
   const filteredPrices = prices.filter(
-    (price) => price.recurring?.interval === tabs.value,
+    (price: Price) => price.recurring?.interval === tabs.value,
   );
 
   return (
@@ -58,7 +58,7 @@ const PricingPage = () => {
             {/** Handling the free tier could be quite different across apps. For now, we disable the action for authenticated users. TODO: Implement downstream. */}
             <PriceCard price={FREE_PRICE} disableAction />
 
-            {filteredPrices.map((price) => (
+            {filteredPrices.map((price: Price) => (
               <PriceCard key={price.id} price={price} />
             ))}
           </TabsContent>
