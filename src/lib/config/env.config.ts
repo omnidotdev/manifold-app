@@ -22,6 +22,8 @@ export const {
   VITE_AUTHZ_ENABLED: AUTHZ_ENABLED,
 } = env;
 
+export const CONSOLE_URL = import.meta.env.VITE_CONSOLE_URL;
+
 // Feature flags
 export const FLAGS_API_HOST = env.FLAGS_API_HOST || env.VITE_FLAGS_API_HOST;
 export const FLAGS_CLIENT_KEY =

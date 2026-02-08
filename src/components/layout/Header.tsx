@@ -2,6 +2,8 @@ import { MenuRootProvider, useMenu } from "@ark-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
 
+import { ExternalLinkIcon } from "lucide-react";
+
 import { InternalLink } from "@/components/core";
 import { ThemeToggle } from "@/components/layout";
 import {
@@ -23,6 +25,7 @@ import {
 import authClient from "@/lib/auth/authClient";
 import signOut from "@/lib/auth/signOut";
 import app from "@/lib/config/app.config";
+import { CONSOLE_URL } from "@/lib/config/env.config";
 
 /**
  * Layout header.
@@ -88,6 +91,21 @@ const Header = () => {
                         </InternalLink>
                       </MenuItem>
                     </MenuItemGroup>
+
+                    {CONSOLE_URL && (
+                      <MenuItem value="manage-account" asChild>
+                        <a
+                          href={CONSOLE_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="justify-start"
+                        >
+                          <ExternalLinkIcon size={16} />
+
+                          <MenuItemText>Manage account</MenuItemText>
+                        </a>
+                      </MenuItem>
+                    )}
 
                     <MenuSeparator />
 
