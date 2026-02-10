@@ -49,6 +49,7 @@ const auth = betterAuth({
           scopes: ["openid", "profile", "email", "offline_access"],
           accessType: "offline",
           pkce: true,
+          prompt: "login",
         },
       ],
     }),
