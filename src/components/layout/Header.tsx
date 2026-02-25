@@ -1,7 +1,6 @@
 import { MenuRootProvider, useMenu } from "@ark-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
-
 import { ExternalLinkIcon } from "lucide-react";
 
 import { InternalLink } from "@/components/core";
