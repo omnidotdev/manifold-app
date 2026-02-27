@@ -61,6 +61,18 @@ const Header = () => {
             <InternalLink to="/pricing" variant="ghost">
               Pricing
             </InternalLink>
+
+            {auth ? (
+              <>
+                <InternalLink to="/registry" variant="ghost">
+                  Registry
+                </InternalLink>
+
+                <InternalLink to="/tokens" variant="ghost">
+                  Tokens
+                </InternalLink>
+              </>
+            ) : null}
           </div>
 
           <div className="flex items-center gap-4">

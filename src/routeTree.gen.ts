@@ -12,9 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthTokensRouteImport } from './routes/_auth/tokens'
 import { Route as AuthSchemasRouteImport } from './routes/_auth/schemas'
 import { Route as AuthProfileRouteImport } from './routes/_auth/profile'
 import { Route as AtomniSplatRouteImport } from './routes/@omni/$'
+import { Route as AuthRegistryIndexRouteImport } from './routes/_auth/registry/index'
+import { Route as AuthRegistryNamespaceNameRouteImport } from './routes/_auth/registry/$namespaceName'
+import { Route as AuthRegistryNamespaceNameIndexRouteImport } from './routes/_auth/registry/$namespaceName/index'
+import { Route as AuthRegistryNamespaceNameRepoNameRouteImport } from './routes/_auth/registry/$namespaceName/$repoName'
 import { Route as AuthOrganizationsIndexRouteImport } from './routes/_auth/organizations/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AuthOrganizationsOrgSlugRouteImport } from './routes/_auth/organizations/$orgSlug'
@@ -41,6 +46,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthTokensRoute = AuthTokensRouteImport.update({
+  id: '/tokens',
+  path: '/tokens',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthSchemasRoute = AuthSchemasRouteImport.update({
   id: '/schemas',
   path: '/schemas',
@@ -56,6 +66,29 @@ const AtomniSplatRoute = AtomniSplatRouteImport.update({
   path: '/@omni/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRegistryIndexRoute = AuthRegistryIndexRouteImport.update({
+  id: '/registry/',
+  path: '/registry/',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthRegistryNamespaceNameRoute =
+  AuthRegistryNamespaceNameRouteImport.update({
+    id: '/registry/$namespaceName',
+    path: '/registry/$namespaceName',
+    getParentRoute: () => AuthRoute,
+  } as any)
+const AuthRegistryNamespaceNameIndexRoute =
+  AuthRegistryNamespaceNameIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthRegistryNamespaceNameRoute,
+  } as any)
+const AuthRegistryNamespaceNameRepoNameRoute =
+  AuthRegistryNamespaceNameRepoNameRouteImport.update({
+    id: '/$repoName',
+    path: '/$repoName',
+    getParentRoute: () => AuthRegistryNamespaceNameRoute,
+  } as any)
 const AuthOrganizationsIndexRoute = AuthOrganizationsIndexRouteImport.update({
   id: '/organizations/',
   path: '/organizations/',
@@ -127,6 +160,11 @@ export interface FileRoutesByFullPath {
   '/@omni/$': typeof AtomniSplatRoute
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
+  '/tokens': typeof AuthTokensRoute
+  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
+  '/registry/': typeof AuthRegistryIndexRoute
+  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
+  '/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/organizations/': typeof AuthOrganizationsIndexRoute
@@ -145,6 +183,10 @@ export interface FileRoutesByTo {
   '/@omni/$': typeof AtomniSplatRoute
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
+  '/tokens': typeof AuthTokensRoute
+  '/registry': typeof AuthRegistryIndexRoute
+  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
+  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/organizations': typeof AuthOrganizationsIndexRoute
   '/organizations/$orgSlug/billing': typeof AuthOrganizationsOrgSlugBillingRoute
@@ -163,6 +205,11 @@ export interface FileRoutesById {
   '/@omni/$': typeof AtomniSplatRoute
   '/_auth/profile': typeof AuthProfileRoute
   '/_auth/schemas': typeof AuthSchemasRoute
+  '/_auth/tokens': typeof AuthTokensRoute
+  '/_auth/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
+  '/_auth/registry/': typeof AuthRegistryIndexRoute
+  '/_auth/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
+  '/_auth/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/_auth/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/organizations/': typeof AuthOrganizationsIndexRoute
@@ -183,6 +230,11 @@ export interface FileRouteTypes {
     | '/@omni/$'
     | '/profile'
     | '/schemas'
+    | '/tokens'
+    | '/registry/$namespaceName'
+    | '/registry/'
+    | '/registry/$namespaceName/$repoName'
+    | '/registry/$namespaceName/'
     | '/organizations/$orgSlug'
     | '/api/auth/$'
     | '/organizations/'
@@ -201,6 +253,10 @@ export interface FileRouteTypes {
     | '/@omni/$'
     | '/profile'
     | '/schemas'
+    | '/tokens'
+    | '/registry'
+    | '/registry/$namespaceName/$repoName'
+    | '/registry/$namespaceName'
     | '/api/auth/$'
     | '/organizations'
     | '/organizations/$orgSlug/billing'
@@ -218,6 +274,11 @@ export interface FileRouteTypes {
     | '/@omni/$'
     | '/_auth/profile'
     | '/_auth/schemas'
+    | '/_auth/tokens'
+    | '/_auth/registry/$namespaceName'
+    | '/_auth/registry/'
+    | '/_auth/registry/$namespaceName/$repoName'
+    | '/_auth/registry/$namespaceName/'
     | '/_auth/organizations/$orgSlug'
     | '/api/auth/$'
     | '/_auth/organizations/'
@@ -262,6 +323,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/tokens': {
+      id: '/_auth/tokens'
+      path: '/tokens'
+      fullPath: '/tokens'
+      preLoaderRoute: typeof AuthTokensRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/schemas': {
       id: '/_auth/schemas'
       path: '/schemas'
@@ -282,6 +350,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/@omni/$'
       preLoaderRoute: typeof AtomniSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/registry/': {
+      id: '/_auth/registry/'
+      path: '/registry'
+      fullPath: '/registry/'
+      preLoaderRoute: typeof AuthRegistryIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/registry/$namespaceName': {
+      id: '/_auth/registry/$namespaceName'
+      path: '/registry/$namespaceName'
+      fullPath: '/registry/$namespaceName'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/registry/$namespaceName/': {
+      id: '/_auth/registry/$namespaceName/'
+      path: '/'
+      fullPath: '/registry/$namespaceName/'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameIndexRouteImport
+      parentRoute: typeof AuthRegistryNamespaceNameRoute
+    }
+    '/_auth/registry/$namespaceName/$repoName': {
+      id: '/_auth/registry/$namespaceName/$repoName'
+      path: '/$repoName'
+      fullPath: '/registry/$namespaceName/$repoName'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameRepoNameRouteImport
+      parentRoute: typeof AuthRegistryNamespaceNameRoute
     }
     '/_auth/organizations/': {
       id: '/_auth/organizations/'
@@ -408,9 +504,29 @@ const AuthOrganizationsOrgSlugRouteWithChildren =
     AuthOrganizationsOrgSlugRouteChildren,
   )
 
+interface AuthRegistryNamespaceNameRouteChildren {
+  AuthRegistryNamespaceNameRepoNameRoute: typeof AuthRegistryNamespaceNameRepoNameRoute
+  AuthRegistryNamespaceNameIndexRoute: typeof AuthRegistryNamespaceNameIndexRoute
+}
+
+const AuthRegistryNamespaceNameRouteChildren: AuthRegistryNamespaceNameRouteChildren =
+  {
+    AuthRegistryNamespaceNameRepoNameRoute:
+      AuthRegistryNamespaceNameRepoNameRoute,
+    AuthRegistryNamespaceNameIndexRoute: AuthRegistryNamespaceNameIndexRoute,
+  }
+
+const AuthRegistryNamespaceNameRouteWithChildren =
+  AuthRegistryNamespaceNameRoute._addFileChildren(
+    AuthRegistryNamespaceNameRouteChildren,
+  )
+
 interface AuthRouteChildren {
   AuthProfileRoute: typeof AuthProfileRoute
   AuthSchemasRoute: typeof AuthSchemasRoute
+  AuthTokensRoute: typeof AuthTokensRoute
+  AuthRegistryNamespaceNameRoute: typeof AuthRegistryNamespaceNameRouteWithChildren
+  AuthRegistryIndexRoute: typeof AuthRegistryIndexRoute
   AuthOrganizationsOrgSlugRoute: typeof AuthOrganizationsOrgSlugRouteWithChildren
   AuthOrganizationsIndexRoute: typeof AuthOrganizationsIndexRoute
 }
@@ -418,6 +534,9 @@ interface AuthRouteChildren {
 const AuthRouteChildren: AuthRouteChildren = {
   AuthProfileRoute: AuthProfileRoute,
   AuthSchemasRoute: AuthSchemasRoute,
+  AuthTokensRoute: AuthTokensRoute,
+  AuthRegistryNamespaceNameRoute: AuthRegistryNamespaceNameRouteWithChildren,
+  AuthRegistryIndexRoute: AuthRegistryIndexRoute,
   AuthOrganizationsOrgSlugRoute: AuthOrganizationsOrgSlugRouteWithChildren,
   AuthOrganizationsIndexRoute: AuthOrganizationsIndexRoute,
 }
