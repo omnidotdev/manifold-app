@@ -17,13 +17,13 @@ import { Route as AuthSchemasRouteImport } from './routes/_auth/schemas'
 import { Route as AuthProfileRouteImport } from './routes/_auth/profile'
 import { Route as AtomniSplatRouteImport } from './routes/@omni/$'
 import { Route as AuthRegistryIndexRouteImport } from './routes/_auth/registry/index'
-import { Route as AuthRegistryNamespaceNameRouteImport } from './routes/_auth/registry/$namespaceName'
-import { Route as AuthRegistryNamespaceNameIndexRouteImport } from './routes/_auth/registry/$namespaceName/index'
-import { Route as AuthRegistryNamespaceNameRepoNameRouteImport } from './routes/_auth/registry/$namespaceName/$repoName'
 import { Route as AuthOrganizationsIndexRouteImport } from './routes/_auth/organizations/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AuthRegistryNamespaceNameRouteImport } from './routes/_auth/registry/$namespaceName'
 import { Route as AuthOrganizationsOrgSlugRouteImport } from './routes/_auth/organizations/$orgSlug'
+import { Route as AuthRegistryNamespaceNameIndexRouteImport } from './routes/_auth/registry/$namespaceName/index'
 import { Route as AuthOrganizationsOrgSlugIndexRouteImport } from './routes/_auth/organizations/$orgSlug/index'
+import { Route as AuthRegistryNamespaceNameRepoNameRouteImport } from './routes/_auth/registry/$namespaceName/$repoName'
 import { Route as AuthOrganizationsOrgSlugSettingsRouteImport } from './routes/_auth/organizations/$orgSlug/settings'
 import { Route as AuthOrganizationsOrgSlugMembersRouteImport } from './routes/_auth/organizations/$orgSlug/members'
 import { Route as AuthOrganizationsOrgSlugBillingRouteImport } from './routes/_auth/organizations/$orgSlug/billing'
@@ -71,24 +71,6 @@ const AuthRegistryIndexRoute = AuthRegistryIndexRouteImport.update({
   path: '/registry/',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthRegistryNamespaceNameRoute =
-  AuthRegistryNamespaceNameRouteImport.update({
-    id: '/registry/$namespaceName',
-    path: '/registry/$namespaceName',
-    getParentRoute: () => AuthRoute,
-  } as any)
-const AuthRegistryNamespaceNameIndexRoute =
-  AuthRegistryNamespaceNameIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthRegistryNamespaceNameRoute,
-  } as any)
-const AuthRegistryNamespaceNameRepoNameRoute =
-  AuthRegistryNamespaceNameRepoNameRouteImport.update({
-    id: '/$repoName',
-    path: '/$repoName',
-    getParentRoute: () => AuthRegistryNamespaceNameRoute,
-  } as any)
 const AuthOrganizationsIndexRoute = AuthOrganizationsIndexRouteImport.update({
   id: '/organizations/',
   path: '/organizations/',
@@ -99,17 +81,35 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRegistryNamespaceNameRoute =
+  AuthRegistryNamespaceNameRouteImport.update({
+    id: '/registry/$namespaceName',
+    path: '/registry/$namespaceName',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const AuthOrganizationsOrgSlugRoute =
   AuthOrganizationsOrgSlugRouteImport.update({
     id: '/organizations/$orgSlug',
     path: '/organizations/$orgSlug',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthRegistryNamespaceNameIndexRoute =
+  AuthRegistryNamespaceNameIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthRegistryNamespaceNameRoute,
+  } as any)
 const AuthOrganizationsOrgSlugIndexRoute =
   AuthOrganizationsOrgSlugIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthOrganizationsOrgSlugRoute,
+  } as any)
+const AuthRegistryNamespaceNameRepoNameRoute =
+  AuthRegistryNamespaceNameRepoNameRouteImport.update({
+    id: '/$repoName',
+    path: '/$repoName',
+    getParentRoute: () => AuthRegistryNamespaceNameRoute,
   } as any)
 const AuthOrganizationsOrgSlugSettingsRoute =
   AuthOrganizationsOrgSlugSettingsRouteImport.update({
@@ -161,19 +161,19 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
   '/tokens': typeof AuthTokensRoute
-  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
-  '/registry/': typeof AuthRegistryIndexRoute
-  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
-  '/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
+  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/organizations/': typeof AuthOrganizationsIndexRoute
+  '/organizations': typeof AuthOrganizationsIndexRoute
+  '/registry': typeof AuthRegistryIndexRoute
   '/organizations/$orgSlug/billing': typeof AuthOrganizationsOrgSlugBillingRoute
   '/organizations/$orgSlug/members': typeof AuthOrganizationsOrgSlugMembersRoute
   '/organizations/$orgSlug/settings': typeof AuthOrganizationsOrgSlugSettingsRoute
+  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
   '/organizations/$orgSlug/': typeof AuthOrganizationsOrgSlugIndexRoute
+  '/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugRouteWithChildren
-  '/organizations/$orgSlug/workspaces/': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
+  '/organizations/$orgSlug/workspaces': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/settings': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugIndexRoute
 }
@@ -184,15 +184,15 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthProfileRoute
   '/schemas': typeof AuthSchemasRoute
   '/tokens': typeof AuthTokensRoute
-  '/registry': typeof AuthRegistryIndexRoute
-  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
-  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/organizations': typeof AuthOrganizationsIndexRoute
+  '/registry': typeof AuthRegistryIndexRoute
   '/organizations/$orgSlug/billing': typeof AuthOrganizationsOrgSlugBillingRoute
   '/organizations/$orgSlug/members': typeof AuthOrganizationsOrgSlugMembersRoute
   '/organizations/$orgSlug/settings': typeof AuthOrganizationsOrgSlugSettingsRoute
+  '/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
   '/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugIndexRoute
+  '/registry/$namespaceName': typeof AuthRegistryNamespaceNameIndexRoute
   '/organizations/$orgSlug/workspaces': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/settings': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugIndexRoute
@@ -206,17 +206,17 @@ export interface FileRoutesById {
   '/_auth/profile': typeof AuthProfileRoute
   '/_auth/schemas': typeof AuthSchemasRoute
   '/_auth/tokens': typeof AuthTokensRoute
-  '/_auth/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
-  '/_auth/registry/': typeof AuthRegistryIndexRoute
-  '/_auth/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
-  '/_auth/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/_auth/organizations/$orgSlug': typeof AuthOrganizationsOrgSlugRouteWithChildren
+  '/_auth/registry/$namespaceName': typeof AuthRegistryNamespaceNameRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/organizations/': typeof AuthOrganizationsIndexRoute
+  '/_auth/registry/': typeof AuthRegistryIndexRoute
   '/_auth/organizations/$orgSlug/billing': typeof AuthOrganizationsOrgSlugBillingRoute
   '/_auth/organizations/$orgSlug/members': typeof AuthOrganizationsOrgSlugMembersRoute
   '/_auth/organizations/$orgSlug/settings': typeof AuthOrganizationsOrgSlugSettingsRoute
+  '/_auth/registry/$namespaceName/$repoName': typeof AuthRegistryNamespaceNameRepoNameRoute
   '/_auth/organizations/$orgSlug/': typeof AuthOrganizationsOrgSlugIndexRoute
+  '/_auth/registry/$namespaceName/': typeof AuthRegistryNamespaceNameIndexRoute
   '/_auth/organizations/$orgSlug/workspaces/$workspaceSlug': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugRouteWithChildren
   '/_auth/organizations/$orgSlug/workspaces/': typeof AuthOrganizationsOrgSlugWorkspacesIndexRoute
   '/_auth/organizations/$orgSlug/workspaces/$workspaceSlug/settings': typeof AuthOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute
@@ -231,19 +231,19 @@ export interface FileRouteTypes {
     | '/profile'
     | '/schemas'
     | '/tokens'
-    | '/registry/$namespaceName'
-    | '/registry/'
-    | '/registry/$namespaceName/$repoName'
-    | '/registry/$namespaceName/'
     | '/organizations/$orgSlug'
+    | '/registry/$namespaceName'
     | '/api/auth/$'
-    | '/organizations/'
+    | '/organizations'
+    | '/registry'
     | '/organizations/$orgSlug/billing'
     | '/organizations/$orgSlug/members'
     | '/organizations/$orgSlug/settings'
+    | '/registry/$namespaceName/$repoName'
     | '/organizations/$orgSlug/'
+    | '/registry/$namespaceName/'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug'
-    | '/organizations/$orgSlug/workspaces/'
+    | '/organizations/$orgSlug/workspaces'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/settings'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/'
   fileRoutesByTo: FileRoutesByTo
@@ -254,15 +254,15 @@ export interface FileRouteTypes {
     | '/profile'
     | '/schemas'
     | '/tokens'
-    | '/registry'
-    | '/registry/$namespaceName/$repoName'
-    | '/registry/$namespaceName'
     | '/api/auth/$'
     | '/organizations'
+    | '/registry'
     | '/organizations/$orgSlug/billing'
     | '/organizations/$orgSlug/members'
     | '/organizations/$orgSlug/settings'
+    | '/registry/$namespaceName/$repoName'
     | '/organizations/$orgSlug'
+    | '/registry/$namespaceName'
     | '/organizations/$orgSlug/workspaces'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/settings'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug'
@@ -275,17 +275,17 @@ export interface FileRouteTypes {
     | '/_auth/profile'
     | '/_auth/schemas'
     | '/_auth/tokens'
-    | '/_auth/registry/$namespaceName'
-    | '/_auth/registry/'
-    | '/_auth/registry/$namespaceName/$repoName'
-    | '/_auth/registry/$namespaceName/'
     | '/_auth/organizations/$orgSlug'
+    | '/_auth/registry/$namespaceName'
     | '/api/auth/$'
     | '/_auth/organizations/'
+    | '/_auth/registry/'
     | '/_auth/organizations/$orgSlug/billing'
     | '/_auth/organizations/$orgSlug/members'
     | '/_auth/organizations/$orgSlug/settings'
+    | '/_auth/registry/$namespaceName/$repoName'
     | '/_auth/organizations/$orgSlug/'
+    | '/_auth/registry/$namespaceName/'
     | '/_auth/organizations/$orgSlug/workspaces/$workspaceSlug'
     | '/_auth/organizations/$orgSlug/workspaces/'
     | '/_auth/organizations/$orgSlug/workspaces/$workspaceSlug/settings'
@@ -312,7 +312,7 @@ declare module '@tanstack/react-router' {
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -354,35 +354,14 @@ declare module '@tanstack/react-router' {
     '/_auth/registry/': {
       id: '/_auth/registry/'
       path: '/registry'
-      fullPath: '/registry/'
+      fullPath: '/registry'
       preLoaderRoute: typeof AuthRegistryIndexRouteImport
       parentRoute: typeof AuthRoute
-    }
-    '/_auth/registry/$namespaceName': {
-      id: '/_auth/registry/$namespaceName'
-      path: '/registry/$namespaceName'
-      fullPath: '/registry/$namespaceName'
-      preLoaderRoute: typeof AuthRegistryNamespaceNameRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/registry/$namespaceName/': {
-      id: '/_auth/registry/$namespaceName/'
-      path: '/'
-      fullPath: '/registry/$namespaceName/'
-      preLoaderRoute: typeof AuthRegistryNamespaceNameIndexRouteImport
-      parentRoute: typeof AuthRegistryNamespaceNameRoute
-    }
-    '/_auth/registry/$namespaceName/$repoName': {
-      id: '/_auth/registry/$namespaceName/$repoName'
-      path: '/$repoName'
-      fullPath: '/registry/$namespaceName/$repoName'
-      preLoaderRoute: typeof AuthRegistryNamespaceNameRepoNameRouteImport
-      parentRoute: typeof AuthRegistryNamespaceNameRoute
     }
     '/_auth/organizations/': {
       id: '/_auth/organizations/'
       path: '/organizations'
-      fullPath: '/organizations/'
+      fullPath: '/organizations'
       preLoaderRoute: typeof AuthOrganizationsIndexRouteImport
       parentRoute: typeof AuthRoute
     }
@@ -393,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/registry/$namespaceName': {
+      id: '/_auth/registry/$namespaceName'
+      path: '/registry/$namespaceName'
+      fullPath: '/registry/$namespaceName'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/organizations/$orgSlug': {
       id: '/_auth/organizations/$orgSlug'
       path: '/organizations/$orgSlug'
@@ -400,12 +386,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthOrganizationsOrgSlugRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/registry/$namespaceName/': {
+      id: '/_auth/registry/$namespaceName/'
+      path: '/'
+      fullPath: '/registry/$namespaceName/'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameIndexRouteImport
+      parentRoute: typeof AuthRegistryNamespaceNameRoute
+    }
     '/_auth/organizations/$orgSlug/': {
       id: '/_auth/organizations/$orgSlug/'
       path: '/'
       fullPath: '/organizations/$orgSlug/'
       preLoaderRoute: typeof AuthOrganizationsOrgSlugIndexRouteImport
       parentRoute: typeof AuthOrganizationsOrgSlugRoute
+    }
+    '/_auth/registry/$namespaceName/$repoName': {
+      id: '/_auth/registry/$namespaceName/$repoName'
+      path: '/$repoName'
+      fullPath: '/registry/$namespaceName/$repoName'
+      preLoaderRoute: typeof AuthRegistryNamespaceNameRepoNameRouteImport
+      parentRoute: typeof AuthRegistryNamespaceNameRoute
     }
     '/_auth/organizations/$orgSlug/settings': {
       id: '/_auth/organizations/$orgSlug/settings'
@@ -431,7 +431,7 @@ declare module '@tanstack/react-router' {
     '/_auth/organizations/$orgSlug/workspaces/': {
       id: '/_auth/organizations/$orgSlug/workspaces/'
       path: '/workspaces'
-      fullPath: '/organizations/$orgSlug/workspaces/'
+      fullPath: '/organizations/$orgSlug/workspaces'
       preLoaderRoute: typeof AuthOrganizationsOrgSlugWorkspacesIndexRouteImport
       parentRoute: typeof AuthOrganizationsOrgSlugRoute
     }
@@ -525,20 +525,20 @@ interface AuthRouteChildren {
   AuthProfileRoute: typeof AuthProfileRoute
   AuthSchemasRoute: typeof AuthSchemasRoute
   AuthTokensRoute: typeof AuthTokensRoute
-  AuthRegistryNamespaceNameRoute: typeof AuthRegistryNamespaceNameRouteWithChildren
-  AuthRegistryIndexRoute: typeof AuthRegistryIndexRoute
   AuthOrganizationsOrgSlugRoute: typeof AuthOrganizationsOrgSlugRouteWithChildren
+  AuthRegistryNamespaceNameRoute: typeof AuthRegistryNamespaceNameRouteWithChildren
   AuthOrganizationsIndexRoute: typeof AuthOrganizationsIndexRoute
+  AuthRegistryIndexRoute: typeof AuthRegistryIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthProfileRoute: AuthProfileRoute,
   AuthSchemasRoute: AuthSchemasRoute,
   AuthTokensRoute: AuthTokensRoute,
-  AuthRegistryNamespaceNameRoute: AuthRegistryNamespaceNameRouteWithChildren,
-  AuthRegistryIndexRoute: AuthRegistryIndexRoute,
   AuthOrganizationsOrgSlugRoute: AuthOrganizationsOrgSlugRouteWithChildren,
+  AuthRegistryNamespaceNameRoute: AuthRegistryNamespaceNameRouteWithChildren,
   AuthOrganizationsIndexRoute: AuthOrganizationsIndexRoute,
+  AuthRegistryIndexRoute: AuthRegistryIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -553,3 +553,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
