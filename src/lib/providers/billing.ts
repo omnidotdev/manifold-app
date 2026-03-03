@@ -1,0 +1,16 @@
+import { createBillingProvider } from "@omnidotdev/providers";
+
+import { BILLING_BASE_URL } from "@/lib/config/env.config";
+
+export type {
+  BillingProvider,
+  Price,
+  Subscription,
+} from "@omnidotdev/providers";
+
+const billing = createBillingProvider({
+  baseUrl: BILLING_BASE_URL,
+  appId: "manifold",
+});
+
+export default billing;

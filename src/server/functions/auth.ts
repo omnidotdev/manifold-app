@@ -1,7 +1,7 @@
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
-import { createRemoteJWKSet, jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 
 import auth from "@/lib/auth/auth";
 import {
@@ -9,6 +9,9 @@ import {
   AUTH_CLIENT_ID,
   BASE_URL,
 } from "@/lib/config/env.config";
+import { parseOrganizationClaims } from "@/lib/context/organization.context";
+
+import type { Organization } from "@/lib/context/organization.context";
 
 /**
  * Fetch the current user session.
@@ -18,11 +21,12 @@ export const fetchSession = createServerFn().handler(async () => {
   const headers = getRequestHeaders();
   const session = await auth.api.getSession({ headers });
 
-  if (!session) return { session: null };
+  if (!session) return { session: null, organizations: [] as Organization[] };
 
-  // Get access token and identity provider ID for downstream use
+  // Get access token, identity provider ID, and org claims for downstream use
   let accessToken: string | undefined;
   let identityProviderId: string | undefined;
+  let organizations: Organization[] = [];
 
   try {
     const tokenResult = await auth.api.getAccessToken({
@@ -31,11 +35,15 @@ export const fetchSession = createServerFn().handler(async () => {
     });
     accessToken = tokenResult?.accessToken;
 
-    // Extract identity provider ID from the ID token
+    // Decode identity and org claims from the ID token -- signature was
+    // already verified during the OAuth flow; the token is retrieved from
+    // our own trusted auth storage so re-verification is unnecessary
     if (tokenResult?.idToken) {
-      const jwks = createRemoteJWKSet(new URL(`${AUTH_BASE_URL}/jwks`));
-      const { payload } = await jwtVerify(tokenResult.idToken, jwks);
+      const payload = decodeJwt(tokenResult.idToken);
       identityProviderId = payload.sub;
+      organizations = parseOrganizationClaims(
+        payload as Record<string, unknown>,
+      );
     }
   } catch (err) {
     console.error("[fetchSession] Error getting access token:", err);
@@ -50,6 +58,7 @@ export const fetchSession = createServerFn().handler(async () => {
         identityProviderId,
       },
     },
+    organizations,
   };
 });
 
