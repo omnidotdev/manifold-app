@@ -34,9 +34,9 @@ import { capitalizeFirstLetter } from "@/lib/util";
 import cn from "@/lib/utils";
 import { createCheckoutWithWorkspace } from "@/server/functions/subscriptions";
 
+import type Stripe from "stripe";
 import type { Organization } from "@/lib/context/organization.context";
 import type { Subscription } from "@/lib/providers/billing";
-import type Stripe from "stripe";
 
 export interface Price {
   id: Stripe.Price["id"];
@@ -304,9 +304,7 @@ const PriceCard = ({
             </MenuRoot>
           ) : (
             <Button
-              disabled={
-                disableAction || isSignInPending || isCheckoutLoading
-              }
+              disabled={disableAction || isSignInPending || isCheckoutLoading}
               onClick={handleClick}
             >
               {isCheckoutLoading ? "Loading..." : getButtonContent()}

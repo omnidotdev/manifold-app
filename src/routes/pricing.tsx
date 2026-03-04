@@ -37,8 +37,11 @@ const searchSchema = z.object({
  * Pricing page.
  */
 const PricingPage = () => {
-  const { prices, orgSubscriptions = {}, organizations = [] } =
-    Route.useLoaderData();
+  const {
+    prices,
+    orgSubscriptions = {},
+    organizations = [],
+  } = Route.useLoaderData();
 
   const tabs = useTabs({ defaultValue: "month" });
 
