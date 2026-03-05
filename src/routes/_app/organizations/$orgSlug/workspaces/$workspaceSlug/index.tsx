@@ -3,7 +3,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { useOrganization, useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
-  "/_auth/organizations/$orgSlug/workspaces/$workspaceSlug/",
+  "/_app/organizations/$orgSlug/workspaces/$workspaceSlug/",
 )({
   component: WorkspaceDashboard,
 });

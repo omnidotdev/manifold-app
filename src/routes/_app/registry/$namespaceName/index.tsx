@@ -26,7 +26,7 @@ import {
 } from "@/lib/manifold/registry.types";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute("/_auth/registry/$namespaceName/")({
+export const Route = createFileRoute("/_app/registry/$namespaceName/")({
   head: ({ params }) => ({
     meta: createMetaTags({
       title: `${params.namespaceName} | Registry`,

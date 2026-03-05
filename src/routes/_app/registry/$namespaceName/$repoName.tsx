@@ -25,17 +25,17 @@ import {
 } from "@/lib/manifold/registry.types";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute(
-  "/_auth/registry/$namespaceName/$repoName",
-)({
-  head: ({ params }) => ({
-    meta: createMetaTags({
-      title: `${params.repoName} | ${params.namespaceName} | Registry`,
-      description: `Artifacts and tags in ${params.namespaceName}/${params.repoName}.`,
+export const Route = createFileRoute("/_app/registry/$namespaceName/$repoName")(
+  {
+    head: ({ params }) => ({
+      meta: createMetaTags({
+        title: `${params.repoName} | ${params.namespaceName} | Registry`,
+        description: `Artifacts and tags in ${params.namespaceName}/${params.repoName}.`,
+      }),
     }),
-  }),
-  component: RepositoryDetailPage,
-});
+    component: RepositoryDetailPage,
+  },
+);
 
 /**
  * Format bytes into a human-readable string

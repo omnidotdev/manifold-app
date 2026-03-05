@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useNamespacesQuery } from "@/generated/graphql";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute("/_auth/registry/")({
+export const Route = createFileRoute("/_app/registry/")({
   head: () => ({
     meta: createMetaTags({
       title: "Registry",

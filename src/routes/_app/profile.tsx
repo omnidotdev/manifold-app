@@ -88,7 +88,7 @@ const ProfilePage = () => {
   );
 };
 
-export const Route = createFileRoute("/_auth/profile")({
+export const Route = createFileRoute("/_app/profile")({
   loader: async () => {
     const subscriptions = await getSubscriptions();
 

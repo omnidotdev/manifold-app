@@ -52,7 +52,7 @@ const SCHEMA_TYPE_OPTIONS: {
   },
 ];
 
-export const Route = createFileRoute("/_auth/schemas/create")({
+export const Route = createFileRoute("/_app/schemas/create")({
   head: () => ({
     meta: createMetaTags({
       title: "Create Schema | Manifold",

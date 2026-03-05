@@ -68,7 +68,7 @@ const DISTRIBUTION_COLORS: Record<SchemaType, string> = {
   container: "bg-blue-500",
 };
 
-export const Route = createFileRoute("/_auth/dashboard")({
+export const Route = createFileRoute("/_app/dashboard")({
   head: () => ({
     meta: createMetaTags({
       title: "Dashboard | Manifold",

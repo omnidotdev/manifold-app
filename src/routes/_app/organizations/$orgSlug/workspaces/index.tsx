@@ -4,7 +4,7 @@ import { CreateNamespaceModal } from "@/components/namespace";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
-  "/_auth/organizations/$orgSlug/workspaces/",
+  "/_app/organizations/$orgSlug/workspaces/",
 )({
   component: WorkspacesPage,
 });

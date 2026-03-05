@@ -9,7 +9,7 @@ import {
   revokeSubscription,
 } from "@/server/functions/subscriptions";
 
-export const Route = createFileRoute("/_auth/organizations/$orgSlug/billing")({
+export const Route = createFileRoute("/_app/organizations/$orgSlug/billing")({
   component: OrgBillingPage,
 });
 

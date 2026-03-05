@@ -51,7 +51,7 @@ type SearchParams = {
   view?: "grid" | "list";
 };
 
-export const Route = createFileRoute("/_auth/schemas/")({
+export const Route = createFileRoute("/_app/schemas/")({
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
     search: (search.search as string) || undefined,
     type: (search.type as SchemaType | "all") || undefined,

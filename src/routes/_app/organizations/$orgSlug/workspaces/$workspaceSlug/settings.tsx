@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
-  "/_auth/organizations/$orgSlug/workspaces/$workspaceSlug/settings",
+  "/_app/organizations/$orgSlug/workspaces/$workspaceSlug/settings",
 )({
   component: WorkspaceSettingsPage,
 });

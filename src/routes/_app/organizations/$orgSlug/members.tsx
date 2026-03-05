@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { useOrganization } from "@/lib/context";
 
-export const Route = createFileRoute("/_auth/organizations/$orgSlug/members")({
+export const Route = createFileRoute("/_app/organizations/$orgSlug/members")({
   component: OrgMembersPage,
 });
 

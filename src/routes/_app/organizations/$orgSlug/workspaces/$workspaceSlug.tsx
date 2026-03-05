@@ -3,7 +3,7 @@ import { Outlet, createFileRoute } from "@tanstack/react-router";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
-  "/_auth/organizations/$orgSlug/workspaces/$workspaceSlug",
+  "/_app/organizations/$orgSlug/workspaces/$workspaceSlug",
 )({
   beforeLoad: async ({ params }) => {
     // Validate workspace exists and user has access

@@ -30,7 +30,7 @@ import {
 } from "@/lib/manifold/schemas";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute("/_auth/schemas/$schemaId")({
+export const Route = createFileRoute("/_app/schemas/$schemaId")({
   head: () => ({
     meta: createMetaTags({
       title: "Schema Detail | Manifold",
