@@ -58,7 +58,7 @@ type Props = {
 };
 
 // Manifold tier hierarchy for upgrade logic
-const TIER_ORDER = ["free", "basic", "team"] as const;
+const TIER_ORDER = ["free", "pro", "team"] as const;
 type Tier = (typeof TIER_ORDER)[number];
 
 const PriceCard = ({
@@ -74,7 +74,7 @@ const PriceCard = ({
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const tier = (price.metadata?.tier as Tier) ?? "free";
-  const isBasicTier = tier === "basic";
+  const isProTier = tier === "pro";
   const isFreeTier = tier === "free";
 
   const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
@@ -91,7 +91,7 @@ const PriceCard = ({
     if (!subscription) return "free";
     const productName = subscription.product?.name?.toLowerCase() ?? "";
     if (productName.includes("team")) return "team";
-    if (productName.includes("basic")) return "basic";
+    if (productName.includes("pro")) return "pro";
     return "free";
   };
 
@@ -185,7 +185,7 @@ const PriceCard = ({
         key={price.product.name}
         className={cn(
           "size-full max-w-lg overflow-hidden lg:min-w-80",
-          isBasicTier && "border-primary/30",
+          isProTier && "border-primary/30",
         )}
       >
         <CardHeader className="bg-muted pb-3 lg:min-h-50.5">
