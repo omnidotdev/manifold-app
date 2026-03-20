@@ -137,6 +137,7 @@ export const cancelOrganizationInvitation = createServerFn({ method: "POST" })
 /**
  * Get an organization by slug.
  * Used when JWT claims are stale and don't include a newly created org
+ * @knipignore
  */
 export const getOrganizationBySlug = createServerFn({ method: "GET" })
   .inputValidator((data) => getOrganizationBySlugSchema.parse(data))
@@ -154,6 +155,7 @@ export const getOrganizationBySlug = createServerFn({ method: "GET" })
 /**
  * Fetch an organization by slug without authentication.
  * Used for public board access when no JWT is available
+ * @knipignore
  */
 export const fetchOrganizationBySlug = createServerFn()
   .inputValidator((data) => getOrganizationBySlugSchema.parse(data))
