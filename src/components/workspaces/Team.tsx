@@ -429,7 +429,9 @@ const Team = () => {
       {/* Delete member confirmation dialog */}
       <DialogRoot
         open={isDeleteMemberOpen}
-        onOpenChange={(details: { open: boolean }) => setIsDeleteMemberOpen(details.open)}
+        onOpenChange={(details: { open: boolean }) =>
+          setIsDeleteMemberOpen(details.open)
+        }
       >
         <DialogBackdrop />
         <DialogContent>
