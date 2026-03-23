@@ -8,16 +8,14 @@ import {
   useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeaders } from "@tanstack/react-start/server";
 import { useEffect } from "react";
 import { Toaster, toast } from "sonner";
 
 import { DefaultCatchBoundary, Footer, Header } from "@/components/layout";
-import auth from "@/lib/auth/auth";
 import app from "@/lib/config/app.config";
 import { isDevEnv } from "@/lib/config/env.config";
 import { fetchMaintenanceMode } from "@/lib/flags";
+import { fetchSession } from "@/server/functions/auth";
 import appCss from "@/lib/styles/globals.css?url";
 import createMetaTags from "@/lib/util/createMetaTags";
 import ThemeProvider from "@/providers/ThemeProvider";
@@ -25,12 +23,6 @@ import { getThemeServerFn } from "@/server/functions/theme";
 
 import type { QueryClient } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
-
-const fetchSession = createServerFn().handler(async () => {
-  const headers = getRequestHeaders();
-
-  return await auth.api.getSession({ headers });
-});
 
 /**
  * Coming soon teaser page for production.
@@ -71,21 +63,25 @@ export const Route = createRootRouteWithContext<{
   isMaintenanceMode: boolean;
 }>()({
   beforeLoad: async () => {
-    const session = await fetchSession();
+    try {
+      const { session, organizations } = await fetchSession();
 
-    // Pass user context for @omni.dev admin bypass
-    const context = session?.user?.email
-      ? {
-          userId: session.user.id,
-          properties: { email: session.user.email },
-        }
-      : undefined;
-    const { isMaintenanceMode } = await fetchMaintenanceMode({ data: context });
+      // Pass user context for @omni.dev admin bypass
+      const context = session?.user?.email
+        ? {
+            userId: session.user.id,
+            properties: { email: session.user.email },
+          }
+        : undefined;
+      const { isMaintenanceMode } = await fetchMaintenanceMode({ data: context });
 
-    // Skip auth when maintenance page is shown
-    if (isMaintenanceMode) return { auth: null, isMaintenanceMode };
+      // Skip auth when maintenance page is shown
+      if (isMaintenanceMode) return { auth: null, organizations: [], isMaintenanceMode };
 
-    return { auth: session, isMaintenanceMode };
+      return { auth: session, organizations, isMaintenanceMode };
+    } catch {
+      return { auth: null, organizations: [], isMaintenanceMode: false };
+    }
   },
   head: () => ({
     meta: [
