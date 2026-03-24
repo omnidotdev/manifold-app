@@ -1,3 +1,4 @@
+import { isInvalidGrant } from "@omnidotdev/providers";
 import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
@@ -47,6 +48,18 @@ export const fetchSession = createServerFn().handler(async () => {
     }
   } catch (err) {
     console.error("[fetchSession] Error getting access token:", err);
+
+    if (isInvalidGrant(err)) {
+      console.warn(
+        "[fetchSession] Stale OAuth tokens, clearing session for re-auth",
+      );
+      try {
+        await auth.api.signOut({ headers });
+      } catch {
+        // Sign-out may fail if session is already corrupt
+      }
+      return { session: null, organizations: [] as Organization[] };
+    }
   }
 
   return {

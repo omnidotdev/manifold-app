@@ -15,10 +15,10 @@ import { DefaultCatchBoundary, Footer, Header } from "@/components/layout";
 import app from "@/lib/config/app.config";
 import { isDevEnv } from "@/lib/config/env.config";
 import { fetchMaintenanceMode } from "@/lib/flags";
-import { fetchSession } from "@/server/functions/auth";
 import appCss from "@/lib/styles/globals.css?url";
 import createMetaTags from "@/lib/util/createMetaTags";
 import ThemeProvider from "@/providers/ThemeProvider";
+import { fetchSession } from "@/server/functions/auth";
 import { getThemeServerFn } from "@/server/functions/theme";
 
 import type { QueryClient } from "@tanstack/react-query";
@@ -73,10 +73,13 @@ export const Route = createRootRouteWithContext<{
             properties: { email: session.user.email },
           }
         : undefined;
-      const { isMaintenanceMode } = await fetchMaintenanceMode({ data: context });
+      const { isMaintenanceMode } = await fetchMaintenanceMode({
+        data: context,
+      });
 
       // Skip auth when maintenance page is shown
-      if (isMaintenanceMode) return { auth: null, organizations: [], isMaintenanceMode };
+      if (isMaintenanceMode)
+        return { auth: null, organizations: [], isMaintenanceMode };
 
       return { auth: session, organizations, isMaintenanceMode };
     } catch {
