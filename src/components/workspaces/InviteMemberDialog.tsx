@@ -7,14 +7,9 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
-  // @ts-expect-error pending dialog component migration
-  DialogBackdrop,
-  // @ts-expect-error pending dialog component migration
-  DialogCloseTrigger,
+  Dialog,
   DialogContent,
   DialogDescription,
-  // @ts-expect-error pending dialog component migration
-  DialogRoot,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -37,7 +32,7 @@ interface Props {
 /**
  * Dialog for inviting new members to the organization
  */
-const InviteMemberDialog = ({ isOpen, onOpenChange, triggerRef }: Props) => {
+const InviteMemberDialog = ({ isOpen, onOpenChange }: Props) => {
   const { orgSlug } = useParams({ strict: false });
   const { auth } = useRouteContext({ strict: false });
   const { organizations } = useOrganization();
@@ -143,22 +138,17 @@ const InviteMemberDialog = ({ isOpen, onOpenChange, triggerRef }: Props) => {
   };
 
   return (
-    <DialogRoot
+    <Dialog
       open={isOpen}
-      onOpenChange={({ open }: { open: boolean }) => {
+      onOpenChange={(open) => {
         onOpenChange(open);
         if (!open) {
           setEmails([]);
           setEmailInput("");
         }
       }}
-      initialFocusEl={() => emailRef.current}
-      finalFocusEl={triggerRef ? () => triggerRef.current : undefined}
-      trapFocus
     >
-      <DialogBackdrop />
       <DialogContent>
-        <DialogCloseTrigger />
         <DialogTitle>Invite Team Member</DialogTitle>
         <DialogDescription>
           Invite new members to your organization
@@ -233,7 +223,7 @@ const InviteMemberDialog = ({ isOpen, onOpenChange, triggerRef }: Props) => {
           </div>
         </form>
       </DialogContent>
-    </DialogRoot>
+    </Dialog>
   );
 };
 

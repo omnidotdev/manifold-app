@@ -20,14 +20,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  // @ts-expect-error pending dialog component migration
-  DialogBackdrop,
-  // @ts-expect-error pending dialog component migration
-  DialogCloseTrigger,
+  Dialog,
   DialogContent,
   DialogDescription,
-  // @ts-expect-error pending dialog component migration
-  DialogRoot,
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
@@ -427,15 +422,11 @@ const Team = () => {
       )}
 
       {/* Delete member confirmation dialog */}
-      <DialogRoot
+      <Dialog
         open={isDeleteMemberOpen}
-        onOpenChange={(details: { open: boolean }) =>
-          setIsDeleteMemberOpen(details.open)
-        }
+        onOpenChange={setIsDeleteMemberOpen}
       >
-        <DialogBackdrop />
         <DialogContent>
-          <DialogCloseTrigger />
           <DialogTitle>Remove Team Member</DialogTitle>
           <DialogDescription>
             This will remove{" "}
@@ -484,18 +475,14 @@ const Team = () => {
             </Button>
           </div>
         </DialogContent>
-      </DialogRoot>
+      </Dialog>
 
       {/* Cancel invitation confirmation dialog */}
-      <DialogRoot
+      <Dialog
         open={isCancelInvitationOpen}
-        onOpenChange={(details: { open: boolean }) =>
-          setIsCancelInvitationOpen(details.open)
-        }
+        onOpenChange={setIsCancelInvitationOpen}
       >
-        <DialogBackdrop />
         <DialogContent>
-          <DialogCloseTrigger />
           <DialogTitle>Revoke Invitation</DialogTitle>
           <DialogDescription>
             This will revoke the invitation sent to{" "}
@@ -544,7 +531,7 @@ const Team = () => {
             </Button>
           </div>
         </DialogContent>
-      </DialogRoot>
+      </Dialog>
 
       <InviteMemberDialog
         isOpen={isInviteOpen}
