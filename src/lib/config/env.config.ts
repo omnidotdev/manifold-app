@@ -44,3 +44,11 @@ export const API_GRAPHQL_URL = `${API_BASE_URL}/graphql`;
 // environment helpers
 export const isDevEnv = import.meta.env.DEV;
 export const hasBilling = !!BILLING_BASE_URL;
+
+// Startup warnings for optional integrations
+if (!BILLING_BASE_URL)
+  console.warn("BILLING_BASE_URL not set — billing disabled");
+if (!AUTHZ_API_URL)
+  console.warn("AUTHZ_API_URL not set — authorization disabled");
+if (!FLAGS_API_HOST)
+  console.warn("FLAGS_API_HOST not set — feature flags disabled");

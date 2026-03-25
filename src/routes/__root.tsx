@@ -22,7 +22,9 @@ import { fetchSession } from "@/server/functions/auth";
 import { getThemeServerFn } from "@/server/functions/theme";
 
 import type { QueryClient } from "@tanstack/react-query";
+import type { OrganizationClaim } from "@omnidotdev/providers/auth";
 import type { PropsWithChildren } from "react";
+import type { GetAuthSession } from "@/lib/auth/getAuth";
 
 /**
  * Coming soon teaser page for production.
@@ -60,17 +62,21 @@ function MaintenancePage() {
  */
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
+  auth: GetAuthSession | null;
+  organizations: OrganizationClaim[];
   isMaintenanceMode: boolean;
 }>()({
+  // @ts-expect-error BA 1.5 widens user index type to `unknown`, incompatible with TanStack's `{}`
   beforeLoad: async () => {
     try {
       const { session, organizations } = await fetchSession();
 
       // Pass user context for @omni.dev admin bypass
-      const context = session?.user?.email
+      const email = session?.user?.email as string | undefined;
+      const context = email
         ? {
-            userId: session.user.id,
-            properties: { email: session.user.email },
+            userId: session!.user.id,
+            properties: { email },
           }
         : undefined;
       const { isMaintenanceMode } = await fetchMaintenanceMode({
@@ -81,7 +87,11 @@ export const Route = createRootRouteWithContext<{
       if (isMaintenanceMode)
         return { auth: null, organizations: [], isMaintenanceMode };
 
-      return { auth: session, organizations, isMaintenanceMode };
+      return {
+        auth: session as GetAuthSession | null,
+        organizations,
+        isMaintenanceMode,
+      };
     } catch {
       return { auth: null, organizations: [], isMaintenanceMode: false };
     }

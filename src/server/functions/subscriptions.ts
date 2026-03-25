@@ -57,8 +57,8 @@ export const getCheckoutUrl = createServerFn({ method: "POST" })
 
     if (!customer) {
       customer = await payments.customers.create({
-        email: context.session.user.email ?? "",
-        name: context.session.user.name ?? undefined,
+        email: (context.session.user.email as string) ?? "",
+        name: (context.session.user.name as string) ?? undefined,
         metadata: {
           externalId: context.session.user.identityProviderId ?? "",
         },
