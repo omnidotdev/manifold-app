@@ -43,7 +43,11 @@ const clearAuthCacheCookie = () => {
 export const signOutAndRedirect = createServerFn({ method: "POST" }).handler(
   async () => {
     const headers = getRequest().headers;
-    await auth.api.signOut({ headers });
+    try {
+      await auth.api.signOut({ headers });
+    } catch {
+      // Session may already be cleared by getAuth invalid_grant handler
+    }
     clearAuthCacheCookie();
     throw redirect({ to: "/" });
   },
@@ -84,7 +88,11 @@ export const signOutLocal = createServerFn({ method: "POST" }).handler(
       // Token may already be expired
     }
 
-    await auth.api.signOut({ headers });
+    try {
+      await auth.api.signOut({ headers });
+    } catch {
+      // Session may already be cleared by getAuth invalid_grant handler
+    }
     clearAuthCacheCookie();
 
     return { idpLogoutUrl: getIdpLogoutUrl(idToken) };
