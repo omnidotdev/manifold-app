@@ -12,11 +12,10 @@ export const {
   VITE_BASE_URL: BASE_URL,
   VITE_API_BASE_URL: API_BASE_URL,
   VITE_AUTH_BASE_URL: AUTH_BASE_URL,
-  VITE_SELF_HOSTED,
-  SELF_HOSTED,
   // auth (server-side secrets)
   AUTH_CLIENT_ID,
   AUTH_CLIENT_SECRET,
+
   // billing
   VITE_BILLING_BASE_URL: BILLING_BASE_URL,
   // payment processing
@@ -25,6 +24,13 @@ export const {
   VITE_AUTHZ_API_URL: AUTHZ_API_URL,
   VITE_AUTHZ_ENABLED: AUTHZ_ENABLED,
 } = env;
+
+// Internal auth URL for server-to-server communication (Docker service name)
+// Falls back to AUTH_BASE_URL for non-Docker environments
+export const AUTH_INTERNAL_URL =
+  typeof window === "undefined"
+    ? process.env.AUTH_INTERNAL_URL || AUTH_BASE_URL
+    : AUTH_BASE_URL;
 
 export const CONSOLE_URL = import.meta.env.VITE_CONSOLE_URL;
 
@@ -37,5 +43,4 @@ export const API_GRAPHQL_URL = `${API_BASE_URL}/graphql`;
 
 // environment helpers
 export const isDevEnv = import.meta.env.DEV;
-export const isSelfHosted =
-  SELF_HOSTED === "true" || VITE_SELF_HOSTED === "true";
+export const hasBilling = !!BILLING_BASE_URL;

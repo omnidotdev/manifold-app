@@ -29,7 +29,7 @@ import {
   MenuTrigger,
 } from "@/components/ui/menu";
 import authClient from "@/lib/auth/authClient";
-import { BASE_URL, isSelfHosted } from "@/lib/config/env.config";
+import { BASE_URL, hasBilling } from "@/lib/config/env.config";
 import { capitalizeFirstLetter } from "@/lib/util";
 import cn from "@/lib/utils";
 import { createCheckoutWithWorkspace } from "@/server/functions/subscriptions";
@@ -146,7 +146,7 @@ const PriceCard = ({
 
   const handleClick = () => {
     if (!auth) {
-      if (isSelfHosted) {
+      if (!hasBilling) {
         navigate({ to: "/" });
       } else {
         signIn();
@@ -159,7 +159,7 @@ const PriceCard = ({
       return;
     }
 
-    if (isSelfHosted) {
+    if (!hasBilling) {
       navigate({ to: "/" });
       return;
     }
@@ -172,7 +172,7 @@ const PriceCard = ({
   };
 
   const showDropdown =
-    !!auth && !isFreeTier && !isSelfHosted && !!allOrgs.length;
+    !!auth && !isFreeTier && hasBilling && !!allOrgs.length;
 
   const getButtonContent = () => {
     if (isFreeTier) return "Get Started";
