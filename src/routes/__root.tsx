@@ -1,3 +1,4 @@
+import { useSessionRefresh } from "@omnidotdev/providers/react";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { ReactQueryDevtoolsPanel } from "@tanstack/react-query-devtools";
 import {
@@ -21,8 +22,8 @@ import ThemeProvider from "@/providers/ThemeProvider";
 import { fetchSession } from "@/server/functions/auth";
 import { getThemeServerFn } from "@/server/functions/theme";
 
-import type { QueryClient } from "@tanstack/react-query";
 import type { OrganizationClaim } from "@omnidotdev/providers/auth";
+import type { QueryClient } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
 import type { GetAuthSession } from "@/lib/auth/getAuth";
 
@@ -164,6 +165,9 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
+  // Keep the OAuth access token fresh while the user is idle
+  useSessionRefresh(fetchSession);
+
   const { isMaintenanceMode } = useRouteContext({ from: "__root__" });
 
   // Show maintenance page when flag is enabled (bypass Header/Footer)
