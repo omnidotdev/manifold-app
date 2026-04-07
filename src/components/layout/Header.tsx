@@ -82,8 +82,12 @@ const Header = () => {
               <MenuRootProvider value={accountMenu}>
                 <MenuTrigger className="rounded-full">
                   <AvatarRoot>
-                    <AvatarImage src={(auth.user.image as string) ?? undefined} />
-                    <AvatarFallback>{(auth.user.name as string)?.charAt(0)}</AvatarFallback>
+                    <AvatarImage
+                      src={(auth.user.image as string) ?? undefined}
+                    />
+                    <AvatarFallback>
+                      {(auth.user.name as string)?.charAt(0)}
+                    </AvatarFallback>
                   </AvatarRoot>
                 </MenuTrigger>
 

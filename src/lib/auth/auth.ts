@@ -1,13 +1,20 @@
 import { betterAuth } from "better-auth/minimal";
-import { genericOAuth } from "better-auth/plugins";
+import { customSession, genericOAuth } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
+
+import { getCookie } from "@tanstack/react-start/server";
 
 import {
   AUTH_BASE_URL,
   AUTH_CLIENT_ID,
   AUTH_CLIENT_SECRET,
+  AUTH_INTERNAL_URL,
   BASE_URL,
 } from "@/lib/config/env.config";
+import { createOmniOAuthConfig } from "@omnidotdev/providers/auth";
+import { authCache } from "@/lib/auth/authCache";
+
+import type { OrganizationClaim } from "@omnidotdev/providers/auth";
 
 const { AUTH_SECRET } = process.env;
 
@@ -27,7 +34,7 @@ const auth = betterAuth({
     cookieCache: {
       enabled: true,
       // cache session in cookie for 7 days
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: 60 * 60 * 24 * 30,
       // use encrypted JWE for security
       strategy: "jwe",
       // auto-refresh cookie before expiry (critical for stateless mode)
@@ -45,24 +52,37 @@ const auth = betterAuth({
   plugins: [
     genericOAuth({
       config: [
-        {
-          providerId: "omni",
-          clientId: AUTH_CLIENT_ID ?? "",
-          clientSecret: AUTH_CLIENT_SECRET ?? "",
-          discoveryUrl: `${AUTH_BASE_URL}/.well-known/openid-configuration`,
-          scopes: [
-            "openid",
-            "profile",
-            "email",
-            "offline_access",
-            "organization",
-          ],
-          accessType: "offline",
-          pkce: true,
-          prompt: "login",
-        },
+        createOmniOAuthConfig({
+          clientId: AUTH_CLIENT_ID!,
+          clientSecret: AUTH_CLIENT_SECRET!,
+          authBaseUrl: AUTH_BASE_URL!,
+          authInternalUrl: AUTH_INTERNAL_URL!,
+        }),
       ],
     }),
+  customSession(async ({ user, session }) => {
+    let identityProviderId: string | null = null;
+    let organizations: OrganizationClaim[] = [];
+
+    const cachedValue = getCookie(authCache.cookieName);
+    if (cachedValue) {
+      const cached = await authCache.decrypt(cachedValue);
+      if (cached) {
+        identityProviderId = cached.identityProviderId;
+        organizations = cached.organizations;
+      }
+    }
+
+    return {
+      user: {
+        ...user,
+        identityProviderId,
+        organizations,
+      },
+      session,
+    };
+  }),
+
     // NB: must be the last plugin in the array
     tanstackStartCookies(),
   ],

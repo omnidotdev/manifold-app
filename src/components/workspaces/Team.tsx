@@ -422,10 +422,7 @@ const Team = () => {
       )}
 
       {/* Delete member confirmation dialog */}
-      <Dialog
-        open={isDeleteMemberOpen}
-        onOpenChange={setIsDeleteMemberOpen}
-      >
+      <Dialog open={isDeleteMemberOpen} onOpenChange={setIsDeleteMemberOpen}>
         <DialogContent>
           <DialogTitle>Remove Team Member</DialogTitle>
           <DialogDescription>
