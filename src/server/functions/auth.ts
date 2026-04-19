@@ -16,7 +16,6 @@ import {
  * Returns session with user info if authenticated, null otherwise.
  */
 export const fetchSession = createServerFn().handler(
-  // @ts-expect-error BA 1.5 widens user index type to `unknown`, incompatible with TanStack's `{}`
   async () => {
     const request = getRequest();
     const session = await getAuth(request);

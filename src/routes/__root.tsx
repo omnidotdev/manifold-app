@@ -67,7 +67,6 @@ export const Route = createRootRouteWithContext<{
   organizations: OrganizationClaim[];
   isMaintenanceMode: boolean;
 }>()({
-  // @ts-expect-error BA 1.5 widens user index type to `unknown`, incompatible with TanStack's `{}`
   beforeLoad: async () => {
     try {
       const { session, organizations } = await fetchSession();
