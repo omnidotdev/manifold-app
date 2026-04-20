@@ -1,9 +1,10 @@
-import { betterAuth } from "better-auth/minimal";
+import { createOmniOAuthConfig } from "@omnidotdev/providers/auth";
+import { getCookie } from "@tanstack/react-start/server";
+import { betterAuth } from "better-auth";
 import { customSession, genericOAuth } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
-import { getCookie } from "@tanstack/react-start/server";
-
+import { authCache } from "@/lib/auth/authCache";
 import {
   AUTH_BASE_URL,
   AUTH_CLIENT_ID,
@@ -11,8 +12,6 @@ import {
   AUTH_INTERNAL_URL,
   BASE_URL,
 } from "@/lib/config/env.config";
-import { createOmniOAuthConfig } from "@omnidotdev/providers/auth";
-import { authCache } from "@/lib/auth/authCache";
 
 import type { OrganizationClaim } from "@omnidotdev/providers/auth";
 
@@ -25,6 +24,7 @@ const auth = betterAuth({
   baseURL: BASE_URL,
   basePath: "/api/auth",
   secret: AUTH_SECRET,
+  trustedOrigins: BASE_URL ? [BASE_URL] : [],
   session: {
     // extend session expiration to 30 days
     expiresIn: 60 * 60 * 24 * 30,
@@ -60,28 +60,28 @@ const auth = betterAuth({
         }),
       ],
     }),
-  customSession(async ({ user, session }) => {
-    let identityProviderId: string | null = null;
-    let organizations: OrganizationClaim[] = [];
+    customSession(async ({ user, session }) => {
+      let identityProviderId: string | null = null;
+      let organizations: OrganizationClaim[] = [];
 
-    const cachedValue = getCookie(authCache.cookieName);
-    if (cachedValue) {
-      const cached = await authCache.decrypt(cachedValue);
-      if (cached) {
-        identityProviderId = cached.identityProviderId;
-        organizations = cached.organizations;
+      const cachedValue = getCookie(authCache.cookieName);
+      if (cachedValue) {
+        const cached = await authCache.decrypt(cachedValue);
+        if (cached) {
+          identityProviderId = cached.identityProviderId;
+          organizations = cached.organizations;
+        }
       }
-    }
 
-    return {
-      user: {
-        ...user,
-        identityProviderId,
-        organizations,
-      },
-      session,
-    };
-  }),
+      return {
+        user: {
+          ...user,
+          identityProviderId,
+          organizations,
+        },
+        session,
+      };
+    }),
 
     // NB: must be the last plugin in the array
     tanstackStartCookies(),
