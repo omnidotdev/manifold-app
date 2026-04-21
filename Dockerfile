@@ -12,6 +12,18 @@ RUN bun install --frozen-lockfile
 FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ARG VITE_BASE_URL
+ARG VITE_API_BASE_URL
+ARG VITE_AUTH_BASE_URL
+ARG VITE_BILLING_BASE_URL
+ARG VITE_CONSOLE_URL
+ARG VITE_STRIPE_PORTAL_CONFIG_ID
+ARG VITE_AUTHZ_API_URL
+ARG VITE_AUTHZ_ENABLED
+ARG VITE_FLAGS_API_HOST
+ARG VITE_FLAGS_CLIENT_KEY
+
 RUN bun run build
 
 # Run (Node runtime needed for TanStack Start/Nitro)
