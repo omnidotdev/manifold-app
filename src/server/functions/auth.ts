@@ -15,21 +15,19 @@ import {
  * Fetch the current user session.
  * Returns session with user info if authenticated, null otherwise.
  */
-export const fetchSession = createServerFn().handler(
-  async () => {
-    const request = getRequest();
-    const session = await getAuth(request);
+export const fetchSession = createServerFn().handler(async () => {
+  const request = getRequest();
+  const session = await getAuth(request);
 
-    if (!session) {
-      return { session: null, organizations: [] };
-    }
+  if (!session) {
+    return { session: null, organizations: [] };
+  }
 
-    return {
-      session,
-      organizations: session.organizations,
-    };
-  },
-);
+  return {
+    session,
+    organizations: session.organizations,
+  };
+});
 
 const clearAuthCacheCookie = () => {
   setCookie(authCache.cookieName, "", { maxAge: 0, path: "/" });
