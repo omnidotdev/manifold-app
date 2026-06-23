@@ -13,8 +13,6 @@ import {
   BASE_URL,
 } from "@/lib/config/env.config";
 
-import type { OrganizationClaim } from "@omnidotdev/providers/auth";
-
 const { AUTH_SECRET } = process.env;
 
 /**
@@ -62,14 +60,12 @@ const auth = betterAuth({
     }),
     customSession(async ({ user, session }) => {
       let identityProviderId: string | null = null;
-      let organizations: OrganizationClaim[] = [];
 
       const cachedValue = getCookie(authCache.cookieName);
       if (cachedValue) {
         const cached = await authCache.decrypt(cachedValue);
         if (cached) {
           identityProviderId = cached.identityProviderId;
-          organizations = cached.organizations;
         }
       }
 
@@ -77,7 +73,6 @@ const auth = betterAuth({
         user: {
           ...user,
           identityProviderId,
-          organizations,
         },
         session,
       };
