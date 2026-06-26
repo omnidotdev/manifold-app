@@ -115,11 +115,17 @@ function RegistryPage() {
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <Package className="mb-4 h-12 w-12 text-muted-foreground" />
             <h3 className="mb-2 font-semibold text-lg">No namespaces found</h3>
-            <p className="text-muted-foreground">
-              {searchQuery
-                ? "Try adjusting your search"
-                : "Create your first namespace to get started"}
-            </p>
+            {searchQuery ? (
+              <p className="text-muted-foreground">Try adjusting your search</p>
+            ) : (
+              <CreateNamespaceModal
+                trigger={
+                  <Button variant="link">
+                    Create your first namespace to get started
+                  </Button>
+                }
+              />
+            )}
           </div>
         )}
       </div>

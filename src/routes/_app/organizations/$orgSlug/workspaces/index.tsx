@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { CreateNamespaceModal } from "@/components/namespace";
+import { Button } from "@/components/ui/button";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
@@ -51,7 +52,14 @@ function WorkspacesPage() {
 
           {workspaces.length === 0 && (
             <p className="col-span-full text-muted-foreground">
-              No namespaces yet. Create one to get started.
+              No namespaces yet.{" "}
+              <CreateNamespaceModal
+                trigger={
+                  <Button variant="link" className="h-auto p-0">
+                    Create one to get started.
+                  </Button>
+                }
+              />
             </p>
           )}
         </div>

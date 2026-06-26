@@ -251,9 +251,14 @@ function RepositoryDetailPage() {
                   <h3 className="mb-2 font-semibold text-lg">
                     No artifacts yet
                   </h3>
-                  <p className="text-muted-foreground">
-                    Upload your first artifact to get started
-                  </p>
+                  <UploadArtifactModal
+                    repositoryId={repository.rowId}
+                    trigger={
+                      <Button variant="link">
+                        Upload your first artifact to get started
+                      </Button>
+                    }
+                  />
                 </div>
               )}
             </TabsContent>
