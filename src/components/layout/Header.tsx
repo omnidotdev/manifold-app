@@ -1,5 +1,6 @@
 import { MenuRootProvider, useMenu } from "@ark-ui/react";
 import { Button } from "@omnidotdev/thornberry/button";
+import { LogoLockup } from "@omnidotdev/thornberry/logo-lockup";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
 import { ExternalLinkIcon } from "lucide-react";
@@ -55,7 +56,7 @@ const Header = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex gap-2">
             <InternalLink to="/" variant="unstyled" className="-ml-4">
-              <h1 className="font-bold text-xl">{app.name}</h1>
+              <LogoLockup name={app.name} nameClassName="font-bold text-xl" />
             </InternalLink>
 
             <InternalLink to="/pricing" variant="ghost">
