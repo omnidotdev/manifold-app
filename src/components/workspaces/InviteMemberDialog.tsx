@@ -1,3 +1,4 @@
+import { Button } from "@omnidotdev/thornberry/button";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouteContext } from "@tanstack/react-router";
 import { PlusIcon } from "lucide-react";
@@ -5,7 +6,6 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,

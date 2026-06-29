@@ -1,3 +1,5 @@
+import { Badge } from "@omnidotdev/thornberry/badge";
+import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ChevronRight,
@@ -10,8 +12,6 @@ import {
 } from "lucide-react";
 
 import UploadArtifactModal from "@/components/namespace/UploadArtifactModal";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {

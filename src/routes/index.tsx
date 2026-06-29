@@ -1,3 +1,4 @@
+import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import {
   Box,
@@ -10,7 +11,6 @@ import {
   Shield,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/")({

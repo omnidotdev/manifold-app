@@ -1,11 +1,11 @@
+import { Badge } from "@omnidotdev/thornberry/badge";
+import { Button } from "@omnidotdev/thornberry/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Key, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import CreateTokenModal from "@/components/tokens/CreateTokenModal";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,

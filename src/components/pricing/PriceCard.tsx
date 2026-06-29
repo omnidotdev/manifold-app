@@ -1,4 +1,5 @@
 import { Format } from "@ark-ui/react";
+import { Button } from "@omnidotdev/thornberry/button";
 import { useMutation } from "@tanstack/react-query";
 import {
   useNavigate,
@@ -9,7 +10,6 @@ import { BuildingIcon, CheckIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 import CreateWorkspaceModal from "@/components/pricing/CreateWorkspaceModal";
-import { Button } from "@/components/ui/button";
 import {
   CardContent,
   CardDescription,
@@ -171,8 +171,7 @@ const PriceCard = ({
     }
   };
 
-  const showDropdown =
-    !!auth && !isFreeTier && hasBilling && !!allOrgs.length;
+  const showDropdown = !!auth && !isFreeTier && hasBilling && !!allOrgs.length;
 
   const getButtonContent = () => {
     if (isFreeTier) return "Get Started";

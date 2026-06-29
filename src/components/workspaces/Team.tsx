@@ -1,3 +1,5 @@
+import { Badge } from "@omnidotdev/thornberry/badge";
+import { Button } from "@omnidotdev/thornberry/button";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouteContext } from "@tanstack/react-router";
 import {
@@ -17,8 +19,6 @@ import {
   AvatarImage,
   AvatarRoot,
 } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,

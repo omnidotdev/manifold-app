@@ -1,10 +1,10 @@
+import { Badge } from "@omnidotdev/thornberry/badge";
+import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Loader2, Package, Plus, Search } from "lucide-react";
 import { useState } from "react";
 
 import CreateNamespaceModal from "@/components/namespace/CreateNamespaceModal";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useNamespacesQuery } from "@/generated/graphql";

@@ -1,3 +1,5 @@
+import { Badge } from "@omnidotdev/thornberry/badge";
+import { Button } from "@omnidotdev/thornberry/button";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ChevronLeft,
@@ -14,8 +16,6 @@ import {
 import { useState } from "react";
 
 import { InternalLink } from "@/components/core";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,

@@ -1,8 +1,8 @@
+import { Button } from "@omnidotdev/thornberry/button";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Trash2Icon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { getCancelSubscriptionUrl } from "@/server/functions/subscriptions";
 
 interface Props {

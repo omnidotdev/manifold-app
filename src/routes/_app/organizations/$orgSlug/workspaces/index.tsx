@@ -1,7 +1,7 @@
+import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { CreateNamespaceModal } from "@/components/namespace";
-import { Button } from "@/components/ui/button";
 import { useWorkspace } from "@/lib/context";
 
 export const Route = createFileRoute(
