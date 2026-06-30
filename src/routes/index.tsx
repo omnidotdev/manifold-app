@@ -14,8 +14,9 @@ import {
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: ({ context: { auth } }) => {
-    if (auth) throw redirect({ to: "/schemas" });
+  beforeLoad: ({ context: { auth }, preload }) => {
+    // skip during preload so hovering this link does not navigate authed users
+    if (!preload && auth) throw redirect({ to: "/schemas" });
   },
   head: () => ({
     meta: createMetaTags({
