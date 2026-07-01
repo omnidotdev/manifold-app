@@ -133,6 +133,10 @@ export const Route = createRootRouteWithContext<{
     ],
     links: [
       {
+        rel: "canonical",
+        href: app.url,
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },
@@ -155,6 +159,18 @@ export const Route = createRootRouteWithContext<{
         type: "image/png",
         sizes: "16x16",
         href: "/img/favicon-16x16.png",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: app.name,
+          url: app.url,
+          description: app.description,
+        }),
       },
     ],
   }),

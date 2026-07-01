@@ -22,7 +22,20 @@ const config = defineConfig(({ command }) => ({
     devtools(),
     // use `mkcert` in development
     command === "serve" && mkcert(),
-    nitroV2Plugin({ preset: "node-server" }),
+    nitroV2Plugin({
+      preset: "node-server",
+      // Security and cache-hygiene response headers applied to every production
+      // response. Permissions-Policy denies powerful features by default and the
+      // Cache-Control revalidates rather than serving stale content
+      routeRules: {
+        "/**": {
+          headers: {
+            "Permissions-Policy": "geolocation=(), camera=(), microphone=()",
+            "Cache-Control": "public, max-age=0, must-revalidate",
+          },
+        },
+      },
+    }),
     viteTsConfigPaths({
       projects: ["./tsconfig.json"],
     }),
