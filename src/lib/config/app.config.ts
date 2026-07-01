@@ -13,6 +13,11 @@ const app = {
     threads: "https://www.threads.com/@omnidotdev",
   },
   feedbackUrl: "https://backfeed.omni.dev/workspaces/omni/projects/manifold",
+  // Legal links mirror the omni-api catalog SSOT
+  legal: {
+    privacy: "https://omni.dev/legal/privacy",
+    terms: "https://omni.dev/legal/terms",
+  },
   organization: {
     name: "Omni",
     supportEmailAddress: "support@omni.dev",
