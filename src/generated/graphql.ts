@@ -15,10 +15,25 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /**
+   * A signed eight-byte integer. The upper big integer values are greater than the
+   * max value for a JavaScript number. Therefore all big integers will be output as
+   * strings and not numbers.
+   */
   BigInt: { input: string; output: string; }
+  /** A location in a connection that can be used for resuming pagination. */
   Cursor: { input: string; output: string; }
+  /**
+   * A point in time as described by the [ISO
+   * 8601](https://en.wikipedia.org/wiki/ISO_8601) and, if it has a timezone, [RFC
+   * 3339](https://datatracker.ietf.org/doc/html/rfc3339) standards. Input values
+   * that do not conform to both ISO 8601 and RFC 3339 may be coerced, which may lead
+   * to unexpected results.
+   */
   Datetime: { input: Date; output: string; }
+  /** Represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: unknown; output: unknown; }
+  /** A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122). */
   UUID: { input: string; output: string; }
 };
 
@@ -178,6 +193,8 @@ export type ApiTokenPatch = {
 
 export type Artifact = Node & {
   __typename?: 'Artifact';
+  /** Reads and enables pagination through a set of `CargoMetadatum`. */
+  cargoMetadata: CargoMetadatumConnection;
   /** Reads a single `ContainerMetadatum` that is related to this `Artifact`. */
   containerMetadatum?: Maybe<ContainerMetadatum>;
   content?: Maybe<Scalars['String']['output']>;
@@ -193,10 +210,23 @@ export type Artifact = Node & {
   /** Reads a single `SchemaMetadatum` that is related to this `Artifact`. */
   schemaMetadatum?: Maybe<SchemaMetadatum>;
   size: Scalars['BigInt']['output'];
+  storagePath?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `Tag`. */
   tags: TagConnection;
   /** Reads a single `WasmMetadatum` that is related to this `Artifact`. */
   wasmMetadatum?: Maybe<WasmMetadatum>;
+};
+
+
+export type ArtifactCargoMetadataArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<CargoMetadatumCondition>;
+  filter?: InputMaybe<CargoMetadatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<CargoMetadatumOrderBy>>;
 };
 
 
@@ -250,6 +280,10 @@ export type ArtifactEdge = {
 export type ArtifactFilter = {
   /** Checks for all expressions in this list. */
   and?: InputMaybe<Array<ArtifactFilter>>;
+  /** Filter by the object’s `cargoMetadata` relation. */
+  cargoMetadata?: InputMaybe<ArtifactToManyCargoMetadatumFilter>;
+  /** Some related `cargoMetadata` exist. */
+  cargoMetadataExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `containerMetadatum` relation. */
   containerMetadatum?: InputMaybe<ContainerMetadatumFilter>;
   /** A related `containerMetadatum` exists. */
@@ -289,6 +323,7 @@ export type ArtifactInput = {
   repositoryId: Scalars['UUID']['input'];
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   size: Scalars['BigInt']['input'];
+  storagePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Methods to use when ordering `Artifact`. */
@@ -313,6 +348,17 @@ export type ArtifactPatch = {
   repositoryId?: InputMaybe<Scalars['UUID']['input']>;
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   size?: InputMaybe<Scalars['BigInt']['input']>;
+  storagePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A filter to be used against many `CargoMetadatum` object types. All fields are combined with a logical ‘and.’ */
+export type ArtifactToManyCargoMetadatumFilter = {
+  /** Every related `CargoMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<CargoMetadatumFilter>;
+  /** No related `CargoMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<CargoMetadatumFilter>;
+  /** Some related `CargoMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<CargoMetadatumFilter>;
 };
 
 /** A filter to be used against many `Tag` object types. All fields are combined with a logical ‘and.’ */
@@ -349,6 +395,133 @@ export type BooleanFilter = {
   notEqualTo?: InputMaybe<Scalars['Boolean']['input']>;
   /** Not included in the specified list. */
   notIn?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
+export type CargoMetadatum = Node & {
+  __typename?: 'CargoMetadatum';
+  /** Reads a single `Artifact` that is related to this `CargoMetadatum`. */
+  artifact?: Maybe<Artifact>;
+  artifactId: Scalars['UUID']['output'];
+  cksum: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  deps: Scalars['JSON']['output'];
+  features: Scalars['JSON']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  links?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  rowId: Scalars['UUID']['output'];
+  rustVersion?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+  v: Scalars['Int']['output'];
+  vers: Scalars['String']['output'];
+  yanked: Scalars['Boolean']['output'];
+};
+
+/**
+ * A condition to be used against `CargoMetadatum` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type CargoMetadatumCondition = {
+  /** Checks for equality with the object’s `artifactId` field. */
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `vers` field. */
+  vers?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `CargoMetadatum` values. */
+export type CargoMetadatumConnection = {
+  __typename?: 'CargoMetadatumConnection';
+  /** A list of edges which contains the `CargoMetadatum` and cursor to aid in pagination. */
+  edges: Array<Maybe<CargoMetadatumEdge>>;
+  /** A list of `CargoMetadatum` objects. */
+  nodes: Array<Maybe<CargoMetadatum>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `CargoMetadatum` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `CargoMetadatum` edge in the connection. */
+export type CargoMetadatumEdge = {
+  __typename?: 'CargoMetadatumEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `CargoMetadatum` at the end of the edge. */
+  node?: Maybe<CargoMetadatum>;
+};
+
+/** A filter to be used against `CargoMetadatum` object types. All fields are combined with a logical ‘and.’ */
+export type CargoMetadatumFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<CargoMetadatumFilter>>;
+  /** Filter by the object’s `artifact` relation. */
+  artifact?: InputMaybe<ArtifactFilter>;
+  /** Filter by the object’s `artifactId` field. */
+  artifactId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<CargoMetadatumFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<CargoMetadatumFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `vers` field. */
+  vers?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `CargoMetadatum` */
+export type CargoMetadatumInput = {
+  artifactId: Scalars['UUID']['input'];
+  cksum: Scalars['String']['input'];
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  deps?: InputMaybe<Scalars['JSON']['input']>;
+  features?: InputMaybe<Scalars['JSON']['input']>;
+  links?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  rustVersion?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  v?: InputMaybe<Scalars['Int']['input']>;
+  vers: Scalars['String']['input'];
+  yanked?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Methods to use when ordering `CargoMetadatum`. */
+export enum CargoMetadatumOrderBy {
+  ArtifactIdAsc = 'ARTIFACT_ID_ASC',
+  ArtifactIdDesc = 'ARTIFACT_ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  VersAsc = 'VERS_ASC',
+  VersDesc = 'VERS_DESC'
+}
+
+/** Represents an update to a `CargoMetadatum`. Fields that are set will be updated. */
+export type CargoMetadatumPatch = {
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  cksum?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  deps?: InputMaybe<Scalars['JSON']['input']>;
+  features?: InputMaybe<Scalars['JSON']['input']>;
+  links?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  rustVersion?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  v?: InputMaybe<Scalars['Int']['input']>;
+  vers?: InputMaybe<Scalars['String']['input']>;
+  yanked?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type ContainerMetadatum = Node & {
@@ -505,6 +678,39 @@ export type CreateArtifactPayloadArtifactEdgeArgs = {
   orderBy?: Array<ArtifactOrderBy>;
 };
 
+/** All input for the create `CargoMetadatum` mutation. */
+export type CreateCargoMetadatumInput = {
+  /** The `CargoMetadatum` to be created by this mutation. */
+  cargoMetadatum: CargoMetadatumInput;
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The output of our create `CargoMetadatum` mutation. */
+export type CreateCargoMetadatumPayload = {
+  __typename?: 'CreateCargoMetadatumPayload';
+  /** The `CargoMetadatum` that was created by this mutation. */
+  cargoMetadatum?: Maybe<CargoMetadatum>;
+  /** An edge for our `CargoMetadatum`. May be used by Relay 1. */
+  cargoMetadatumEdge?: Maybe<CargoMetadatumEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `CargoMetadatum` mutation. */
+export type CreateCargoMetadatumPayloadCargoMetadatumEdgeArgs = {
+  orderBy?: Array<CargoMetadatumOrderBy>;
+};
+
 /** All input for the create `ContainerMetadatum` mutation. */
 export type CreateContainerMetadatumInput = {
   /**
@@ -536,6 +742,72 @@ export type CreateContainerMetadatumPayload = {
 /** The output of our create `ContainerMetadatum` mutation. */
 export type CreateContainerMetadatumPayloadContainerMetadatumEdgeArgs = {
   orderBy?: Array<ContainerMetadatumOrderBy>;
+};
+
+/** All input for the create `FederatedSkillCache` mutation. */
+export type CreateFederatedSkillCacheInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `FederatedSkillCache` to be created by this mutation. */
+  federatedSkillCache: FederatedSkillCacheInput;
+};
+
+/** The output of our create `FederatedSkillCache` mutation. */
+export type CreateFederatedSkillCachePayload = {
+  __typename?: 'CreateFederatedSkillCachePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `FederatedSkillCache` that was created by this mutation. */
+  federatedSkillCache?: Maybe<FederatedSkillCache>;
+  /** An edge for our `FederatedSkillCache`. May be used by Relay 1. */
+  federatedSkillCacheEdge?: Maybe<FederatedSkillCacheEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `FederatedSkillCache` mutation. */
+export type CreateFederatedSkillCachePayloadFederatedSkillCacheEdgeArgs = {
+  orderBy?: Array<FederatedSkillCacheOrderBy>;
+};
+
+/** All input for the create `FederatedSource` mutation. */
+export type CreateFederatedSourceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `FederatedSource` to be created by this mutation. */
+  federatedSource: FederatedSourceInput;
+};
+
+/** The output of our create `FederatedSource` mutation. */
+export type CreateFederatedSourcePayload = {
+  __typename?: 'CreateFederatedSourcePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `FederatedSource` that was created by this mutation. */
+  federatedSource?: Maybe<FederatedSource>;
+  /** An edge for our `FederatedSource`. May be used by Relay 1. */
+  federatedSourceEdge?: Maybe<FederatedSourceEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `FederatedSource` mutation. */
+export type CreateFederatedSourcePayloadFederatedSourceEdgeArgs = {
+  orderBy?: Array<FederatedSourceOrderBy>;
 };
 
 /** All input for the create `Namespace` mutation. */
@@ -850,6 +1122,50 @@ export type DeleteArtifactPayloadArtifactEdgeArgs = {
   orderBy?: Array<ArtifactOrderBy>;
 };
 
+/** All input for the `deleteCargoMetadatumById` mutation. */
+export type DeleteCargoMetadatumByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `CargoMetadatum` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteCargoMetadatum` mutation. */
+export type DeleteCargoMetadatumInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `CargoMetadatum` mutation. */
+export type DeleteCargoMetadatumPayload = {
+  __typename?: 'DeleteCargoMetadatumPayload';
+  /** The `CargoMetadatum` that was deleted by this mutation. */
+  cargoMetadatum?: Maybe<CargoMetadatum>;
+  /** An edge for our `CargoMetadatum`. May be used by Relay 1. */
+  cargoMetadatumEdge?: Maybe<CargoMetadatumEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedCargoMetadatumId?: Maybe<Scalars['ID']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `CargoMetadatum` mutation. */
+export type DeleteCargoMetadatumPayloadCargoMetadatumEdgeArgs = {
+  orderBy?: Array<CargoMetadatumOrderBy>;
+};
+
 /** All input for the `deleteContainerMetadatumById` mutation. */
 export type DeleteContainerMetadatumByIdInput = {
   /**
@@ -892,6 +1208,104 @@ export type DeleteContainerMetadatumPayload = {
 /** The output of our delete `ContainerMetadatum` mutation. */
 export type DeleteContainerMetadatumPayloadContainerMetadatumEdgeArgs = {
   orderBy?: Array<ContainerMetadatumOrderBy>;
+};
+
+/** All input for the `deleteFederatedSkillCacheById` mutation. */
+export type DeleteFederatedSkillCacheByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `FederatedSkillCache` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteFederatedSkillCache` mutation. */
+export type DeleteFederatedSkillCacheInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `FederatedSkillCache` mutation. */
+export type DeleteFederatedSkillCachePayload = {
+  __typename?: 'DeleteFederatedSkillCachePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedFederatedSkillCacheId?: Maybe<Scalars['ID']['output']>;
+  /** The `FederatedSkillCache` that was deleted by this mutation. */
+  federatedSkillCache?: Maybe<FederatedSkillCache>;
+  /** An edge for our `FederatedSkillCache`. May be used by Relay 1. */
+  federatedSkillCacheEdge?: Maybe<FederatedSkillCacheEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `FederatedSkillCache` mutation. */
+export type DeleteFederatedSkillCachePayloadFederatedSkillCacheEdgeArgs = {
+  orderBy?: Array<FederatedSkillCacheOrderBy>;
+};
+
+/** All input for the `deleteFederatedSourceById` mutation. */
+export type DeleteFederatedSourceByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `FederatedSource` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteFederatedSourceByNamespace` mutation. */
+export type DeleteFederatedSourceByNamespaceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  namespace: Scalars['String']['input'];
+};
+
+/** All input for the `deleteFederatedSource` mutation. */
+export type DeleteFederatedSourceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `FederatedSource` mutation. */
+export type DeleteFederatedSourcePayload = {
+  __typename?: 'DeleteFederatedSourcePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedFederatedSourceId?: Maybe<Scalars['ID']['output']>;
+  /** The `FederatedSource` that was deleted by this mutation. */
+  federatedSource?: Maybe<FederatedSource>;
+  /** An edge for our `FederatedSource`. May be used by Relay 1. */
+  federatedSourceEdge?: Maybe<FederatedSourceEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `FederatedSource` mutation. */
+export type DeleteFederatedSourcePayloadFederatedSourceEdgeArgs = {
+  orderBy?: Array<FederatedSourceOrderBy>;
 };
 
 /** All input for the `deleteNamespaceById` mutation. */
@@ -1168,6 +1582,278 @@ export type DeleteWasmMetadatumPayloadWasmMetadatumEdgeArgs = {
   orderBy?: Array<WasmMetadatumOrderBy>;
 };
 
+export type FederatedSkillCache = Node & {
+  __typename?: 'FederatedSkillCache';
+  content?: Maybe<Scalars['String']['output']>;
+  contentDigest?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  expiresAt?: Maybe<Scalars['Datetime']['output']>;
+  fetchedAt?: Maybe<Scalars['Datetime']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  rowId: Scalars['UUID']['output'];
+  slug: Scalars['String']['output'];
+  /** Reads a single `FederatedSource` that is related to this `FederatedSkillCache`. */
+  source?: Maybe<FederatedSource>;
+  sourceId: Scalars['UUID']['output'];
+  upstreamMeta?: Maybe<Scalars['JSON']['output']>;
+  vetReason?: Maybe<Scalars['String']['output']>;
+  vetStatus: Scalars['String']['output'];
+  vettedAt?: Maybe<Scalars['Datetime']['output']>;
+  vettedBy?: Maybe<Scalars['String']['output']>;
+};
+
+/**
+ * A condition to be used against `FederatedSkillCache` object types. All fields
+ * are tested for equality and combined with a logical ‘and.’
+ */
+export type FederatedSkillCacheCondition = {
+  /** Checks for equality with the object’s `expiresAt` field. */
+  expiresAt?: InputMaybe<Scalars['Datetime']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `slug` field. */
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `sourceId` field. */
+  sourceId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `vetStatus` field. */
+  vetStatus?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `FederatedSkillCache` values. */
+export type FederatedSkillCacheConnection = {
+  __typename?: 'FederatedSkillCacheConnection';
+  /** A list of edges which contains the `FederatedSkillCache` and cursor to aid in pagination. */
+  edges: Array<Maybe<FederatedSkillCacheEdge>>;
+  /** A list of `FederatedSkillCache` objects. */
+  nodes: Array<Maybe<FederatedSkillCache>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `FederatedSkillCache` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `FederatedSkillCache` edge in the connection. */
+export type FederatedSkillCacheEdge = {
+  __typename?: 'FederatedSkillCacheEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `FederatedSkillCache` at the end of the edge. */
+  node?: Maybe<FederatedSkillCache>;
+};
+
+/** A filter to be used against `FederatedSkillCache` object types. All fields are combined with a logical ‘and.’ */
+export type FederatedSkillCacheFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<FederatedSkillCacheFilter>>;
+  /** Filter by the object’s `expiresAt` field. */
+  expiresAt?: InputMaybe<DatetimeFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<FederatedSkillCacheFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<FederatedSkillCacheFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `slug` field. */
+  slug?: InputMaybe<StringFilter>;
+  /** Filter by the object’s `source` relation. */
+  source?: InputMaybe<FederatedSourceFilter>;
+  /** Filter by the object’s `sourceId` field. */
+  sourceId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `vetStatus` field. */
+  vetStatus?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `FederatedSkillCache` */
+export type FederatedSkillCacheInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contentDigest?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  expiresAt?: InputMaybe<Scalars['Datetime']['input']>;
+  fetchedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  slug: Scalars['String']['input'];
+  sourceId: Scalars['UUID']['input'];
+  upstreamMeta?: InputMaybe<Scalars['JSON']['input']>;
+  vetReason?: InputMaybe<Scalars['String']['input']>;
+  vetStatus?: InputMaybe<Scalars['String']['input']>;
+  vettedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  vettedBy?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Methods to use when ordering `FederatedSkillCache`. */
+export enum FederatedSkillCacheOrderBy {
+  ExpiresAtAsc = 'EXPIRES_AT_ASC',
+  ExpiresAtDesc = 'EXPIRES_AT_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  SlugAsc = 'SLUG_ASC',
+  SlugDesc = 'SLUG_DESC',
+  SourceIdAsc = 'SOURCE_ID_ASC',
+  SourceIdDesc = 'SOURCE_ID_DESC',
+  VetStatusAsc = 'VET_STATUS_ASC',
+  VetStatusDesc = 'VET_STATUS_DESC'
+}
+
+/** Represents an update to a `FederatedSkillCache`. Fields that are set will be updated. */
+export type FederatedSkillCachePatch = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  contentDigest?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  expiresAt?: InputMaybe<Scalars['Datetime']['input']>;
+  fetchedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  sourceId?: InputMaybe<Scalars['UUID']['input']>;
+  upstreamMeta?: InputMaybe<Scalars['JSON']['input']>;
+  vetReason?: InputMaybe<Scalars['String']['input']>;
+  vetStatus?: InputMaybe<Scalars['String']['input']>;
+  vettedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  vettedBy?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FederatedSource = Node & {
+  __typename?: 'FederatedSource';
+  cacheTtlSeconds: Scalars['Int']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  enabled: Scalars['Boolean']['output'];
+  /** Reads and enables pagination through a set of `FederatedSkillCache`. */
+  federatedSkillCachesBySourceId: FederatedSkillCacheConnection;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  namespace: Scalars['String']['output'];
+  rateLimitRpm: Scalars['Int']['output'];
+  requireVetting: Scalars['Boolean']['output'];
+  rowId: Scalars['UUID']['output'];
+  tagListCacheTtlSeconds: Scalars['Int']['output'];
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+  upstreamBaseUrl: Scalars['String']['output'];
+  upstreamType: Scalars['String']['output'];
+};
+
+
+export type FederatedSourceFederatedSkillCachesBySourceIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<FederatedSkillCacheCondition>;
+  filter?: InputMaybe<FederatedSkillCacheFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<FederatedSkillCacheOrderBy>>;
+};
+
+/**
+ * A condition to be used against `FederatedSource` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type FederatedSourceCondition = {
+  /** Checks for equality with the object’s `namespace` field. */
+  namespace?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `upstreamType` field. */
+  upstreamType?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `FederatedSource` values. */
+export type FederatedSourceConnection = {
+  __typename?: 'FederatedSourceConnection';
+  /** A list of edges which contains the `FederatedSource` and cursor to aid in pagination. */
+  edges: Array<Maybe<FederatedSourceEdge>>;
+  /** A list of `FederatedSource` objects. */
+  nodes: Array<Maybe<FederatedSource>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `FederatedSource` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `FederatedSource` edge in the connection. */
+export type FederatedSourceEdge = {
+  __typename?: 'FederatedSourceEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `FederatedSource` at the end of the edge. */
+  node?: Maybe<FederatedSource>;
+};
+
+/** A filter to be used against `FederatedSource` object types. All fields are combined with a logical ‘and.’ */
+export type FederatedSourceFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<FederatedSourceFilter>>;
+  /** Filter by the object’s `federatedSkillCachesBySourceId` relation. */
+  federatedSkillCachesBySourceId?: InputMaybe<FederatedSourceToManyFederatedSkillCacheFilter>;
+  /** Some related `federatedSkillCachesBySourceId` exist. */
+  federatedSkillCachesBySourceIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `namespace` field. */
+  namespace?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<FederatedSourceFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<FederatedSourceFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `upstreamType` field. */
+  upstreamType?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `FederatedSource` */
+export type FederatedSourceInput = {
+  cacheTtlSeconds?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  namespace: Scalars['String']['input'];
+  rateLimitRpm?: InputMaybe<Scalars['Int']['input']>;
+  requireVetting?: InputMaybe<Scalars['Boolean']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  tagListCacheTtlSeconds?: InputMaybe<Scalars['Int']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  upstreamBaseUrl: Scalars['String']['input'];
+  upstreamType: Scalars['String']['input'];
+};
+
+/** Methods to use when ordering `FederatedSource`. */
+export enum FederatedSourceOrderBy {
+  NamespaceAsc = 'NAMESPACE_ASC',
+  NamespaceDesc = 'NAMESPACE_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  UpstreamTypeAsc = 'UPSTREAM_TYPE_ASC',
+  UpstreamTypeDesc = 'UPSTREAM_TYPE_DESC'
+}
+
+/** Represents an update to a `FederatedSource`. Fields that are set will be updated. */
+export type FederatedSourcePatch = {
+  cacheTtlSeconds?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  namespace?: InputMaybe<Scalars['String']['input']>;
+  rateLimitRpm?: InputMaybe<Scalars['Int']['input']>;
+  requireVetting?: InputMaybe<Scalars['Boolean']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  tagListCacheTtlSeconds?: InputMaybe<Scalars['Int']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  upstreamBaseUrl?: InputMaybe<Scalars['String']['input']>;
+  upstreamType?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A filter to be used against many `FederatedSkillCache` object types. All fields are combined with a logical ‘and.’ */
+export type FederatedSourceToManyFederatedSkillCacheFilter = {
+  /** Every related `FederatedSkillCache` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<FederatedSkillCacheFilter>;
+  /** No related `FederatedSkillCache` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<FederatedSkillCacheFilter>;
+  /** Some related `FederatedSkillCache` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<FederatedSkillCacheFilter>;
+};
+
 /** The root mutation type which contains root level fields which mutate data. */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1175,8 +1861,14 @@ export type Mutation = {
   createApiToken?: Maybe<CreateApiTokenPayload>;
   /** Creates a single `Artifact`. */
   createArtifact?: Maybe<CreateArtifactPayload>;
+  /** Creates a single `CargoMetadatum`. */
+  createCargoMetadatum?: Maybe<CreateCargoMetadatumPayload>;
   /** Creates a single `ContainerMetadatum`. */
   createContainerMetadatum?: Maybe<CreateContainerMetadatumPayload>;
+  /** Creates a single `FederatedSkillCache`. */
+  createFederatedSkillCache?: Maybe<CreateFederatedSkillCachePayload>;
+  /** Creates a single `FederatedSource`. */
+  createFederatedSource?: Maybe<CreateFederatedSourcePayload>;
   /** Creates a single `Namespace`. */
   createNamespace?: Maybe<CreateNamespacePayload>;
   /** Creates a single `Repository`. */
@@ -1197,10 +1889,24 @@ export type Mutation = {
   deleteArtifact?: Maybe<DeleteArtifactPayload>;
   /** Deletes a single `Artifact` using its globally unique id. */
   deleteArtifactById?: Maybe<DeleteArtifactPayload>;
+  /** Deletes a single `CargoMetadatum` using a unique key. */
+  deleteCargoMetadatum?: Maybe<DeleteCargoMetadatumPayload>;
+  /** Deletes a single `CargoMetadatum` using its globally unique id. */
+  deleteCargoMetadatumById?: Maybe<DeleteCargoMetadatumPayload>;
   /** Deletes a single `ContainerMetadatum` using a unique key. */
   deleteContainerMetadatum?: Maybe<DeleteContainerMetadatumPayload>;
   /** Deletes a single `ContainerMetadatum` using its globally unique id. */
   deleteContainerMetadatumById?: Maybe<DeleteContainerMetadatumPayload>;
+  /** Deletes a single `FederatedSkillCache` using a unique key. */
+  deleteFederatedSkillCache?: Maybe<DeleteFederatedSkillCachePayload>;
+  /** Deletes a single `FederatedSkillCache` using its globally unique id. */
+  deleteFederatedSkillCacheById?: Maybe<DeleteFederatedSkillCachePayload>;
+  /** Deletes a single `FederatedSource` using a unique key. */
+  deleteFederatedSource?: Maybe<DeleteFederatedSourcePayload>;
+  /** Deletes a single `FederatedSource` using its globally unique id. */
+  deleteFederatedSourceById?: Maybe<DeleteFederatedSourcePayload>;
+  /** Deletes a single `FederatedSource` using a unique key. */
+  deleteFederatedSourceByNamespace?: Maybe<DeleteFederatedSourcePayload>;
   /** Deletes a single `Namespace` using a unique key. */
   deleteNamespace?: Maybe<DeleteNamespacePayload>;
   /** Deletes a single `Namespace` using its globally unique id. */
@@ -1235,10 +1941,24 @@ export type Mutation = {
   updateArtifact?: Maybe<UpdateArtifactPayload>;
   /** Updates a single `Artifact` using its globally unique id and a patch. */
   updateArtifactById?: Maybe<UpdateArtifactPayload>;
+  /** Updates a single `CargoMetadatum` using a unique key and a patch. */
+  updateCargoMetadatum?: Maybe<UpdateCargoMetadatumPayload>;
+  /** Updates a single `CargoMetadatum` using its globally unique id and a patch. */
+  updateCargoMetadatumById?: Maybe<UpdateCargoMetadatumPayload>;
   /** Updates a single `ContainerMetadatum` using a unique key and a patch. */
   updateContainerMetadatum?: Maybe<UpdateContainerMetadatumPayload>;
   /** Updates a single `ContainerMetadatum` using its globally unique id and a patch. */
   updateContainerMetadatumById?: Maybe<UpdateContainerMetadatumPayload>;
+  /** Updates a single `FederatedSkillCache` using a unique key and a patch. */
+  updateFederatedSkillCache?: Maybe<UpdateFederatedSkillCachePayload>;
+  /** Updates a single `FederatedSkillCache` using its globally unique id and a patch. */
+  updateFederatedSkillCacheById?: Maybe<UpdateFederatedSkillCachePayload>;
+  /** Updates a single `FederatedSource` using a unique key and a patch. */
+  updateFederatedSource?: Maybe<UpdateFederatedSourcePayload>;
+  /** Updates a single `FederatedSource` using its globally unique id and a patch. */
+  updateFederatedSourceById?: Maybe<UpdateFederatedSourcePayload>;
+  /** Updates a single `FederatedSource` using a unique key and a patch. */
+  updateFederatedSourceByNamespace?: Maybe<UpdateFederatedSourcePayload>;
   /** Updates a single `Namespace` using a unique key and a patch. */
   updateNamespace?: Maybe<UpdateNamespacePayload>;
   /** Updates a single `Namespace` using its globally unique id and a patch. */
@@ -1281,8 +2001,26 @@ export type MutationCreateArtifactArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateCargoMetadatumArgs = {
+  input: CreateCargoMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateContainerMetadatumArgs = {
   input: CreateContainerMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateFederatedSkillCacheArgs = {
+  input: CreateFederatedSkillCacheInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateFederatedSourceArgs = {
+  input: CreateFederatedSourceInput;
 };
 
 
@@ -1347,6 +2085,18 @@ export type MutationDeleteArtifactByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCargoMetadatumArgs = {
+  input: DeleteCargoMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteCargoMetadatumByIdArgs = {
+  input: DeleteCargoMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteContainerMetadatumArgs = {
   input: DeleteContainerMetadatumInput;
 };
@@ -1355,6 +2105,36 @@ export type MutationDeleteContainerMetadatumArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteContainerMetadatumByIdArgs = {
   input: DeleteContainerMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteFederatedSkillCacheArgs = {
+  input: DeleteFederatedSkillCacheInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteFederatedSkillCacheByIdArgs = {
+  input: DeleteFederatedSkillCacheByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteFederatedSourceArgs = {
+  input: DeleteFederatedSourceInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteFederatedSourceByIdArgs = {
+  input: DeleteFederatedSourceByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteFederatedSourceByNamespaceArgs = {
+  input: DeleteFederatedSourceByNamespaceInput;
 };
 
 
@@ -1461,6 +2241,18 @@ export type MutationUpdateArtifactByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCargoMetadatumArgs = {
+  input: UpdateCargoMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateCargoMetadatumByIdArgs = {
+  input: UpdateCargoMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateContainerMetadatumArgs = {
   input: UpdateContainerMetadatumInput;
 };
@@ -1469,6 +2261,36 @@ export type MutationUpdateContainerMetadatumArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateContainerMetadatumByIdArgs = {
   input: UpdateContainerMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateFederatedSkillCacheArgs = {
+  input: UpdateFederatedSkillCacheInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateFederatedSkillCacheByIdArgs = {
+  input: UpdateFederatedSkillCacheByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateFederatedSourceArgs = {
+  input: UpdateFederatedSourceInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateFederatedSourceByIdArgs = {
+  input: UpdateFederatedSourceByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateFederatedSourceByNamespaceArgs = {
+  input: UpdateFederatedSourceByNamespaceInput;
 };
 
 
@@ -1558,6 +2380,7 @@ export type Namespace = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
+  organizationId?: Maybe<Scalars['UUID']['output']>;
   /** Reads and enables pagination through a set of `Repository`. */
   repositories: RepositoryConnection;
   rowId: Scalars['UUID']['output'];
@@ -1595,6 +2418,8 @@ export type NamespaceRepositoriesArgs = {
 export type NamespaceCondition = {
   /** Checks for equality with the object’s `name` field. */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `organizationId` field. */
+  organizationId?: InputMaybe<Scalars['UUID']['input']>;
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>;
 };
@@ -1635,6 +2460,8 @@ export type NamespaceFilter = {
   not?: InputMaybe<NamespaceFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<NamespaceFilter>>;
+  /** Filter by the object’s `organizationId` field. */
+  organizationId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `repositories` relation. */
   repositories?: InputMaybe<NamespaceToManyRepositoryFilter>;
   /** Some related `repositories` exist. */
@@ -1648,6 +2475,7 @@ export type NamespaceInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
+  organizationId?: InputMaybe<Scalars['UUID']['input']>;
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
@@ -1657,6 +2485,8 @@ export enum NamespaceOrderBy {
   NameAsc = 'NAME_ASC',
   NameDesc = 'NAME_DESC',
   Natural = 'NATURAL',
+  OrganizationIdAsc = 'ORGANIZATION_ID_ASC',
+  OrganizationIdDesc = 'ORGANIZATION_ID_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RowIdAsc = 'ROW_ID_ASC',
@@ -1668,6 +2498,7 @@ export type NamespacePatch = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  organizationId?: InputMaybe<Scalars['UUID']['input']>;
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
@@ -1726,12 +2557,32 @@ export type Query = Node & {
   artifactById?: Maybe<Artifact>;
   /** Reads and enables pagination through a set of `Artifact`. */
   artifacts?: Maybe<ArtifactConnection>;
+  /** Reads and enables pagination through a set of `CargoMetadatum`. */
+  cargoMetadata?: Maybe<CargoMetadatumConnection>;
+  /** Get a single `CargoMetadatum`. */
+  cargoMetadatum?: Maybe<CargoMetadatum>;
+  /** Reads a single `CargoMetadatum` using its globally unique `ID`. */
+  cargoMetadatumById?: Maybe<CargoMetadatum>;
   /** Reads and enables pagination through a set of `ContainerMetadatum`. */
   containerMetadata?: Maybe<ContainerMetadatumConnection>;
   /** Get a single `ContainerMetadatum`. */
   containerMetadatum?: Maybe<ContainerMetadatum>;
   /** Reads a single `ContainerMetadatum` using its globally unique `ID`. */
   containerMetadatumById?: Maybe<ContainerMetadatum>;
+  /** Get a single `FederatedSkillCache`. */
+  federatedSkillCache?: Maybe<FederatedSkillCache>;
+  /** Reads a single `FederatedSkillCache` using its globally unique `ID`. */
+  federatedSkillCacheById?: Maybe<FederatedSkillCache>;
+  /** Reads and enables pagination through a set of `FederatedSkillCache`. */
+  federatedSkillCaches?: Maybe<FederatedSkillCacheConnection>;
+  /** Get a single `FederatedSource`. */
+  federatedSource?: Maybe<FederatedSource>;
+  /** Reads a single `FederatedSource` using its globally unique `ID`. */
+  federatedSourceById?: Maybe<FederatedSource>;
+  /** Get a single `FederatedSource`. */
+  federatedSourceByNamespace?: Maybe<FederatedSource>;
+  /** Reads and enables pagination through a set of `FederatedSource`. */
+  federatedSources?: Maybe<FederatedSourceConnection>;
   /** The root query type must be a `Node` to work well with Relay 1 mutations. This just resolves to `query`. */
   id: Scalars['ID']['output'];
   /** Get a single `Namespace`. */
@@ -1833,6 +2684,31 @@ export type QueryArtifactsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryCargoMetadataArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<CargoMetadatumCondition>;
+  filter?: InputMaybe<CargoMetadatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<CargoMetadatumOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCargoMetadatumArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryCargoMetadatumByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryContainerMetadataArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1854,6 +2730,62 @@ export type QueryContainerMetadatumArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryContainerMetadatumByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSkillCacheArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSkillCacheByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSkillCachesArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<FederatedSkillCacheCondition>;
+  filter?: InputMaybe<FederatedSkillCacheFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<FederatedSkillCacheOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSourceArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSourceByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSourceByNamespaceArgs = {
+  namespace: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryFederatedSourcesArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<FederatedSourceCondition>;
+  filter?: InputMaybe<FederatedSourceFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<FederatedSourceOrderBy>>;
 };
 
 
@@ -2632,6 +3564,53 @@ export type UpdateArtifactPayloadArtifactEdgeArgs = {
   orderBy?: Array<ArtifactOrderBy>;
 };
 
+/** All input for the `updateCargoMetadatumById` mutation. */
+export type UpdateCargoMetadatumByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `CargoMetadatum` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `CargoMetadatum` being updated. */
+  patch: CargoMetadatumPatch;
+};
+
+/** All input for the `updateCargoMetadatum` mutation. */
+export type UpdateCargoMetadatumInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `CargoMetadatum` being updated. */
+  patch: CargoMetadatumPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `CargoMetadatum` mutation. */
+export type UpdateCargoMetadatumPayload = {
+  __typename?: 'UpdateCargoMetadatumPayload';
+  /** The `CargoMetadatum` that was updated by this mutation. */
+  cargoMetadatum?: Maybe<CargoMetadatum>;
+  /** An edge for our `CargoMetadatum`. May be used by Relay 1. */
+  cargoMetadatumEdge?: Maybe<CargoMetadatumEdge>;
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `CargoMetadatum` mutation. */
+export type UpdateCargoMetadatumPayloadCargoMetadatumEdgeArgs = {
+  orderBy?: Array<CargoMetadatumOrderBy>;
+};
+
 /** All input for the `updateContainerMetadatumById` mutation. */
 export type UpdateContainerMetadatumByIdInput = {
   /**
@@ -2677,6 +3656,112 @@ export type UpdateContainerMetadatumPayload = {
 /** The output of our update `ContainerMetadatum` mutation. */
 export type UpdateContainerMetadatumPayloadContainerMetadatumEdgeArgs = {
   orderBy?: Array<ContainerMetadatumOrderBy>;
+};
+
+/** All input for the `updateFederatedSkillCacheById` mutation. */
+export type UpdateFederatedSkillCacheByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `FederatedSkillCache` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `FederatedSkillCache` being updated. */
+  patch: FederatedSkillCachePatch;
+};
+
+/** All input for the `updateFederatedSkillCache` mutation. */
+export type UpdateFederatedSkillCacheInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `FederatedSkillCache` being updated. */
+  patch: FederatedSkillCachePatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `FederatedSkillCache` mutation. */
+export type UpdateFederatedSkillCachePayload = {
+  __typename?: 'UpdateFederatedSkillCachePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `FederatedSkillCache` that was updated by this mutation. */
+  federatedSkillCache?: Maybe<FederatedSkillCache>;
+  /** An edge for our `FederatedSkillCache`. May be used by Relay 1. */
+  federatedSkillCacheEdge?: Maybe<FederatedSkillCacheEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `FederatedSkillCache` mutation. */
+export type UpdateFederatedSkillCachePayloadFederatedSkillCacheEdgeArgs = {
+  orderBy?: Array<FederatedSkillCacheOrderBy>;
+};
+
+/** All input for the `updateFederatedSourceById` mutation. */
+export type UpdateFederatedSourceByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `FederatedSource` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `FederatedSource` being updated. */
+  patch: FederatedSourcePatch;
+};
+
+/** All input for the `updateFederatedSourceByNamespace` mutation. */
+export type UpdateFederatedSourceByNamespaceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  namespace: Scalars['String']['input'];
+  /** An object where the defined keys will be set on the `FederatedSource` being updated. */
+  patch: FederatedSourcePatch;
+};
+
+/** All input for the `updateFederatedSource` mutation. */
+export type UpdateFederatedSourceInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `FederatedSource` being updated. */
+  patch: FederatedSourcePatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `FederatedSource` mutation. */
+export type UpdateFederatedSourcePayload = {
+  __typename?: 'UpdateFederatedSourcePayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `FederatedSource` that was updated by this mutation. */
+  federatedSource?: Maybe<FederatedSource>;
+  /** An edge for our `FederatedSource`. May be used by Relay 1. */
+  federatedSourceEdge?: Maybe<FederatedSourceEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `FederatedSource` mutation. */
+export type UpdateFederatedSourcePayloadFederatedSourceEdgeArgs = {
+  orderBy?: Array<FederatedSourceOrderBy>;
 };
 
 /** All input for the `updateNamespaceById` mutation. */
