@@ -1,6 +1,7 @@
 @import "tailwindcss";
-@source "../../../node_modules/@omnidotdev/thornberry/build";
+@import "@omnidotdev/thornberry/base.css";
 @import "tw-animate-css";
+@source "../../../node_modules/@omnidotdev/thornberry/build";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -198,6 +199,7 @@
 
 @layer base {
   html {
+    /* Persistent scrollbar; avoids blank gutter whitespace + layout shift. */
     overflow-y: scroll;
   }
   * {
