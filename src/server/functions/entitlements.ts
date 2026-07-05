@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-import { getEntitlements as getEntitlementsFromAether } from "@/lib/aether/client";
+import billing from "@/lib/providers/billing";
 import { authMiddleware } from "@/server/middleware";
 
-import type { EntitlementsResponse } from "@/lib/aether/client";
+import type { EntitlementsResponse } from "@/lib/providers/billing";
 
 const entitySchema = z.object({
   entityType: z.string(),
@@ -26,7 +26,7 @@ export const getEntitlements = createServerFn()
   .inputValidator((data) => entitySchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<EntitlementsResponse | null> => {
-    return getEntitlementsFromAether(
+    return billing.getEntitlements(
       data.entityType,
       data.entityId,
       data.productId,
@@ -42,7 +42,7 @@ export const checkEntitlement = createServerFn()
   .inputValidator((data) => checkEntitlementSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<string | null> => {
-    const entitlements = await getEntitlementsFromAether(
+    const entitlements = await billing.getEntitlements(
       data.entityType,
       data.entityId,
       data.productId,

@@ -34,7 +34,7 @@ const knipConfig: KnipConfig = {
     "src/components/ui/select.tsx",
     "src/components/ui/switch.tsx",
     "src/components/ui/textarea.tsx",
-    "src/lib/aether/**",
+    "src/lib/providers/**",
     "src/lib/warden/**",
     "src/lib/context/organization.context.tsx",
     "src/lib/context/workspace.context.tsx",

@@ -7,16 +7,9 @@ import {
 
 import { DataTable } from "@/components/core";
 import { CancelSubscription, ManageSubscription } from "@/components/profile";
-import { capitalizeFirstLetter } from "@/lib/util";
 import { getSubscriptions } from "@/server/functions/subscriptions";
 
-import type Stripe from "stripe";
-
-interface Subscription {
-  id: Stripe.Subscription["id"];
-  customerId: Stripe.Customer["id"];
-  price: Stripe.Price;
-}
+import type { Subscription } from "@/lib/providers/billing";
 
 const columnHelper = createColumnHelper<Subscription>();
 
@@ -38,13 +31,9 @@ const columns = [
     header: "Sub ID",
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor("price", {
+  columnHelper.accessor("product", {
     header: "Tier",
-    cell: (info) => {
-      const price = info.getValue();
-
-      return capitalizeFirstLetter(price.metadata.tier);
-    },
+    cell: (info) => info.getValue()?.name ?? "—",
   }),
 ];
 

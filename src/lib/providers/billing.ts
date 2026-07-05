@@ -4,6 +4,8 @@ import { BILLING_BASE_URL } from "@/lib/config/env.config";
 
 export type {
   BillingProvider,
+  Entitlement,
+  EntitlementsResponse,
   Price,
   Subscription,
 } from "@omnidotdev/providers/billing";

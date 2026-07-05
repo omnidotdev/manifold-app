@@ -1,33 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
 
-import app from "@/lib/config/app.config";
 import { hasBilling } from "@/lib/config/env.config";
-import payments from "@/lib/payments";
+import billing from "@/lib/providers/billing";
 
-import type Stripe from "stripe";
+import type { Price } from "@/lib/providers/billing";
 
-/**
- * Expand a Stripe Price object with a Stripe Product object.
- * @see https://docs.stripe.com/api/prices/object
- * @see https://docs.stripe.com/api/products/object
- */
-export interface ExpandedProductPrice extends Stripe.Price {
-  product: Stripe.Product;
-}
+export type { Price };
 
 /**
- * Fetch all prices for this app from Stripe.
- * Prices are filtered by app name metadata and sorted by unit amount (ascending).
+ * Fetch all prices for this app via Aether, sorted by unit amount (ascending).
  */
 export const getPrices = createServerFn().handler(async () => {
   if (!hasBilling) return [];
 
-  const prices = await payments.prices.search({
-    query: `metadata['app']:'${app.name}'`,
-    expand: ["data.product"],
-  });
+  const prices = await billing.getPrices("manifold");
 
-  return prices.data.sort(
-    (a, b) => (a.unit_amount ?? Infinity) - (b.unit_amount ?? Infinity),
-  ) as ExpandedProductPrice[];
+  return prices.sort(
+    (a, b) =>
+      (a.unit_amount ?? Number.POSITIVE_INFINITY) -
+      (b.unit_amount ?? Number.POSITIVE_INFINITY),
+  );
 });
