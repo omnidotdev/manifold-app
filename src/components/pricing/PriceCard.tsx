@@ -34,21 +34,10 @@ import { capitalizeFirstLetter } from "@/lib/util";
 import cn from "@/lib/utils";
 import { createCheckoutWithWorkspace } from "@/server/functions/subscriptions";
 
-import type Stripe from "stripe";
 import type { Organization } from "@/lib/context/organization.context";
-import type { Subscription } from "@/lib/providers/billing";
+import type { Price, Subscription } from "@/lib/providers/billing";
 
-export interface Price {
-  id: Stripe.Price["id"];
-  unit_amount: Stripe.Price["unit_amount"];
-  product: {
-    name: Stripe.Product["name"];
-    description: Stripe.Product["description"];
-    marketing_features: Stripe.Product["marketing_features"];
-  };
-  recurring?: Stripe.Price["recurring"];
-  metadata?: Record<string, string>;
-}
+export type { Price };
 
 type Props = {
   price: Price;
