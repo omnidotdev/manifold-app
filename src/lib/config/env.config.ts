@@ -34,11 +34,6 @@ export const AUTH_INTERNAL_URL =
 
 export const CONSOLE_URL = import.meta.env.VITE_CONSOLE_URL;
 
-// Feature flags
-export const FLAGS_API_HOST = env.FLAGS_API_HOST || env.VITE_FLAGS_API_HOST;
-export const FLAGS_CLIENT_KEY =
-  env.FLAGS_CLIENT_KEY || env.VITE_FLAGS_CLIENT_KEY;
-
 export const API_GRAPHQL_URL = `${API_BASE_URL}/graphql`;
 
 // environment helpers
@@ -50,5 +45,3 @@ if (!BILLING_BASE_URL)
   console.warn("BILLING_BASE_URL not set, billing disabled");
 if (!AUTHZ_API_URL)
   console.warn("AUTHZ_API_URL not set, authorization disabled");
-if (!FLAGS_API_HOST)
-  console.warn("FLAGS_API_HOST not set, feature flags disabled");

@@ -6,7 +6,6 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
@@ -15,7 +14,6 @@ import { Toaster, toast } from "sonner";
 import { DefaultCatchBoundary, Footer, Header } from "@/components/layout";
 import app from "@/lib/config/app.config";
 import { isDevEnv } from "@/lib/config/env.config";
-import { fetchMaintenanceMode } from "@/lib/flags";
 import appCss from "@/lib/styles/globals.css?url";
 import createMetaTags from "@/lib/util/createMetaTags";
 import ThemeProvider from "@/providers/ThemeProvider";
@@ -41,59 +39,23 @@ function ComingSoon() {
 }
 
 /**
- * Maintenance page shown when the maintenance mode flag is enabled.
- */
-function MaintenancePage() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-linear-to-br from-indigo-900 to-indigo-800 p-8 text-white">
-      <div className="text-center">
-        <div className="mb-6 text-9xl">➰</div>
-        <h1 className="mb-4 font-bold text-4xl">Undergoing Transformation</h1>
-        <p className="max-w-md text-indigo-200 text-lg">
-          Manifold is smoothing out some singularities. We'll be back in your
-          neighborhood shortly.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/**
  * Root route.
  */
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
   auth: GetAuthSession | null;
   organizations: OrganizationClaim[];
-  isMaintenanceMode: boolean;
 }>()({
   beforeLoad: async () => {
     try {
       const { session, organizations } = await fetchSession();
 
-      // Pass user context for @omni.dev admin bypass
-      const email = session?.user?.email as string | undefined;
-      const context = email
-        ? {
-            userId: session!.user.id,
-            properties: { email },
-          }
-        : undefined;
-      const { isMaintenanceMode } = await fetchMaintenanceMode({
-        data: context,
-      });
-
-      // Skip auth when maintenance page is shown
-      if (isMaintenanceMode)
-        return { auth: null, organizations: [], isMaintenanceMode };
-
       return {
         auth: session as GetAuthSession | null,
         organizations,
-        isMaintenanceMode,
       };
     } catch {
-      return { auth: null, organizations: [], isMaintenanceMode: false };
+      return { auth: null, organizations: [] };
     }
   },
   head: () => ({
@@ -182,23 +144,6 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   // Keep the OAuth access token fresh while the user is idle
   useSessionRefresh(fetchSession);
-
-  const { isMaintenanceMode } = useRouteContext({ from: "__root__" });
-
-  // Show maintenance page when flag is enabled (bypass Header/Footer)
-  if (isMaintenanceMode) {
-    return (
-      <html suppressHydrationWarning lang="en" className="dark">
-        <head>
-          <HeadContent />
-        </head>
-        <body>
-          <MaintenancePage />
-          <Scripts />
-        </body>
-      </html>
-    );
-  }
 
   // Note: Production teaser is intentionally disabled for this app
   // To enable, uncomment the isDevEnv check below

@@ -1,7 +1,6 @@
 /**
  * Proxy route for /@omni/* web content.
- * Bypasses the app's maintenance page by handling requests
- * as a server-only API route, proxying to the manifold API.
+ * Handles requests as a server-only API route, proxying to the manifold API.
  */
 
 import { createFileRoute } from "@tanstack/react-router";

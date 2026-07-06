@@ -55,7 +55,6 @@ export const getRouter = () => {
       queryClient,
       auth: null,
       organizations: [],
-      isMaintenanceMode: false,
     },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
