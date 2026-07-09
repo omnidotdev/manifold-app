@@ -68,7 +68,7 @@
   "dependencies": {
     "@ark-ui/react": "^5.30.0",
     "@icons-pack/react-simple-icons": "^13.8.0",
-    "@omnidotdev/providers": "github:omnidotdev/providers#94513ca",
+    "@omnidotdev/providers": "github:omnidotdev/providers#5909b95",
     "@omnidotdev/thornberry": "github:omnidotdev/thornberry#eb634c7",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/nitro-v2-vite-plugin": "^1.141.0",
