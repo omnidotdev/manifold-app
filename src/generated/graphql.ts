@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 import { useMutation, useQuery, useInfiniteQuery, UseMutationOptions, UseQueryOptions, UseInfiniteQueryOptions, InfiniteData } from '@tanstack/react-query';
 import { graphqlFetch } from '@/lib/graphql/graphqlFetch';
 export type Maybe<T> = T | null;
@@ -4354,8 +4355,26 @@ export type RepositoriesByNamespaceQueryVariables = Exact<{
 export type RepositoriesByNamespaceQuery = { __typename?: 'Query', repositories?: { __typename?: 'RepositoryConnection', totalCount: number, nodes: Array<{ __typename?: 'Repository', id: string, rowId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, createdAt?: string | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number }, tags: { __typename?: 'TagConnection', totalCount: number } } | null> } | null };
 
 
+export class TypedDocumentString<TResult, TVariables>
+  extends String
+  implements DocumentTypeDecoration<TResult, TVariables>
+{
+  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
+  private value: string;
+  public __meta__?: Record<string, any> | undefined;
 
-export const CreateArtifactDocument = `
+  constructor(value: string, __meta__?: Record<string, any> | undefined) {
+    super(value);
+    this.value = value;
+    this.__meta__ = __meta__;
+  }
+
+  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
+    return this.value;
+  }
+}
+
+export const CreateArtifactDocument = new TypedDocumentString(`
     mutation CreateArtifact($input: CreateArtifactInput!) {
   createArtifact(input: $input) {
     artifact {
@@ -4369,7 +4388,7 @@ export const CreateArtifactDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useCreateArtifactMutation = <
       TError = unknown,
@@ -4389,7 +4408,7 @@ useCreateArtifactMutation.getKey = () => ['CreateArtifact'];
 
 useCreateArtifactMutation.fetcher = (variables: CreateArtifactMutationVariables, options?: RequestInit['headers']) => graphqlFetch<CreateArtifactMutation, CreateArtifactMutationVariables>(CreateArtifactDocument, variables, options);
 
-export const DeleteArtifactDocument = `
+export const DeleteArtifactDocument = new TypedDocumentString(`
     mutation DeleteArtifact($input: DeleteArtifactInput!) {
   deleteArtifact(input: $input) {
     artifact {
@@ -4398,7 +4417,7 @@ export const DeleteArtifactDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useDeleteArtifactMutation = <
       TError = unknown,
@@ -4418,7 +4437,7 @@ useDeleteArtifactMutation.getKey = () => ['DeleteArtifact'];
 
 useDeleteArtifactMutation.fetcher = (variables: DeleteArtifactMutationVariables, options?: RequestInit['headers']) => graphqlFetch<DeleteArtifactMutation, DeleteArtifactMutationVariables>(DeleteArtifactDocument, variables, options);
 
-export const CreateNamespaceDocument = `
+export const CreateNamespaceDocument = new TypedDocumentString(`
     mutation CreateNamespace($input: CreateNamespaceInput!) {
   createNamespace(input: $input) {
     namespace {
@@ -4429,7 +4448,7 @@ export const CreateNamespaceDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useCreateNamespaceMutation = <
       TError = unknown,
@@ -4449,7 +4468,7 @@ useCreateNamespaceMutation.getKey = () => ['CreateNamespace'];
 
 useCreateNamespaceMutation.fetcher = (variables: CreateNamespaceMutationVariables, options?: RequestInit['headers']) => graphqlFetch<CreateNamespaceMutation, CreateNamespaceMutationVariables>(CreateNamespaceDocument, variables, options);
 
-export const UpdateNamespaceDocument = `
+export const UpdateNamespaceDocument = new TypedDocumentString(`
     mutation UpdateNamespace($input: UpdateNamespaceInput!) {
   updateNamespace(input: $input) {
     namespace {
@@ -4460,7 +4479,7 @@ export const UpdateNamespaceDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useUpdateNamespaceMutation = <
       TError = unknown,
@@ -4480,7 +4499,7 @@ useUpdateNamespaceMutation.getKey = () => ['UpdateNamespace'];
 
 useUpdateNamespaceMutation.fetcher = (variables: UpdateNamespaceMutationVariables, options?: RequestInit['headers']) => graphqlFetch<UpdateNamespaceMutation, UpdateNamespaceMutationVariables>(UpdateNamespaceDocument, variables, options);
 
-export const DeleteNamespaceDocument = `
+export const DeleteNamespaceDocument = new TypedDocumentString(`
     mutation DeleteNamespace($input: DeleteNamespaceInput!) {
   deleteNamespace(input: $input) {
     namespace {
@@ -4489,7 +4508,7 @@ export const DeleteNamespaceDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useDeleteNamespaceMutation = <
       TError = unknown,
@@ -4509,7 +4528,7 @@ useDeleteNamespaceMutation.getKey = () => ['DeleteNamespace'];
 
 useDeleteNamespaceMutation.fetcher = (variables: DeleteNamespaceMutationVariables, options?: RequestInit['headers']) => graphqlFetch<DeleteNamespaceMutation, DeleteNamespaceMutationVariables>(DeleteNamespaceDocument, variables, options);
 
-export const CreateRepositoryDocument = `
+export const CreateRepositoryDocument = new TypedDocumentString(`
     mutation CreateRepository($input: CreateRepositoryInput!) {
   createRepository(input: $input) {
     repository {
@@ -4523,7 +4542,7 @@ export const CreateRepositoryDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useCreateRepositoryMutation = <
       TError = unknown,
@@ -4543,7 +4562,7 @@ useCreateRepositoryMutation.getKey = () => ['CreateRepository'];
 
 useCreateRepositoryMutation.fetcher = (variables: CreateRepositoryMutationVariables, options?: RequestInit['headers']) => graphqlFetch<CreateRepositoryMutation, CreateRepositoryMutationVariables>(CreateRepositoryDocument, variables, options);
 
-export const UpdateRepositoryDocument = `
+export const UpdateRepositoryDocument = new TypedDocumentString(`
     mutation UpdateRepository($input: UpdateRepositoryInput!) {
   updateRepository(input: $input) {
     repository {
@@ -4556,7 +4575,7 @@ export const UpdateRepositoryDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useUpdateRepositoryMutation = <
       TError = unknown,
@@ -4576,7 +4595,7 @@ useUpdateRepositoryMutation.getKey = () => ['UpdateRepository'];
 
 useUpdateRepositoryMutation.fetcher = (variables: UpdateRepositoryMutationVariables, options?: RequestInit['headers']) => graphqlFetch<UpdateRepositoryMutation, UpdateRepositoryMutationVariables>(UpdateRepositoryDocument, variables, options);
 
-export const DeleteRepositoryDocument = `
+export const DeleteRepositoryDocument = new TypedDocumentString(`
     mutation DeleteRepository($input: DeleteRepositoryInput!) {
   deleteRepository(input: $input) {
     repository {
@@ -4585,7 +4604,7 @@ export const DeleteRepositoryDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useDeleteRepositoryMutation = <
       TError = unknown,
@@ -4605,7 +4624,7 @@ useDeleteRepositoryMutation.getKey = () => ['DeleteRepository'];
 
 useDeleteRepositoryMutation.fetcher = (variables: DeleteRepositoryMutationVariables, options?: RequestInit['headers']) => graphqlFetch<DeleteRepositoryMutation, DeleteRepositoryMutationVariables>(DeleteRepositoryDocument, variables, options);
 
-export const CreateTagDocument = `
+export const CreateTagDocument = new TypedDocumentString(`
     mutation CreateTag($input: CreateTagInput!) {
   createTag(input: $input) {
     tag {
@@ -4618,7 +4637,7 @@ export const CreateTagDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useCreateTagMutation = <
       TError = unknown,
@@ -4638,7 +4657,7 @@ useCreateTagMutation.getKey = () => ['CreateTag'];
 
 useCreateTagMutation.fetcher = (variables: CreateTagMutationVariables, options?: RequestInit['headers']) => graphqlFetch<CreateTagMutation, CreateTagMutationVariables>(CreateTagDocument, variables, options);
 
-export const UpdateTagDocument = `
+export const UpdateTagDocument = new TypedDocumentString(`
     mutation UpdateTag($input: UpdateTagInput!) {
   updateTag(input: $input) {
     tag {
@@ -4650,7 +4669,7 @@ export const UpdateTagDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useUpdateTagMutation = <
       TError = unknown,
@@ -4670,7 +4689,7 @@ useUpdateTagMutation.getKey = () => ['UpdateTag'];
 
 useUpdateTagMutation.fetcher = (variables: UpdateTagMutationVariables, options?: RequestInit['headers']) => graphqlFetch<UpdateTagMutation, UpdateTagMutationVariables>(UpdateTagDocument, variables, options);
 
-export const DeleteTagDocument = `
+export const DeleteTagDocument = new TypedDocumentString(`
     mutation DeleteTag($input: DeleteTagInput!) {
   deleteTag(input: $input) {
     tag {
@@ -4679,7 +4698,7 @@ export const DeleteTagDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useDeleteTagMutation = <
       TError = unknown,
@@ -4699,7 +4718,7 @@ useDeleteTagMutation.getKey = () => ['DeleteTag'];
 
 useDeleteTagMutation.fetcher = (variables: DeleteTagMutationVariables, options?: RequestInit['headers']) => graphqlFetch<DeleteTagMutation, DeleteTagMutationVariables>(DeleteTagDocument, variables, options);
 
-export const NamespacesDocument = `
+export const NamespacesDocument = new TypedDocumentString(`
     query Namespaces($condition: NamespaceCondition, $first: Int, $offset: Int) {
   namespaces(condition: $condition, first: $first, offset: $offset) {
     nodes {
@@ -4715,7 +4734,7 @@ export const NamespacesDocument = `
     totalCount
   }
 }
-    `;
+    `);
 
 export const useNamespacesQuery = <
       TData = NamespacesQuery,
@@ -4759,7 +4778,7 @@ useInfiniteNamespacesQuery.getKey = (variables?: NamespacesQueryVariables) => va
 
 useNamespacesQuery.fetcher = (variables?: NamespacesQueryVariables, options?: RequestInit['headers']) => graphqlFetch<NamespacesQuery, NamespacesQueryVariables>(NamespacesDocument, variables, options);
 
-export const NamespaceDocument = `
+export const NamespaceDocument = new TypedDocumentString(`
     query Namespace($rowId: UUID!) {
   namespace(rowId: $rowId) {
     id
@@ -4788,7 +4807,7 @@ export const NamespaceDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useNamespaceQuery = <
       TData = NamespaceQuery,
@@ -4832,7 +4851,7 @@ useInfiniteNamespaceQuery.getKey = (variables: NamespaceQueryVariables) => ['Nam
 
 useNamespaceQuery.fetcher = (variables: NamespaceQueryVariables, options?: RequestInit['headers']) => graphqlFetch<NamespaceQuery, NamespaceQueryVariables>(NamespaceDocument, variables, options);
 
-export const NamespaceByNameDocument = `
+export const NamespaceByNameDocument = new TypedDocumentString(`
     query NamespaceByName($name: String!) {
   namespaceByName(name: $name) {
     id
@@ -4850,7 +4869,7 @@ export const NamespaceByNameDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useNamespaceByNameQuery = <
       TData = NamespaceByNameQuery,
@@ -4894,7 +4913,7 @@ useInfiniteNamespaceByNameQuery.getKey = (variables: NamespaceByNameQueryVariabl
 
 useNamespaceByNameQuery.fetcher = (variables: NamespaceByNameQueryVariables, options?: RequestInit['headers']) => graphqlFetch<NamespaceByNameQuery, NamespaceByNameQueryVariables>(NamespaceByNameDocument, variables, options);
 
-export const RepositoryDocument = `
+export const RepositoryDocument = new TypedDocumentString(`
     query Repository($rowId: UUID!) {
   repository(rowId: $rowId) {
     id
@@ -4940,7 +4959,7 @@ export const RepositoryDocument = `
     }
   }
 }
-    `;
+    `);
 
 export const useRepositoryQuery = <
       TData = RepositoryQuery,
@@ -4984,7 +5003,7 @@ useInfiniteRepositoryQuery.getKey = (variables: RepositoryQueryVariables) => ['R
 
 useRepositoryQuery.fetcher = (variables: RepositoryQueryVariables, options?: RequestInit['headers']) => graphqlFetch<RepositoryQuery, RepositoryQueryVariables>(RepositoryDocument, variables, options);
 
-export const RepositoriesByNamespaceDocument = `
+export const RepositoriesByNamespaceDocument = new TypedDocumentString(`
     query RepositoriesByNamespace($namespaceId: UUID!, $first: Int, $offset: Int) {
   repositories(
     condition: {namespaceId: $namespaceId}
@@ -5009,7 +5028,7 @@ export const RepositoriesByNamespaceDocument = `
     totalCount
   }
 }
-    `;
+    `);
 
 export const useRepositoriesByNamespaceQuery = <
       TData = RepositoriesByNamespaceQuery,
