@@ -58,7 +58,7 @@ function HomePage() {
         </div>
 
         {/* Schema Type Icons */}
-        <div className="mt-8 flex gap-8">
+        <div className="mt-8 flex flex-wrap justify-center gap-4 sm:gap-8">
           <SchemaTypeIcon
             icon={<FileJson className="h-8 w-8" />}
             label="OpenAPI"

@@ -3,7 +3,7 @@ import { Button } from "@omnidotdev/thornberry/button";
 import { LogoLockup } from "@omnidotdev/thornberry/logo-lockup";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
-import { ExternalLinkIcon } from "lucide-react";
+import { ExternalLinkIcon, Menu as MenuIcon } from "lucide-react";
 
 import { InternalLink } from "@/components/core";
 import { ThemeToggle } from "@/components/layout";
@@ -28,6 +28,20 @@ import app from "@/lib/config/app.config";
 import { CONSOLE_URL } from "@/lib/config/env.config";
 
 /**
+ * Primary navigation destinations, rendered inline on larger viewports and
+ * collapsed into the navigation menu on mobile.
+ */
+const NAV_LINKS = [{ to: "/pricing", label: "Pricing" }] as const;
+
+/**
+ * Navigation destinations only available to authenticated users.
+ */
+const AUTHED_NAV_LINKS = [
+  { to: "/registry", label: "Registry" },
+  { to: "/tokens", label: "Tokens" },
+] as const;
+
+/**
  * Layout header.
  */
 const Header = () => {
@@ -35,6 +49,9 @@ const Header = () => {
   const location = useLocation();
 
   const accountMenu = useMenu();
+  const navMenu = useMenu();
+
+  const navLinks = auth ? [...NAV_LINKS, ...AUTHED_NAV_LINKS] : NAV_LINKS;
 
   const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () =>
@@ -54,29 +71,49 @@ const Header = () => {
     <header className="fixed top-0 z-50 w-full border border-b bg-background shadow-sm blur-ms">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex gap-2">
+          <div className="flex min-w-0 gap-2">
             <InternalLink to="/" variant="unstyled" className="-ml-4">
               <LogoLockup name={app.name} nameClassName="font-bold text-xl" />
             </InternalLink>
 
-            <InternalLink to="/pricing" variant="ghost">
-              Pricing
-            </InternalLink>
-
-            {auth ? (
-              <>
-                <InternalLink to="/registry" variant="ghost">
-                  Registry
-                </InternalLink>
-
-                <InternalLink to="/tokens" variant="ghost">
-                  Tokens
-                </InternalLink>
-              </>
-            ) : null}
+            {navLinks.map(({ to, label }) => (
+              <InternalLink
+                key={to}
+                to={to}
+                variant="ghost"
+                className="hidden sm:inline-flex"
+              >
+                {label}
+              </InternalLink>
+            ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+            <MenuRootProvider value={navMenu}>
+              <MenuTrigger
+                aria-label="Open navigation menu"
+                className="inline-flex size-9 items-center justify-center rounded-md sm:hidden"
+              >
+                <MenuIcon className="size-5" />
+              </MenuTrigger>
+
+              <MenuPositioner>
+                <MenuContent className="min-w-40">
+                  {navLinks.map(({ to, label }) => (
+                    <MenuItem key={to} value={to} asChild>
+                      <InternalLink
+                        to={to}
+                        variant="unstyled"
+                        className="justify-start"
+                      >
+                        <MenuItemText>{label}</MenuItemText>
+                      </InternalLink>
+                    </MenuItem>
+                  ))}
+                </MenuContent>
+              </MenuPositioner>
+            </MenuRootProvider>
+
             <ThemeToggle />
 
             {auth ? (
