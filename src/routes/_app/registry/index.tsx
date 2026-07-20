@@ -33,8 +33,11 @@ function RegistryPage() {
       (n): n is NonNullable<typeof n> => n != null,
     ) ?? [];
 
-  const filteredNamespaces = namespaces.filter((ns) =>
-    ns.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  const query = searchQuery.toLowerCase();
+  const filteredNamespaces = namespaces.filter(
+    (ns) =>
+      ns.name.toLowerCase().includes(query) ||
+      (ns.description?.toLowerCase().includes(query) ?? false),
   );
 
   return (
