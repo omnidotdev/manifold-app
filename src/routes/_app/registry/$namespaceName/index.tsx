@@ -61,8 +61,11 @@ function NamespaceDetailPage() {
       (n): n is NonNullable<typeof n> => n != null,
     ) ?? [];
 
-  const filteredRepos = repositories.filter((repo) =>
-    repo.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  const query = searchQuery.toLowerCase();
+  const filteredRepos = repositories.filter(
+    (repo) =>
+      repo.name.toLowerCase().includes(query) ||
+      (repo.description?.toLowerCase().includes(query) ?? false),
   );
 
   const isLoading = nsLoading || reposLoading;
