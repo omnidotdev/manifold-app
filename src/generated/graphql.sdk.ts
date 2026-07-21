@@ -5703,7 +5703,7 @@ export type RepositoryQueryVariables = Exact<{
 }>;
 
 
-export type RepositoryQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, rowId: string, namespaceId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, createdAt?: string | null, updatedAt?: string | null, namespace?: { __typename?: 'Namespace', id: string, rowId: string, name: string } | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number, nodes: Array<{ __typename?: 'Artifact', id: string, rowId: string, digest: string, size: string, mediaType: string, content?: string | null, createdAt?: string | null } | null> }, tags: { __typename?: 'TagConnection', totalCount: number, nodes: Array<{ __typename?: 'Tag', id: string, rowId: string, name: string, artifactId: string, createdAt?: string | null, updatedAt?: string | null, artifact?: { __typename?: 'Artifact', digest: string, size: string } | null } | null> } } | null };
+export type RepositoryQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, rowId: string, namespaceId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, createdAt?: string | null, updatedAt?: string | null, namespace?: { __typename?: 'Namespace', id: string, rowId: string, name: string } | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number, nodes: Array<{ __typename?: 'Artifact', id: string, rowId: string, digest: string, size: string, mediaType: string, content?: string | null, createdAt?: string | null, scanResults: { __typename?: 'ScanResultConnection', nodes: Array<{ __typename?: 'ScanResult', status: string, critical: number, high: number, medium: number, low: number, unknown: number, scannedAt?: string | null } | null> } } | null> }, tags: { __typename?: 'TagConnection', totalCount: number, nodes: Array<{ __typename?: 'Tag', id: string, rowId: string, name: string, artifactId: string, createdAt?: string | null, updatedAt?: string | null, artifact?: { __typename?: 'Artifact', digest: string, size: string, scanResults: { __typename?: 'ScanResultConnection', nodes: Array<{ __typename?: 'ScanResult', status: string, critical: number, high: number, medium: number, low: number, unknown: number, scannedAt?: string | null } | null> } } | null } | null> } } | null };
 
 export type RepositoriesByNamespaceQueryVariables = Exact<{
   namespaceId: Scalars['UUID']['input'];
@@ -5943,6 +5943,17 @@ export const RepositoryDocument = gql`
         mediaType
         content
         createdAt
+        scanResults(first: 1, orderBy: [PRIMARY_KEY_DESC]) {
+          nodes {
+            status
+            critical
+            high
+            medium
+            low
+            unknown
+            scannedAt
+          }
+        }
       }
       totalCount
     }
@@ -5957,6 +5968,17 @@ export const RepositoryDocument = gql`
         artifact {
           digest
           size
+          scanResults(first: 1, orderBy: [PRIMARY_KEY_DESC]) {
+            nodes {
+              status
+              critical
+              high
+              medium
+              low
+              unknown
+              scannedAt
+            }
+          }
         }
       }
       totalCount

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import UploadArtifactModal from "@/components/namespace/UploadArtifactModal";
+import ScanBadge from "@/components/registry/ScanBadge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -223,6 +224,9 @@ function RepositoryDetailPage() {
                             Media Type
                           </th>
                           <th className="p-4 text-left font-medium text-sm">
+                            Security
+                          </th>
+                          <th className="p-4 text-left font-medium text-sm">
                             Created
                           </th>
                         </tr>
@@ -243,6 +247,9 @@ function RepositoryDetailPage() {
                             </td>
                             <td className="p-4 text-muted-foreground text-sm">
                               {artifact.mediaType}
+                            </td>
+                            <td className="p-4">
+                              <ScanBadge scan={artifact.scanResults.nodes[0]} />
                             </td>
                             <td className="p-4 text-muted-foreground text-sm">
                               {artifact.createdAt
@@ -292,6 +299,9 @@ function RepositoryDetailPage() {
                             Size
                           </th>
                           <th className="p-4 text-left font-medium text-sm">
+                            Security
+                          </th>
+                          <th className="p-4 text-left font-medium text-sm">
                             Created
                           </th>
                         </tr>
@@ -321,6 +331,11 @@ function RepositoryDetailPage() {
                               {tag.artifact
                                 ? formatBytes(Number(tag.artifact.size))
                                 : "-"}
+                            </td>
+                            <td className="p-4">
+                              <ScanBadge
+                                scan={tag.artifact?.scanResults.nodes[0]}
+                              />
                             </td>
                             <td className="p-4 text-muted-foreground text-sm">
                               {tag.createdAt
