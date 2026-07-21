@@ -24,6 +24,17 @@ query Repository($rowId: UUID!) {
         mediaType
         content
         createdAt
+        scanResults(first: 1, orderBy: [PRIMARY_KEY_DESC]) {
+          nodes {
+            status
+            critical
+            high
+            medium
+            low
+            unknown
+            scannedAt
+          }
+        }
       }
       totalCount
     }
@@ -38,6 +49,17 @@ query Repository($rowId: UUID!) {
         artifact {
           digest
           size
+          scanResults(first: 1, orderBy: [PRIMARY_KEY_DESC]) {
+            nodes {
+              status
+              critical
+              high
+              medium
+              low
+              unknown
+              scannedAt
+            }
+          }
         }
       }
       totalCount
