@@ -3,6 +3,7 @@ import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ChevronRight,
+  Download,
   Eye,
   EyeOff,
   Loader2,
@@ -24,6 +25,7 @@ import {
   isValidArtifactType,
 } from "@/lib/manifold/registry.types";
 import createMetaTags from "@/lib/util/createMetaTags";
+import formatCount from "@/lib/util/formatCount";
 
 export const Route = createFileRoute("/_app/registry/$namespaceName/$repoName")(
   {
@@ -143,6 +145,16 @@ function RepositoryDetailPage() {
                       <span>Private</span>
                     </>
                   )}
+                </div>
+              )}
+
+              {repository && (
+                <div
+                  className="flex items-center gap-1 text-muted-foreground text-sm"
+                  title={`${repository.downloadCount} downloads`}
+                >
+                  <Download className="h-4 w-4" />
+                  <span>{formatCount(repository.downloadCount)}</span>
                 </div>
               )}
             </div>

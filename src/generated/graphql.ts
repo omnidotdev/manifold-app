@@ -204,14 +204,19 @@ export type Artifact = Node & {
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   mediaType: Scalars['String']['output'];
+  /** Reads and enables pagination through a set of `NpmMetadatum`. */
+  npmMetadata: NpmMetadatumConnection;
   /** Reads a single `Repository` that is related to this `Artifact`. */
   repository?: Maybe<Repository>;
   repositoryId: Scalars['UUID']['output'];
   rowId: Scalars['UUID']['output'];
+  /** Reads and enables pagination through a set of `ScanResult`. */
+  scanResults: ScanResultConnection;
   /** Reads a single `SchemaMetadatum` that is related to this `Artifact`. */
   schemaMetadatum?: Maybe<SchemaMetadatum>;
   size: Scalars['BigInt']['output'];
   storagePath?: Maybe<Scalars['String']['output']>;
+  subject?: Maybe<Scalars['String']['output']>;
   /** Reads and enables pagination through a set of `Tag`. */
   tags: TagConnection;
   /** Reads a single `WasmMetadatum` that is related to this `Artifact`. */
@@ -228,6 +233,30 @@ export type ArtifactCargoMetadataArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<CargoMetadatumOrderBy>>;
+};
+
+
+export type ArtifactNpmMetadataArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NpmMetadatumCondition>;
+  filter?: InputMaybe<NpmMetadatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpmMetadatumOrderBy>>;
+};
+
+
+export type ArtifactScanResultsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<ScanResultCondition>;
+  filter?: InputMaybe<ScanResultFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ScanResultOrderBy>>;
 };
 
 
@@ -253,6 +282,8 @@ export type ArtifactCondition = {
   repositoryId?: InputMaybe<Scalars['UUID']['input']>;
   /** Checks for equality with the object’s `rowId` field. */
   rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `subject` field. */
+  subject?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** A connection to a list of `Artifact` values. */
@@ -293,6 +324,10 @@ export type ArtifactFilter = {
   digest?: InputMaybe<StringFilter>;
   /** Negates the expression. */
   not?: InputMaybe<ArtifactFilter>;
+  /** Filter by the object’s `npmMetadata` relation. */
+  npmMetadata?: InputMaybe<ArtifactToManyNpmMetadatumFilter>;
+  /** Some related `npmMetadata` exist. */
+  npmMetadataExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<ArtifactFilter>>;
   /** Filter by the object’s `repository` relation. */
@@ -301,10 +336,16 @@ export type ArtifactFilter = {
   repositoryId?: InputMaybe<UuidFilter>;
   /** Filter by the object’s `rowId` field. */
   rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `scanResults` relation. */
+  scanResults?: InputMaybe<ArtifactToManyScanResultFilter>;
+  /** Some related `scanResults` exist. */
+  scanResultsExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `schemaMetadatum` relation. */
   schemaMetadatum?: InputMaybe<SchemaMetadatumFilter>;
   /** A related `schemaMetadatum` exists. */
   schemaMetadatumExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `subject` field. */
+  subject?: InputMaybe<StringFilter>;
   /** Filter by the object’s `tags` relation. */
   tags?: InputMaybe<ArtifactToManyTagFilter>;
   /** Some related `tags` exist. */
@@ -325,6 +366,7 @@ export type ArtifactInput = {
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   size: Scalars['BigInt']['input'];
   storagePath?: InputMaybe<Scalars['String']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Methods to use when ordering `Artifact`. */
@@ -337,7 +379,9 @@ export enum ArtifactOrderBy {
   RepositoryIdAsc = 'REPOSITORY_ID_ASC',
   RepositoryIdDesc = 'REPOSITORY_ID_DESC',
   RowIdAsc = 'ROW_ID_ASC',
-  RowIdDesc = 'ROW_ID_DESC'
+  RowIdDesc = 'ROW_ID_DESC',
+  SubjectAsc = 'SUBJECT_ASC',
+  SubjectDesc = 'SUBJECT_DESC'
 }
 
 /** Represents an update to a `Artifact`. Fields that are set will be updated. */
@@ -350,6 +394,7 @@ export type ArtifactPatch = {
   rowId?: InputMaybe<Scalars['UUID']['input']>;
   size?: InputMaybe<Scalars['BigInt']['input']>;
   storagePath?: InputMaybe<Scalars['String']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** A filter to be used against many `CargoMetadatum` object types. All fields are combined with a logical ‘and.’ */
@@ -360,6 +405,26 @@ export type ArtifactToManyCargoMetadatumFilter = {
   none?: InputMaybe<CargoMetadatumFilter>;
   /** Some related `CargoMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<CargoMetadatumFilter>;
+};
+
+/** A filter to be used against many `NpmMetadatum` object types. All fields are combined with a logical ‘and.’ */
+export type ArtifactToManyNpmMetadatumFilter = {
+  /** Every related `NpmMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<NpmMetadatumFilter>;
+  /** No related `NpmMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<NpmMetadatumFilter>;
+  /** Some related `NpmMetadatum` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<NpmMetadatumFilter>;
+};
+
+/** A filter to be used against many `ScanResult` object types. All fields are combined with a logical ‘and.’ */
+export type ArtifactToManyScanResultFilter = {
+  /** Every related `ScanResult` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<ScanResultFilter>;
+  /** No related `ScanResult` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<ScanResultFilter>;
+  /** Some related `ScanResult` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<ScanResultFilter>;
 };
 
 /** A filter to be used against many `Tag` object types. All fields are combined with a logical ‘and.’ */
@@ -844,6 +909,105 @@ export type CreateNamespacePayloadNamespaceEdgeArgs = {
   orderBy?: Array<NamespaceOrderBy>;
 };
 
+/** All input for the create `NpmDistTag` mutation. */
+export type CreateNpmDistTagInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `NpmDistTag` to be created by this mutation. */
+  npmDistTag: NpmDistTagInput;
+};
+
+/** The output of our create `NpmDistTag` mutation. */
+export type CreateNpmDistTagPayload = {
+  __typename?: 'CreateNpmDistTagPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `NpmDistTag` that was created by this mutation. */
+  npmDistTag?: Maybe<NpmDistTag>;
+  /** An edge for our `NpmDistTag`. May be used by Relay 1. */
+  npmDistTagEdge?: Maybe<NpmDistTagEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `NpmDistTag` mutation. */
+export type CreateNpmDistTagPayloadNpmDistTagEdgeArgs = {
+  orderBy?: Array<NpmDistTagOrderBy>;
+};
+
+/** All input for the create `NpmMetadatum` mutation. */
+export type CreateNpmMetadatumInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `NpmMetadatum` to be created by this mutation. */
+  npmMetadatum: NpmMetadatumInput;
+};
+
+/** The output of our create `NpmMetadatum` mutation. */
+export type CreateNpmMetadatumPayload = {
+  __typename?: 'CreateNpmMetadatumPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `NpmMetadatum` that was created by this mutation. */
+  npmMetadatum?: Maybe<NpmMetadatum>;
+  /** An edge for our `NpmMetadatum`. May be used by Relay 1. */
+  npmMetadatumEdge?: Maybe<NpmMetadatumEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `NpmMetadatum` mutation. */
+export type CreateNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
+  orderBy?: Array<NpmMetadatumOrderBy>;
+};
+
+/** All input for the create `Plugin` mutation. */
+export type CreatePluginInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `Plugin` to be created by this mutation. */
+  plugin: PluginInput;
+};
+
+/** The output of our create `Plugin` mutation. */
+export type CreatePluginPayload = {
+  __typename?: 'CreatePluginPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `Plugin` that was created by this mutation. */
+  plugin?: Maybe<Plugin>;
+  /** An edge for our `Plugin`. May be used by Relay 1. */
+  pluginEdge?: Maybe<PluginEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `Plugin` mutation. */
+export type CreatePluginPayloadPluginEdgeArgs = {
+  orderBy?: Array<PluginOrderBy>;
+};
+
 /** All input for the create `Repository` mutation. */
 export type CreateRepositoryInput = {
   /**
@@ -875,6 +1039,39 @@ export type CreateRepositoryPayload = {
 /** The output of our create `Repository` mutation. */
 export type CreateRepositoryPayloadRepositoryEdgeArgs = {
   orderBy?: Array<RepositoryOrderBy>;
+};
+
+/** All input for the create `ScanResult` mutation. */
+export type CreateScanResultInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `ScanResult` to be created by this mutation. */
+  scanResult: ScanResultInput;
+};
+
+/** The output of our create `ScanResult` mutation. */
+export type CreateScanResultPayload = {
+  __typename?: 'CreateScanResultPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `ScanResult` that was created by this mutation. */
+  scanResult?: Maybe<ScanResult>;
+  /** An edge for our `ScanResult`. May be used by Relay 1. */
+  scanResultEdge?: Maybe<ScanResultEdge>;
+};
+
+
+/** The output of our create `ScanResult` mutation. */
+export type CreateScanResultPayloadScanResultEdgeArgs = {
+  orderBy?: Array<ScanResultOrderBy>;
 };
 
 /** All input for the create `SchemaMetadatum` mutation. */
@@ -1363,6 +1560,148 @@ export type DeleteNamespacePayloadNamespaceEdgeArgs = {
   orderBy?: Array<NamespaceOrderBy>;
 };
 
+/** All input for the `deleteNpmDistTagById` mutation. */
+export type DeleteNpmDistTagByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `NpmDistTag` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteNpmDistTag` mutation. */
+export type DeleteNpmDistTagInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `NpmDistTag` mutation. */
+export type DeleteNpmDistTagPayload = {
+  __typename?: 'DeleteNpmDistTagPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedNpmDistTagId?: Maybe<Scalars['ID']['output']>;
+  /** The `NpmDistTag` that was deleted by this mutation. */
+  npmDistTag?: Maybe<NpmDistTag>;
+  /** An edge for our `NpmDistTag`. May be used by Relay 1. */
+  npmDistTagEdge?: Maybe<NpmDistTagEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `NpmDistTag` mutation. */
+export type DeleteNpmDistTagPayloadNpmDistTagEdgeArgs = {
+  orderBy?: Array<NpmDistTagOrderBy>;
+};
+
+/** All input for the `deleteNpmMetadatumById` mutation. */
+export type DeleteNpmMetadatumByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `NpmMetadatum` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteNpmMetadatum` mutation. */
+export type DeleteNpmMetadatumInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `NpmMetadatum` mutation. */
+export type DeleteNpmMetadatumPayload = {
+  __typename?: 'DeleteNpmMetadatumPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedNpmMetadatumId?: Maybe<Scalars['ID']['output']>;
+  /** The `NpmMetadatum` that was deleted by this mutation. */
+  npmMetadatum?: Maybe<NpmMetadatum>;
+  /** An edge for our `NpmMetadatum`. May be used by Relay 1. */
+  npmMetadatumEdge?: Maybe<NpmMetadatumEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `NpmMetadatum` mutation. */
+export type DeleteNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
+  orderBy?: Array<NpmMetadatumOrderBy>;
+};
+
+/** All input for the `deletePluginById` mutation. */
+export type DeletePluginByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `Plugin` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deletePluginByName` mutation. */
+export type DeletePluginByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+};
+
+/** All input for the `deletePlugin` mutation. */
+export type DeletePluginInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `Plugin` mutation. */
+export type DeletePluginPayload = {
+  __typename?: 'DeletePluginPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedPluginId?: Maybe<Scalars['ID']['output']>;
+  /** The `Plugin` that was deleted by this mutation. */
+  plugin?: Maybe<Plugin>;
+  /** An edge for our `Plugin`. May be used by Relay 1. */
+  pluginEdge?: Maybe<PluginEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `Plugin` mutation. */
+export type DeletePluginPayloadPluginEdgeArgs = {
+  orderBy?: Array<PluginOrderBy>;
+};
+
 /** All input for the `deleteRepositoryById` mutation. */
 export type DeleteRepositoryByIdInput = {
   /**
@@ -1405,6 +1744,50 @@ export type DeleteRepositoryPayload = {
 /** The output of our delete `Repository` mutation. */
 export type DeleteRepositoryPayloadRepositoryEdgeArgs = {
   orderBy?: Array<RepositoryOrderBy>;
+};
+
+/** All input for the `deleteScanResultById` mutation. */
+export type DeleteScanResultByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `ScanResult` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteScanResult` mutation. */
+export type DeleteScanResultInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `ScanResult` mutation. */
+export type DeleteScanResultPayload = {
+  __typename?: 'DeleteScanResultPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedScanResultId?: Maybe<Scalars['ID']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `ScanResult` that was deleted by this mutation. */
+  scanResult?: Maybe<ScanResult>;
+  /** An edge for our `ScanResult`. May be used by Relay 1. */
+  scanResultEdge?: Maybe<ScanResultEdge>;
+};
+
+
+/** The output of our delete `ScanResult` mutation. */
+export type DeleteScanResultPayloadScanResultEdgeArgs = {
+  orderBy?: Array<ScanResultOrderBy>;
 };
 
 /** All input for the `deleteSchemaMetadatumById` mutation. */
@@ -1872,8 +2255,16 @@ export type Mutation = {
   createFederatedSource?: Maybe<CreateFederatedSourcePayload>;
   /** Creates a single `Namespace`. */
   createNamespace?: Maybe<CreateNamespacePayload>;
+  /** Creates a single `NpmDistTag`. */
+  createNpmDistTag?: Maybe<CreateNpmDistTagPayload>;
+  /** Creates a single `NpmMetadatum`. */
+  createNpmMetadatum?: Maybe<CreateNpmMetadatumPayload>;
+  /** Creates a single `Plugin`. */
+  createPlugin?: Maybe<CreatePluginPayload>;
   /** Creates a single `Repository`. */
   createRepository?: Maybe<CreateRepositoryPayload>;
+  /** Creates a single `ScanResult`. */
+  createScanResult?: Maybe<CreateScanResultPayload>;
   /** Creates a single `SchemaMetadatum`. */
   createSchemaMetadatum?: Maybe<CreateSchemaMetadatumPayload>;
   /** Creates a single `Tag`. */
@@ -1914,10 +2305,28 @@ export type Mutation = {
   deleteNamespaceById?: Maybe<DeleteNamespacePayload>;
   /** Deletes a single `Namespace` using a unique key. */
   deleteNamespaceByName?: Maybe<DeleteNamespacePayload>;
+  /** Deletes a single `NpmDistTag` using a unique key. */
+  deleteNpmDistTag?: Maybe<DeleteNpmDistTagPayload>;
+  /** Deletes a single `NpmDistTag` using its globally unique id. */
+  deleteNpmDistTagById?: Maybe<DeleteNpmDistTagPayload>;
+  /** Deletes a single `NpmMetadatum` using a unique key. */
+  deleteNpmMetadatum?: Maybe<DeleteNpmMetadatumPayload>;
+  /** Deletes a single `NpmMetadatum` using its globally unique id. */
+  deleteNpmMetadatumById?: Maybe<DeleteNpmMetadatumPayload>;
+  /** Deletes a single `Plugin` using a unique key. */
+  deletePlugin?: Maybe<DeletePluginPayload>;
+  /** Deletes a single `Plugin` using its globally unique id. */
+  deletePluginById?: Maybe<DeletePluginPayload>;
+  /** Deletes a single `Plugin` using a unique key. */
+  deletePluginByName?: Maybe<DeletePluginPayload>;
   /** Deletes a single `Repository` using a unique key. */
   deleteRepository?: Maybe<DeleteRepositoryPayload>;
   /** Deletes a single `Repository` using its globally unique id. */
   deleteRepositoryById?: Maybe<DeleteRepositoryPayload>;
+  /** Deletes a single `ScanResult` using a unique key. */
+  deleteScanResult?: Maybe<DeleteScanResultPayload>;
+  /** Deletes a single `ScanResult` using its globally unique id. */
+  deleteScanResultById?: Maybe<DeleteScanResultPayload>;
   /** Deletes a single `SchemaMetadatum` using a unique key. */
   deleteSchemaMetadatum?: Maybe<DeleteSchemaMetadatumPayload>;
   /** Deletes a single `SchemaMetadatum` using its globally unique id. */
@@ -1966,10 +2375,28 @@ export type Mutation = {
   updateNamespaceById?: Maybe<UpdateNamespacePayload>;
   /** Updates a single `Namespace` using a unique key and a patch. */
   updateNamespaceByName?: Maybe<UpdateNamespacePayload>;
+  /** Updates a single `NpmDistTag` using a unique key and a patch. */
+  updateNpmDistTag?: Maybe<UpdateNpmDistTagPayload>;
+  /** Updates a single `NpmDistTag` using its globally unique id and a patch. */
+  updateNpmDistTagById?: Maybe<UpdateNpmDistTagPayload>;
+  /** Updates a single `NpmMetadatum` using a unique key and a patch. */
+  updateNpmMetadatum?: Maybe<UpdateNpmMetadatumPayload>;
+  /** Updates a single `NpmMetadatum` using its globally unique id and a patch. */
+  updateNpmMetadatumById?: Maybe<UpdateNpmMetadatumPayload>;
+  /** Updates a single `Plugin` using a unique key and a patch. */
+  updatePlugin?: Maybe<UpdatePluginPayload>;
+  /** Updates a single `Plugin` using its globally unique id and a patch. */
+  updatePluginById?: Maybe<UpdatePluginPayload>;
+  /** Updates a single `Plugin` using a unique key and a patch. */
+  updatePluginByName?: Maybe<UpdatePluginPayload>;
   /** Updates a single `Repository` using a unique key and a patch. */
   updateRepository?: Maybe<UpdateRepositoryPayload>;
   /** Updates a single `Repository` using its globally unique id and a patch. */
   updateRepositoryById?: Maybe<UpdateRepositoryPayload>;
+  /** Updates a single `ScanResult` using a unique key and a patch. */
+  updateScanResult?: Maybe<UpdateScanResultPayload>;
+  /** Updates a single `ScanResult` using its globally unique id and a patch. */
+  updateScanResultById?: Maybe<UpdateScanResultPayload>;
   /** Updates a single `SchemaMetadatum` using a unique key and a patch. */
   updateSchemaMetadatum?: Maybe<UpdateSchemaMetadatumPayload>;
   /** Updates a single `SchemaMetadatum` using its globally unique id and a patch. */
@@ -2032,8 +2459,32 @@ export type MutationCreateNamespaceArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateNpmDistTagArgs = {
+  input: CreateNpmDistTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateNpmMetadatumArgs = {
+  input: CreateNpmMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreatePluginArgs = {
+  input: CreatePluginInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateRepositoryArgs = {
   input: CreateRepositoryInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateScanResultArgs = {
+  input: CreateScanResultInput;
 };
 
 
@@ -2158,6 +2609,48 @@ export type MutationDeleteNamespaceByNameArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteNpmDistTagArgs = {
+  input: DeleteNpmDistTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteNpmDistTagByIdArgs = {
+  input: DeleteNpmDistTagByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteNpmMetadatumArgs = {
+  input: DeleteNpmMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteNpmMetadatumByIdArgs = {
+  input: DeleteNpmMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePluginArgs = {
+  input: DeletePluginInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePluginByIdArgs = {
+  input: DeletePluginByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeletePluginByNameArgs = {
+  input: DeletePluginByNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRepositoryArgs = {
   input: DeleteRepositoryInput;
 };
@@ -2166,6 +2659,18 @@ export type MutationDeleteRepositoryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteRepositoryByIdArgs = {
   input: DeleteRepositoryByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteScanResultArgs = {
+  input: DeleteScanResultInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteScanResultByIdArgs = {
+  input: DeleteScanResultByIdInput;
 };
 
 
@@ -2314,6 +2819,48 @@ export type MutationUpdateNamespaceByNameArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateNpmDistTagArgs = {
+  input: UpdateNpmDistTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateNpmDistTagByIdArgs = {
+  input: UpdateNpmDistTagByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateNpmMetadatumArgs = {
+  input: UpdateNpmMetadatumInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateNpmMetadatumByIdArgs = {
+  input: UpdateNpmMetadatumByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePluginArgs = {
+  input: UpdatePluginInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePluginByIdArgs = {
+  input: UpdatePluginByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdatePluginByNameArgs = {
+  input: UpdatePluginByNameInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRepositoryArgs = {
   input: UpdateRepositoryInput;
 };
@@ -2322,6 +2869,18 @@ export type MutationUpdateRepositoryArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateRepositoryByIdArgs = {
   input: UpdateRepositoryByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateScanResultArgs = {
+  input: UpdateScanResultInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateScanResultByIdArgs = {
+  input: UpdateScanResultByIdInput;
 };
 
 
@@ -2530,6 +3089,221 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
+export type NpmDistTag = Node & {
+  __typename?: 'NpmDistTag';
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  /** Reads a single `Repository` that is related to this `NpmDistTag`. */
+  repository?: Maybe<Repository>;
+  repositoryId: Scalars['UUID']['output'];
+  rowId: Scalars['UUID']['output'];
+  tag: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+  version: Scalars['String']['output'];
+};
+
+/**
+ * A condition to be used against `NpmDistTag` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type NpmDistTagCondition = {
+  /** Checks for equality with the object’s `repositoryId` field. */
+  repositoryId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `tag` field. */
+  tag?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `NpmDistTag` values. */
+export type NpmDistTagConnection = {
+  __typename?: 'NpmDistTagConnection';
+  /** A list of edges which contains the `NpmDistTag` and cursor to aid in pagination. */
+  edges: Array<Maybe<NpmDistTagEdge>>;
+  /** A list of `NpmDistTag` objects. */
+  nodes: Array<Maybe<NpmDistTag>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `NpmDistTag` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `NpmDistTag` edge in the connection. */
+export type NpmDistTagEdge = {
+  __typename?: 'NpmDistTagEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `NpmDistTag` at the end of the edge. */
+  node?: Maybe<NpmDistTag>;
+};
+
+/** A filter to be used against `NpmDistTag` object types. All fields are combined with a logical ‘and.’ */
+export type NpmDistTagFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<NpmDistTagFilter>>;
+  /** Negates the expression. */
+  not?: InputMaybe<NpmDistTagFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<NpmDistTagFilter>>;
+  /** Filter by the object’s `repository` relation. */
+  repository?: InputMaybe<RepositoryFilter>;
+  /** Filter by the object’s `repositoryId` field. */
+  repositoryId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `tag` field. */
+  tag?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `NpmDistTag` */
+export type NpmDistTagInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  repositoryId: Scalars['UUID']['input'];
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  tag: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version: Scalars['String']['input'];
+};
+
+/** Methods to use when ordering `NpmDistTag`. */
+export enum NpmDistTagOrderBy {
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RepositoryIdAsc = 'REPOSITORY_ID_ASC',
+  RepositoryIdDesc = 'REPOSITORY_ID_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  TagAsc = 'TAG_ASC',
+  TagDesc = 'TAG_DESC'
+}
+
+/** Represents an update to a `NpmDistTag`. Fields that are set will be updated. */
+export type NpmDistTagPatch = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  repositoryId?: InputMaybe<Scalars['UUID']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  tag?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type NpmMetadatum = Node & {
+  __typename?: 'NpmMetadatum';
+  /** Reads a single `Artifact` that is related to this `NpmMetadatum`. */
+  artifact?: Maybe<Artifact>;
+  artifactId: Scalars['UUID']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  integrity: Scalars['String']['output'];
+  manifest: Scalars['JSON']['output'];
+  name: Scalars['String']['output'];
+  rowId: Scalars['UUID']['output'];
+  shasum: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+  version: Scalars['String']['output'];
+};
+
+/**
+ * A condition to be used against `NpmMetadatum` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type NpmMetadatumCondition = {
+  /** Checks for equality with the object’s `artifactId` field. */
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `version` field. */
+  version?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `NpmMetadatum` values. */
+export type NpmMetadatumConnection = {
+  __typename?: 'NpmMetadatumConnection';
+  /** A list of edges which contains the `NpmMetadatum` and cursor to aid in pagination. */
+  edges: Array<Maybe<NpmMetadatumEdge>>;
+  /** A list of `NpmMetadatum` objects. */
+  nodes: Array<Maybe<NpmMetadatum>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `NpmMetadatum` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `NpmMetadatum` edge in the connection. */
+export type NpmMetadatumEdge = {
+  __typename?: 'NpmMetadatumEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `NpmMetadatum` at the end of the edge. */
+  node?: Maybe<NpmMetadatum>;
+};
+
+/** A filter to be used against `NpmMetadatum` object types. All fields are combined with a logical ‘and.’ */
+export type NpmMetadatumFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<NpmMetadatumFilter>>;
+  /** Filter by the object’s `artifact` relation. */
+  artifact?: InputMaybe<ArtifactFilter>;
+  /** Filter by the object’s `artifactId` field. */
+  artifactId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<NpmMetadatumFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<NpmMetadatumFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `version` field. */
+  version?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `NpmMetadatum` */
+export type NpmMetadatumInput = {
+  artifactId: Scalars['UUID']['input'];
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  integrity: Scalars['String']['input'];
+  manifest: Scalars['JSON']['input'];
+  name: Scalars['String']['input'];
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  shasum: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version: Scalars['String']['input'];
+};
+
+/** Methods to use when ordering `NpmMetadatum`. */
+export enum NpmMetadatumOrderBy {
+  ArtifactIdAsc = 'ARTIFACT_ID_ASC',
+  ArtifactIdDesc = 'ARTIFACT_ID_DESC',
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  VersionAsc = 'VERSION_ASC',
+  VersionDesc = 'VERSION_DESC'
+}
+
+/** Represents an update to a `NpmMetadatum`. Fields that are set will be updated. */
+export type NpmMetadatumPatch = {
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  integrity?: InputMaybe<Scalars['String']['input']>;
+  manifest?: InputMaybe<Scalars['JSON']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  shasum?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -2541,6 +3315,108 @@ export type PageInfo = {
   hasPreviousPage: Scalars['Boolean']['output'];
   /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['Cursor']['output']>;
+};
+
+export type Plugin = Node & {
+  __typename?: 'Plugin';
+  bin?: Maybe<Scalars['String']['output']>;
+  commands?: Maybe<Scalars['JSON']['output']>;
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  description: Scalars['String']['output'];
+  endpoint?: Maybe<Scalars['String']['output']>;
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  packages?: Maybe<Scalars['JSON']['output']>;
+  rowId: Scalars['UUID']['output'];
+  type: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+  version: Scalars['String']['output'];
+};
+
+/** A condition to be used against `Plugin` object types. All fields are tested for equality and combined with a logical ‘and.’ */
+export type PluginCondition = {
+  /** Checks for equality with the object’s `name` field. */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+/** A connection to a list of `Plugin` values. */
+export type PluginConnection = {
+  __typename?: 'PluginConnection';
+  /** A list of edges which contains the `Plugin` and cursor to aid in pagination. */
+  edges: Array<Maybe<PluginEdge>>;
+  /** A list of `Plugin` objects. */
+  nodes: Array<Maybe<Plugin>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `Plugin` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `Plugin` edge in the connection. */
+export type PluginEdge = {
+  __typename?: 'PluginEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `Plugin` at the end of the edge. */
+  node?: Maybe<Plugin>;
+};
+
+/** A filter to be used against `Plugin` object types. All fields are combined with a logical ‘and.’ */
+export type PluginFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<PluginFilter>>;
+  /** Filter by the object’s `name` field. */
+  name?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<PluginFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<PluginFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+};
+
+/** An input for mutations affecting `Plugin` */
+export type PluginInput = {
+  bin?: InputMaybe<Scalars['String']['input']>;
+  commands?: InputMaybe<Scalars['JSON']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  description: Scalars['String']['input'];
+  endpoint?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  packages?: InputMaybe<Scalars['JSON']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  type: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version: Scalars['String']['input'];
+};
+
+/** Methods to use when ordering `Plugin`. */
+export enum PluginOrderBy {
+  NameAsc = 'NAME_ASC',
+  NameDesc = 'NAME_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC'
+}
+
+/** Represents an update to a `Plugin`. Fields that are set will be updated. */
+export type PluginPatch = {
+  bin?: InputMaybe<Scalars['String']['input']>;
+  commands?: InputMaybe<Scalars['JSON']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endpoint?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  packages?: InputMaybe<Scalars['JSON']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** The root query type which gives access points into the data universe. */
@@ -2596,6 +3472,26 @@ export type Query = Node & {
   namespaces?: Maybe<NamespaceConnection>;
   /** Fetches an object given its globally unique `ID`. */
   node?: Maybe<Node>;
+  /** Get a single `NpmDistTag`. */
+  npmDistTag?: Maybe<NpmDistTag>;
+  /** Reads a single `NpmDistTag` using its globally unique `ID`. */
+  npmDistTagById?: Maybe<NpmDistTag>;
+  /** Reads and enables pagination through a set of `NpmDistTag`. */
+  npmDistTags?: Maybe<NpmDistTagConnection>;
+  /** Reads and enables pagination through a set of `NpmMetadatum`. */
+  npmMetadata?: Maybe<NpmMetadatumConnection>;
+  /** Get a single `NpmMetadatum`. */
+  npmMetadatum?: Maybe<NpmMetadatum>;
+  /** Reads a single `NpmMetadatum` using its globally unique `ID`. */
+  npmMetadatumById?: Maybe<NpmMetadatum>;
+  /** Get a single `Plugin`. */
+  plugin?: Maybe<Plugin>;
+  /** Reads a single `Plugin` using its globally unique `ID`. */
+  pluginById?: Maybe<Plugin>;
+  /** Get a single `Plugin`. */
+  pluginByName?: Maybe<Plugin>;
+  /** Reads and enables pagination through a set of `Plugin`. */
+  plugins?: Maybe<PluginConnection>;
   /**
    * Exposes the root query type nested one level down. This is helpful for Relay 1
    * which can only query top level fields if they are in a particular form.
@@ -2607,6 +3503,12 @@ export type Query = Node & {
   repository?: Maybe<Repository>;
   /** Reads a single `Repository` using its globally unique `ID`. */
   repositoryById?: Maybe<Repository>;
+  /** Get a single `ScanResult`. */
+  scanResult?: Maybe<ScanResult>;
+  /** Reads a single `ScanResult` using its globally unique `ID`. */
+  scanResultById?: Maybe<ScanResult>;
+  /** Reads and enables pagination through a set of `ScanResult`. */
+  scanResults?: Maybe<ScanResultConnection>;
   /** Reads and enables pagination through a set of `SchemaMetadatum`. */
   schemaMetadata?: Maybe<SchemaMetadatumConnection>;
   /** Get a single `SchemaMetadatum`. */
@@ -2828,6 +3730,87 @@ export type QueryNodeArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
+export type QueryNpmDistTagArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNpmDistTagByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNpmDistTagsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NpmDistTagCondition>;
+  filter?: InputMaybe<NpmDistTagFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpmDistTagOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNpmMetadataArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NpmMetadatumCondition>;
+  filter?: InputMaybe<NpmMetadatumFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpmMetadatumOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNpmMetadatumArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryNpmMetadatumByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPluginArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPluginByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPluginByNameArgs = {
+  name: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryPluginsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<PluginCondition>;
+  filter?: InputMaybe<PluginFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<PluginOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
 export type QueryRepositoriesArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -2849,6 +3832,31 @@ export type QueryRepositoryArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryRepositoryByIdArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryScanResultArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryScanResultByIdArgs = {
+  id: Scalars['ID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryScanResultsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<ScanResultCondition>;
+  filter?: InputMaybe<ScanResultFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<ScanResultOrderBy>>;
 };
 
 
@@ -2960,6 +3968,7 @@ export type Repository = Node & {
   artifacts: ArtifactConnection;
   createdAt?: Maybe<Scalars['Datetime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  downloadCount: Scalars['BigInt']['output'];
   /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
   id: Scalars['ID']['output'];
   isPublic: Scalars['Boolean']['output'];
@@ -2967,6 +3976,8 @@ export type Repository = Node & {
   /** Reads a single `Namespace` that is related to this `Repository`. */
   namespace?: Maybe<Namespace>;
   namespaceId: Scalars['UUID']['output'];
+  /** Reads and enables pagination through a set of `NpmDistTag`. */
+  npmDistTags: NpmDistTagConnection;
   rowId: Scalars['UUID']['output'];
   /** Reads and enables pagination through a set of `Tag`. */
   tags: TagConnection;
@@ -2997,6 +4008,18 @@ export type RepositoryArtifactsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<ArtifactOrderBy>>;
+};
+
+
+export type RepositoryNpmDistTagsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<NpmDistTagCondition>;
+  filter?: InputMaybe<NpmDistTagFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<NpmDistTagOrderBy>>;
 };
 
 
@@ -3082,6 +4105,10 @@ export type RepositoryFilter = {
   namespaceId?: InputMaybe<UuidFilter>;
   /** Negates the expression. */
   not?: InputMaybe<RepositoryFilter>;
+  /** Filter by the object’s `npmDistTags` relation. */
+  npmDistTags?: InputMaybe<RepositoryToManyNpmDistTagFilter>;
+  /** Some related `npmDistTags` exist. */
+  npmDistTagsExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<RepositoryFilter>>;
   /** Filter by the object’s `rowId` field. */
@@ -3101,6 +4128,7 @@ export type RepositoryInput = {
   artifactType: Scalars['String']['input'];
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  downloadCount?: InputMaybe<Scalars['BigInt']['input']>;
   isPublic?: InputMaybe<Scalars['Boolean']['input']>;
   name: Scalars['String']['input'];
   namespaceId: Scalars['UUID']['input'];
@@ -3128,6 +4156,7 @@ export type RepositoryPatch = {
   artifactType?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  downloadCount?: InputMaybe<Scalars['BigInt']['input']>;
   isPublic?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   namespaceId?: InputMaybe<Scalars['UUID']['input']>;
@@ -3155,6 +4184,16 @@ export type RepositoryToManyArtifactFilter = {
   some?: InputMaybe<ArtifactFilter>;
 };
 
+/** A filter to be used against many `NpmDistTag` object types. All fields are combined with a logical ‘and.’ */
+export type RepositoryToManyNpmDistTagFilter = {
+  /** Every related `NpmDistTag` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<NpmDistTagFilter>;
+  /** No related `NpmDistTag` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<NpmDistTagFilter>;
+  /** Some related `NpmDistTag` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<NpmDistTagFilter>;
+};
+
 /** A filter to be used against many `Tag` object types. All fields are combined with a logical ‘and.’ */
 export type RepositoryToManyTagFilter = {
   /** Every related `Tag` matches the filter criteria. All fields are combined with a logical ‘and.’ */
@@ -3173,6 +4212,127 @@ export type RepositoryToManyUploadSessionFilter = {
   none?: InputMaybe<UploadSessionFilter>;
   /** Some related `UploadSession` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<UploadSessionFilter>;
+};
+
+export type ScanResult = Node & {
+  __typename?: 'ScanResult';
+  /** Reads a single `Artifact` that is related to this `ScanResult`. */
+  artifact?: Maybe<Artifact>;
+  artifactId: Scalars['UUID']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  critical: Scalars['Int']['output'];
+  error?: Maybe<Scalars['String']['output']>;
+  findings?: Maybe<Scalars['JSON']['output']>;
+  high: Scalars['Int']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  low: Scalars['Int']['output'];
+  medium: Scalars['Int']['output'];
+  rowId: Scalars['UUID']['output'];
+  scannedAt?: Maybe<Scalars['Datetime']['output']>;
+  scanner?: Maybe<Scalars['String']['output']>;
+  status: Scalars['String']['output'];
+  unknown: Scalars['Int']['output'];
+};
+
+/**
+ * A condition to be used against `ScanResult` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type ScanResultCondition = {
+  /** Checks for equality with the object’s `artifactId` field. */
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `status` field. */
+  status?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `ScanResult` values. */
+export type ScanResultConnection = {
+  __typename?: 'ScanResultConnection';
+  /** A list of edges which contains the `ScanResult` and cursor to aid in pagination. */
+  edges: Array<Maybe<ScanResultEdge>>;
+  /** A list of `ScanResult` objects. */
+  nodes: Array<Maybe<ScanResult>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `ScanResult` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `ScanResult` edge in the connection. */
+export type ScanResultEdge = {
+  __typename?: 'ScanResultEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `ScanResult` at the end of the edge. */
+  node?: Maybe<ScanResult>;
+};
+
+/** A filter to be used against `ScanResult` object types. All fields are combined with a logical ‘and.’ */
+export type ScanResultFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<ScanResultFilter>>;
+  /** Filter by the object’s `artifact` relation. */
+  artifact?: InputMaybe<ArtifactFilter>;
+  /** Filter by the object’s `artifactId` field. */
+  artifactId?: InputMaybe<UuidFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<ScanResultFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<ScanResultFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `status` field. */
+  status?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `ScanResult` */
+export type ScanResultInput = {
+  artifactId: Scalars['UUID']['input'];
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  critical?: InputMaybe<Scalars['Int']['input']>;
+  error?: InputMaybe<Scalars['String']['input']>;
+  findings?: InputMaybe<Scalars['JSON']['input']>;
+  high?: InputMaybe<Scalars['Int']['input']>;
+  low?: InputMaybe<Scalars['Int']['input']>;
+  medium?: InputMaybe<Scalars['Int']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  scannedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  scanner?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  unknown?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Methods to use when ordering `ScanResult`. */
+export enum ScanResultOrderBy {
+  ArtifactIdAsc = 'ARTIFACT_ID_ASC',
+  ArtifactIdDesc = 'ARTIFACT_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  StatusAsc = 'STATUS_ASC',
+  StatusDesc = 'STATUS_DESC'
+}
+
+/** Represents an update to a `ScanResult`. Fields that are set will be updated. */
+export type ScanResultPatch = {
+  artifactId?: InputMaybe<Scalars['UUID']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  critical?: InputMaybe<Scalars['Int']['input']>;
+  error?: InputMaybe<Scalars['String']['input']>;
+  findings?: InputMaybe<Scalars['JSON']['input']>;
+  high?: InputMaybe<Scalars['Int']['input']>;
+  low?: InputMaybe<Scalars['Int']['input']>;
+  medium?: InputMaybe<Scalars['Int']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  scannedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  scanner?: InputMaybe<Scalars['String']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  unknown?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type SchemaMetadatum = Node & {
@@ -3824,6 +4984,159 @@ export type UpdateNamespacePayloadNamespaceEdgeArgs = {
   orderBy?: Array<NamespaceOrderBy>;
 };
 
+/** All input for the `updateNpmDistTagById` mutation. */
+export type UpdateNpmDistTagByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `NpmDistTag` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `NpmDistTag` being updated. */
+  patch: NpmDistTagPatch;
+};
+
+/** All input for the `updateNpmDistTag` mutation. */
+export type UpdateNpmDistTagInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `NpmDistTag` being updated. */
+  patch: NpmDistTagPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `NpmDistTag` mutation. */
+export type UpdateNpmDistTagPayload = {
+  __typename?: 'UpdateNpmDistTagPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `NpmDistTag` that was updated by this mutation. */
+  npmDistTag?: Maybe<NpmDistTag>;
+  /** An edge for our `NpmDistTag`. May be used by Relay 1. */
+  npmDistTagEdge?: Maybe<NpmDistTagEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `NpmDistTag` mutation. */
+export type UpdateNpmDistTagPayloadNpmDistTagEdgeArgs = {
+  orderBy?: Array<NpmDistTagOrderBy>;
+};
+
+/** All input for the `updateNpmMetadatumById` mutation. */
+export type UpdateNpmMetadatumByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `NpmMetadatum` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `NpmMetadatum` being updated. */
+  patch: NpmMetadatumPatch;
+};
+
+/** All input for the `updateNpmMetadatum` mutation. */
+export type UpdateNpmMetadatumInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `NpmMetadatum` being updated. */
+  patch: NpmMetadatumPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `NpmMetadatum` mutation. */
+export type UpdateNpmMetadatumPayload = {
+  __typename?: 'UpdateNpmMetadatumPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `NpmMetadatum` that was updated by this mutation. */
+  npmMetadatum?: Maybe<NpmMetadatum>;
+  /** An edge for our `NpmMetadatum`. May be used by Relay 1. */
+  npmMetadatumEdge?: Maybe<NpmMetadatumEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `NpmMetadatum` mutation. */
+export type UpdateNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
+  orderBy?: Array<NpmMetadatumOrderBy>;
+};
+
+/** All input for the `updatePluginById` mutation. */
+export type UpdatePluginByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `Plugin` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `Plugin` being updated. */
+  patch: PluginPatch;
+};
+
+/** All input for the `updatePluginByName` mutation. */
+export type UpdatePluginByNameInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  /** An object where the defined keys will be set on the `Plugin` being updated. */
+  patch: PluginPatch;
+};
+
+/** All input for the `updatePlugin` mutation. */
+export type UpdatePluginInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `Plugin` being updated. */
+  patch: PluginPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `Plugin` mutation. */
+export type UpdatePluginPayload = {
+  __typename?: 'UpdatePluginPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `Plugin` that was updated by this mutation. */
+  plugin?: Maybe<Plugin>;
+  /** An edge for our `Plugin`. May be used by Relay 1. */
+  pluginEdge?: Maybe<PluginEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `Plugin` mutation. */
+export type UpdatePluginPayloadPluginEdgeArgs = {
+  orderBy?: Array<PluginOrderBy>;
+};
+
 /** All input for the `updateRepositoryById` mutation. */
 export type UpdateRepositoryByIdInput = {
   /**
@@ -3869,6 +5182,53 @@ export type UpdateRepositoryPayload = {
 /** The output of our update `Repository` mutation. */
 export type UpdateRepositoryPayloadRepositoryEdgeArgs = {
   orderBy?: Array<RepositoryOrderBy>;
+};
+
+/** All input for the `updateScanResultById` mutation. */
+export type UpdateScanResultByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `ScanResult` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `ScanResult` being updated. */
+  patch: ScanResultPatch;
+};
+
+/** All input for the `updateScanResult` mutation. */
+export type UpdateScanResultInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `ScanResult` being updated. */
+  patch: ScanResultPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `ScanResult` mutation. */
+export type UpdateScanResultPayload = {
+  __typename?: 'UpdateScanResultPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `ScanResult` that was updated by this mutation. */
+  scanResult?: Maybe<ScanResult>;
+  /** An edge for our `ScanResult`. May be used by Relay 1. */
+  scanResultEdge?: Maybe<ScanResultEdge>;
+};
+
+
+/** The output of our update `ScanResult` mutation. */
+export type UpdateScanResultPayloadScanResultEdgeArgs = {
+  orderBy?: Array<ScanResultOrderBy>;
 };
 
 /** All input for the `updateSchemaMetadatumById` mutation. */
@@ -4343,7 +5703,7 @@ export type RepositoryQueryVariables = Exact<{
 }>;
 
 
-export type RepositoryQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, rowId: string, namespaceId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, createdAt?: string | null, updatedAt?: string | null, namespace?: { __typename?: 'Namespace', id: string, rowId: string, name: string } | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number, nodes: Array<{ __typename?: 'Artifact', id: string, rowId: string, digest: string, size: string, mediaType: string, content?: string | null, createdAt?: string | null } | null> }, tags: { __typename?: 'TagConnection', totalCount: number, nodes: Array<{ __typename?: 'Tag', id: string, rowId: string, name: string, artifactId: string, createdAt?: string | null, updatedAt?: string | null, artifact?: { __typename?: 'Artifact', digest: string, size: string } | null } | null> } } | null };
+export type RepositoryQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', id: string, rowId: string, namespaceId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, createdAt?: string | null, updatedAt?: string | null, namespace?: { __typename?: 'Namespace', id: string, rowId: string, name: string } | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number, nodes: Array<{ __typename?: 'Artifact', id: string, rowId: string, digest: string, size: string, mediaType: string, content?: string | null, createdAt?: string | null } | null> }, tags: { __typename?: 'TagConnection', totalCount: number, nodes: Array<{ __typename?: 'Tag', id: string, rowId: string, name: string, artifactId: string, createdAt?: string | null, updatedAt?: string | null, artifact?: { __typename?: 'Artifact', digest: string, size: string } | null } | null> } } | null };
 
 export type RepositoriesByNamespaceQueryVariables = Exact<{
   namespaceId: Scalars['UUID']['input'];
@@ -4352,7 +5712,7 @@ export type RepositoriesByNamespaceQueryVariables = Exact<{
 }>;
 
 
-export type RepositoriesByNamespaceQuery = { __typename?: 'Query', repositories?: { __typename?: 'RepositoryConnection', totalCount: number, nodes: Array<{ __typename?: 'Repository', id: string, rowId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, createdAt?: string | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number }, tags: { __typename?: 'TagConnection', totalCount: number } } | null> } | null };
+export type RepositoriesByNamespaceQuery = { __typename?: 'Query', repositories?: { __typename?: 'RepositoryConnection', totalCount: number, nodes: Array<{ __typename?: 'Repository', id: string, rowId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, createdAt?: string | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number }, tags: { __typename?: 'TagConnection', totalCount: number } } | null> } | null };
 
 
 export class TypedDocumentString<TResult, TVariables>
@@ -4923,6 +6283,7 @@ export const RepositoryDocument = new TypedDocumentString(`
     description
     artifactType
     isPublic
+    downloadCount
     createdAt
     updatedAt
     namespace {
@@ -5017,6 +6378,7 @@ export const RepositoriesByNamespaceDocument = new TypedDocumentString(`
       description
       artifactType
       isPublic
+      downloadCount
       createdAt
       artifacts {
         totalCount
