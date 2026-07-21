@@ -3,6 +3,7 @@ import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ChevronRight,
+  Download,
   Eye,
   EyeOff,
   Loader2,
@@ -24,6 +25,7 @@ import {
   ARTIFACT_TYPE_LABELS,
   isValidArtifactType,
 } from "@/lib/manifold/registry.types";
+import { formatCount } from "@/lib/util";
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/_app/registry/$namespaceName/")({
@@ -177,6 +179,13 @@ function NamespaceDetailPage() {
                             {repo.artifacts.totalCount === 1
                               ? "artifact"
                               : "artifacts"}
+                          </span>
+                          <span
+                            className="flex items-center gap-1"
+                            title={`${repo.downloadCount} downloads`}
+                          >
+                            <Download className="h-3 w-3" />
+                            {formatCount(repo.downloadCount)}
                           </span>
                         </div>
                         <div className="flex items-center gap-1">
