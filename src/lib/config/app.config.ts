@@ -3,6 +3,9 @@
  */
 const app = {
   name: "Manifold",
+  // Product symbol, mirrors the omni-api catalog SSOT (`catalog/products.ts`
+  // manifold `icon`). Used in the "Made with <symbol> by Omni" footer credit.
+  icon: "➰",
   description:
     "Schema registry and management platform for OpenAPI, GraphQL, JSON Schema, WASM, and Container artifacts.",
   url: "https://manifold.omni.dev",
@@ -21,6 +24,7 @@ const app = {
   },
   organization: {
     name: "Omni",
+    url: "https://omni.dev",
     supportEmailAddress: "support@omni.dev",
   },
   /** PWA configuration. Values should match public/manifest.json. */

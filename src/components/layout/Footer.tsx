@@ -3,71 +3,54 @@ import {
   SiThreads as ThreadsIcon,
   SiX as XIcon,
 } from "@icons-pack/react-simple-icons";
+import { AppFooter } from "@omnidotdev/thornberry/app-footer";
 
 import { ExternalLink } from "@/components/core";
 import app from "@/lib/config/app.config";
 
 /**
- * Layout footer.
+ * Layout footer. Renders the shared Omni `<AppFooter>`, which bakes in the
+ * "Made with <symbol> by Omni" credit, the omni.dev link, and the legal links so
+ * they can't drift. Manifold supplies only its own logo, catalog symbol, docs
+ * link, and social block.
  */
 const Footer = () => (
-  <footer className="flex w-full flex-col items-center justify-center gap-2 p-4 text-muted-foreground sm:flex-row sm:gap-1">
-    <p className="px-3">
-      &copy; {new Date().getFullYear()} {app.organization.name}
-    </p>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.docsUrl}>
-      Docs
-    </ExternalLink>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.feedbackUrl}>
-      Feedback
-    </ExternalLink>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.legal.privacy}>
-      Privacy
-    </ExternalLink>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.legal.terms}>
-      Terms
-    </ExternalLink>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.legal.cookies}>
-      Cookies
-    </ExternalLink>
-
-    <div className="hidden h-1/2 w-px bg-muted-foreground/30 sm:block" />
-
-    <ExternalLink variant="ghost" href={app.legal.cookies}>
-      Cookies
-    </ExternalLink>
-
-    <div className="h-1/2 w-px bg-muted-foreground/30" />
-
-    <div className="flex items-center gap-1">
-      <ExternalLink variant="ghost" href={app.socials.discord}>
-        <DiscordIcon className="size-5" />
+  <AppFooter
+    appLogo={
+      <img src="/img/favicon-32x32.png" alt="" className="size-4" aria-hidden />
+    }
+    appSymbol={app.icon}
+    docsUrl={app.docsUrl}
+    orgUrl={app.organization.url}
+    links={
+      <ExternalLink variant="ghost" href={app.feedbackUrl}>
+        Feedback
       </ExternalLink>
+    }
+    socials={
+      <>
+        <ExternalLink
+          variant="ghost"
+          href={app.socials.discord}
+          aria-label="Discord"
+        >
+          <DiscordIcon className="size-5" />
+        </ExternalLink>
 
-      <ExternalLink variant="ghost" href={app.socials.x}>
-        <XIcon className="size-5" />
-      </ExternalLink>
+        <ExternalLink variant="ghost" href={app.socials.x} aria-label="X">
+          <XIcon className="size-5" />
+        </ExternalLink>
 
-      <ExternalLink variant="ghost" href={app.socials.threads}>
-        <ThreadsIcon className="size-5" />
-      </ExternalLink>
-    </div>
-  </footer>
+        <ExternalLink
+          variant="ghost"
+          href={app.socials.threads}
+          aria-label="Threads"
+        >
+          <ThreadsIcon className="size-5" />
+        </ExternalLink>
+      </>
+    }
+  />
 );
 
 export default Footer;
