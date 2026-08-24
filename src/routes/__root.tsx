@@ -40,7 +40,9 @@ function ComingSoon() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-sky-900 to-sky-800">
       <div className="text-center">
-        <div className="text-9xl">✨</div>
+        <h1 className="font-bold text-6xl text-white tracking-tight">
+          {app.name}
+        </h1>
       </div>
     </div>
   );
