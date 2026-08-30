@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { useEffect } from "react";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 
 import CommandPalette from "@/components/CommandPalette";
 import {
@@ -234,60 +234,28 @@ void isDevEnv;
 void ComingSoon;
 
 /**
- * Register the service worker for PWA functionality.
+ * Evict any previously registered service worker.
  *
- * The service worker (sw.js) is built by @serwist/vite from src/sw.ts and provides:
- * - Precaching of static assets for offline access
- * - Runtime caching strategies for dynamic content
- * - Navigation preloading for faster page loads
- *
- * Update behavior:
- * - Checks for SW updates every hour via registration.update()
- * - When an update is found, shows a toast notification
- * - User can choose when to refresh (non-disruptive updates)
- * - skipWaiting + clientsClaim in sw.ts ensures immediate activation on refresh
+ * This app no longer ships a service worker: offline precaching bought little
+ * and its stale-while-revalidate cache stranded users on old asset bundles
+ * after every deploy. On load we unregister any surviving registration and
+ * drop its caches directly from the page so stale clients self-heal
  */
-const registerServiceWorker = async () => {
+const unregisterServiceWorkers = async () => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
   try {
-    const registration = await navigator.serviceWorker.register("/sw.js");
-    console.info("SW registered:", registration.scope);
-
-    // Check for updates hourly. This catches updates even if users keep the tab
-    // open for extended periods. The browser also checks on navigation events.
-    setInterval(
-      () => {
-        registration.update();
-      },
-      60 * 60 * 1000,
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(
+      registrations.map((registration) => registration.unregister()),
     );
 
-    // Listen for new service worker installations
-    registration.addEventListener("updatefound", () => {
-      const newWorker = registration.installing;
-      if (!newWorker) return;
-
-      newWorker.addEventListener("statechange", () => {
-        // Only show update notification if there's an existing controller,
-        // meaning this is an update, not the initial installation
-        if (
-          newWorker.state === "installed" &&
-          navigator.serviceWorker.controller
-        ) {
-          toast("Update Available", {
-            description: "A new version is available. Refresh to update.",
-            action: {
-              label: "Refresh",
-              onClick: () => window.location.reload(),
-            },
-            duration: Number.POSITIVE_INFINITY,
-          });
-        }
-      });
-    });
+    if ("caches" in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+    }
   } catch (error) {
-    console.error("SW registration failed:", error);
+    console.error("SW cleanup failed:", error);
   }
 };
 
@@ -297,9 +265,9 @@ const registerServiceWorker = async () => {
 function RootDocument({ children }: PropsWithChildren) {
   const theme = Route.useLoaderData();
 
-  // Register service worker on client
+  // Evict any service worker left over from when this app shipped one
   useEffect(() => {
-    registerServiceWorker();
+    unregisterServiceWorkers();
   }, []);
 
   return (

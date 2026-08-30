@@ -5,19 +5,8 @@
     "target": "es2022",
     "jsx": "react-jsx",
     "module": "esnext",
-    "lib": [
-      "es2022",
-      "dom",
-      "dom.iterable",
-      // add global `WebWorker` and `ServiceWorker` types
-      "webworker"
-    ],
-    "types": [
-      "vite/client",
-      // enable Serwist to properly type `virtual:serwist`
-      "@serwist/vite/typings",
-      "@types/bun"
-    ],
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["vite/client", "@types/bun"],
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
