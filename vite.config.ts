@@ -25,6 +25,12 @@ const config = defineConfig(({ command }) => ({
     tanstackStart(),
     nitroV2Plugin({
       preset: "node-server",
+      // Inline modules to avoid subpath-resolution issues with the Bun runtime
+      // (better-auth 1.7's `@better-auth/utils` subpath exports are not traced
+      // into the output when left external)
+      externals: {
+        inline: ["srvx", "react-dom", "better-auth", "@better-auth"],
+      },
       // Security and cache-hygiene response headers applied to every production
       // response. Permissions-Policy denies powerful features by default and the
       // Cache-Control revalidates rather than serving stale content

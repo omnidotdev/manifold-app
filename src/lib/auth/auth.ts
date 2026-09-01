@@ -1,4 +1,3 @@
-import { createOmniOAuthConfig } from "@omnidotdev/providers/auth";
 import { getCookie } from "@tanstack/react-start/server";
 import { betterAuth } from "better-auth";
 import { customSession, genericOAuth } from "better-auth/plugins";
@@ -50,12 +49,36 @@ const auth = betterAuth({
   plugins: [
     genericOAuth({
       config: [
-        createOmniOAuthConfig({
+        {
+          providerId: "omni",
           clientId: AUTH_CLIENT_ID!,
           clientSecret: AUTH_CLIENT_SECRET!,
-          authBaseUrl: AUTH_BASE_URL!,
-          authInternalUrl: AUTH_INTERNAL_URL!,
-        }),
+          // set URLs explicitly instead of using discoveryUrl: BA overrides
+          // tokenUrl with the discovery doc's token_endpoint, which uses the
+          // external URL unreachable from inside Docker
+          authorizationUrl: `${AUTH_BASE_URL}/oauth2/authorize`,
+          tokenUrl: `${AUTH_INTERNAL_URL}/oauth2/token`,
+          userInfoUrl: `${AUTH_INTERNAL_URL}/userinfo`,
+          scopes: [
+            "openid",
+            "profile",
+            "email",
+            "offline_access",
+            "organization",
+          ],
+          accessType: "offline",
+          pkce: true,
+          mapProfileToUser: (profile) => ({
+            name: typeof profile.name === "string" ? profile.name : "",
+            email: typeof profile.email === "string" ? profile.email : "",
+            emailVerified:
+              typeof profile.email_verified === "boolean"
+                ? profile.email_verified
+                : false,
+            image:
+              typeof profile.picture === "string" ? profile.picture : undefined,
+          }),
+        },
       ],
     }),
     customSession(async ({ user, session }) => {
