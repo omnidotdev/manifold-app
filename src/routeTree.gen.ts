@@ -183,9 +183,9 @@ export interface FileRoutesByFullPath {
   '/schemas/$schemaId': typeof AppSchemasSchemaIdRoute
   '/schemas/create': typeof AppSchemasCreateRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/organizations': typeof AppOrganizationsIndexRoute
-  '/registry': typeof AppRegistryIndexRoute
-  '/schemas': typeof AppSchemasIndexRoute
+  '/organizations/': typeof AppOrganizationsIndexRoute
+  '/registry/': typeof AppRegistryIndexRoute
+  '/schemas/': typeof AppSchemasIndexRoute
   '/organizations/$orgSlug/billing': typeof AppOrganizationsOrgSlugBillingRoute
   '/organizations/$orgSlug/members': typeof AppOrganizationsOrgSlugMembersRoute
   '/organizations/$orgSlug/settings': typeof AppOrganizationsOrgSlugSettingsRoute
@@ -193,7 +193,7 @@ export interface FileRoutesByFullPath {
   '/organizations/$orgSlug/': typeof AppOrganizationsOrgSlugIndexRoute
   '/registry/$namespaceName/': typeof AppRegistryNamespaceNameIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug': typeof AppOrganizationsOrgSlugWorkspacesWorkspaceSlugRouteWithChildren
-  '/organizations/$orgSlug/workspaces': typeof AppOrganizationsOrgSlugWorkspacesIndexRoute
+  '/organizations/$orgSlug/workspaces/': typeof AppOrganizationsOrgSlugWorkspacesIndexRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/settings': typeof AppOrganizationsOrgSlugWorkspacesWorkspaceSlugSettingsRoute
   '/organizations/$orgSlug/workspaces/$workspaceSlug/': typeof AppOrganizationsOrgSlugWorkspacesWorkspaceSlugIndexRoute
 }
@@ -262,9 +262,9 @@ export interface FileRouteTypes {
     | '/schemas/$schemaId'
     | '/schemas/create'
     | '/api/auth/$'
-    | '/organizations'
-    | '/registry'
-    | '/schemas'
+    | '/organizations/'
+    | '/registry/'
+    | '/schemas/'
     | '/organizations/$orgSlug/billing'
     | '/organizations/$orgSlug/members'
     | '/organizations/$orgSlug/settings'
@@ -272,7 +272,7 @@ export interface FileRouteTypes {
     | '/organizations/$orgSlug/'
     | '/registry/$namespaceName/'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug'
-    | '/organizations/$orgSlug/workspaces'
+    | '/organizations/$orgSlug/workspaces/'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/settings'
     | '/organizations/$orgSlug/workspaces/$workspaceSlug/'
   fileRoutesByTo: FileRoutesByTo
@@ -347,7 +347,7 @@ declare module '@tanstack/react-router' {
     '/_app': {
       id: '/_app'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -389,21 +389,21 @@ declare module '@tanstack/react-router' {
     '/_app/schemas/': {
       id: '/_app/schemas/'
       path: '/schemas'
-      fullPath: '/schemas'
+      fullPath: '/schemas/'
       preLoaderRoute: typeof AppSchemasIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/registry/': {
       id: '/_app/registry/'
       path: '/registry'
-      fullPath: '/registry'
+      fullPath: '/registry/'
       preLoaderRoute: typeof AppRegistryIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/organizations/': {
       id: '/_app/organizations/'
       path: '/organizations'
-      fullPath: '/organizations'
+      fullPath: '/organizations/'
       preLoaderRoute: typeof AppOrganizationsIndexRouteImport
       parentRoute: typeof AppRoute
     }
@@ -487,7 +487,7 @@ declare module '@tanstack/react-router' {
     '/_app/organizations/$orgSlug/workspaces/': {
       id: '/_app/organizations/$orgSlug/workspaces/'
       path: '/workspaces'
-      fullPath: '/organizations/$orgSlug/workspaces'
+      fullPath: '/organizations/$orgSlug/workspaces/'
       preLoaderRoute: typeof AppOrganizationsOrgSlugWorkspacesIndexRouteImport
       parentRoute: typeof AppOrganizationsOrgSlugRoute
     }
