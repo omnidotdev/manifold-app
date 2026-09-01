@@ -11,22 +11,22 @@ import {
   revokeSubscription,
 } from "@/server/functions/subscriptions";
 
-export const Route = createFileRoute("/_app/organizations/$orgSlug/billing")({
-  component: OrgBillingPage,
+export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/billing")({
+  component: WorkspaceBillingPage,
 });
 
 /**
- * Organization billing page.
+ * Workspace billing page.
  * Integrates with Aether for subscription management.
  */
-function OrgBillingPage() {
-  const { orgSlug } = Route.useParams();
+function WorkspaceBillingPage() {
+  const { workspaceSlug } = Route.useParams();
   const router = useRouter();
   const { organizations } = useOrganization();
 
-  const org = organizations.find((o) => o.slug === orgSlug);
+  const org = organizations.find((o) => o.slug === workspaceSlug);
 
-  // Billing is scoped to the organization level
+  // Billing is scoped to the workspace level
   const workspaceId = org?.id ?? "";
 
   // Fetch subscription and entitlements in parallel. The plan shown must not

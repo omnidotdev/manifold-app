@@ -66,11 +66,11 @@ const getPermissions = (role: Role | undefined) => ({
 
 const Team = () => {
   const inviteRef = useRef<HTMLButtonElement>(null);
-  const { orgSlug } = useParams({ strict: false });
+  const { workspaceSlug } = useParams({ strict: false });
   const { auth } = useRouteContext({ strict: false });
   const { organizations } = useOrganization();
 
-  const org = organizations.find((o) => o.slug === orgSlug);
+  const org = organizations.find((o) => o.slug === workspaceSlug);
   const organizationId = org?.id;
 
   const [selectedMember, setSelectedMember] = useState<{
