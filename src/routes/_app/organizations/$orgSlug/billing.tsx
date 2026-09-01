@@ -2,6 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
 import { useOrganization } from "@/lib/context";
+import { getTierFromEntitlements } from "@/lib/util";
+import { getEntitlements } from "@/server/functions/entitlements";
 import {
   getManageBillingUrl,
   getSubscription,
@@ -27,10 +29,22 @@ function OrgBillingPage() {
   // Billing is scoped to the organization level
   const workspaceId = org?.id ?? "";
 
-  // Fetch subscription data
+  // Fetch subscription and entitlements in parallel. The plan shown must not
+  // rely on Stripe alone: a comped or manually granted tier has an entitlement
+  // but no active subscription, and a failed subscription read must not read as
+  // "Free" for an account that holds a paid entitlement.
   const { data: subscription, isLoading: isLoadingSubscription } = useQuery({
     queryKey: ["subscription", workspaceId],
-    queryFn: () => getSubscription({ data: { workspaceId } }),
+    queryFn: () => getSubscription({ data: { workspaceId } }).catch(() => null),
+    enabled: !!workspaceId,
+  });
+
+  const { data: entitlements, isLoading: isLoadingEntitlements } = useQuery({
+    queryKey: ["entitlements", workspaceId],
+    queryFn: () =>
+      getEntitlements({
+        data: { entityType: "organization", entityId: workspaceId },
+      }).catch(() => null),
     enabled: !!workspaceId,
   });
 
@@ -61,9 +75,17 @@ function OrgBillingPage() {
 
   if (!org) return null;
 
-  const planName = subscription?.product?.name ?? "Free";
+  const isLoadingPlan = isLoadingSubscription || isLoadingEntitlements;
+
+  // Prefer the live subscription plan; otherwise fall back to the entitlement
+  // tier so comped/granted plans are not misreported as "Free".
+  const entitlementTier = getTierFromEntitlements(entitlements);
+  const planName = subscription?.product?.name ?? entitlementTier ?? "Free";
   const planDescription =
-    subscription?.product?.description ?? "Basic features for personal use";
+    subscription?.product?.description ??
+    (entitlementTier
+      ? "Included with your plan"
+      : "Basic features for personal use");
   const isSubscribed = subscription?.status === "active";
   const isCanceling = !!subscription?.cancelAt;
 
@@ -75,7 +97,7 @@ function OrgBillingPage() {
         {/* Current Plan */}
         <section className="rounded-lg border p-6">
           <h2 className="mb-4 font-semibold text-lg">Current Plan</h2>
-          {isLoadingSubscription ? (
+          {isLoadingPlan ? (
             <div className="animate-pulse">
               <div className="h-8 w-32 rounded bg-muted" />
               <div className="mt-2 h-4 w-48 rounded bg-muted" />
