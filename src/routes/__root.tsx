@@ -74,10 +74,11 @@ export const Route = createRootRouteWithContext<{
   auth: GetAuthSession | null;
   organizations: OrganizationClaim[];
   isMaintenanceMode: boolean;
+  authDegraded: boolean;
 }>()({
   beforeLoad: async () => {
     try {
-      const { session, organizations } = await fetchSession();
+      const { session, organizations, authDegraded } = await fetchSession();
 
       // Pass user context for @omni.dev admin bypass
       const email = session?.user?.email as string | undefined;
@@ -93,15 +94,26 @@ export const Route = createRootRouteWithContext<{
 
       // Skip auth when maintenance page is shown
       if (isMaintenanceMode)
-        return { auth: null, organizations: [], isMaintenanceMode };
+        return {
+          auth: null,
+          organizations: [],
+          isMaintenanceMode,
+          authDegraded: false,
+        };
 
       return {
         auth: session as GetAuthSession | null,
         organizations,
         isMaintenanceMode,
+        authDegraded,
       };
     } catch {
-      return { auth: null, organizations: [], isMaintenanceMode: false };
+      return {
+        auth: null,
+        organizations: [],
+        isMaintenanceMode: false,
+        authDegraded: false,
+      };
     }
   },
   head: () => ({

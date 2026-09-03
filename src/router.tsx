@@ -56,6 +56,7 @@ export const getRouter = () => {
       auth: null,
       organizations: [],
       isMaintenanceMode: false,
+      authDegraded: false,
     },
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
