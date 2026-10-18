@@ -35,7 +35,6 @@ const knipConfig: KnipConfig = {
     "src/components/ui/textarea.tsx",
     "src/lib/providers/**",
     "src/lib/warden/**",
-    "src/lib/context/organization.context.tsx",
     "src/lib/context/workspace.context.tsx",
     "src/lib/manifold/**",
     "src/lib/util/**",

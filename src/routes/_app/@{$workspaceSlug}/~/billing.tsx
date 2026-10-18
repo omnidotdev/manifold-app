@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
-import { useOrganization } from "@/lib/context";
+import { useWorkspace } from "@/lib/context";
 import { getTierFromEntitlements } from "@/lib/util";
 import { getEntitlements } from "@/server/functions/entitlements";
 import {
@@ -22,9 +22,9 @@ export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/billing")({
 function WorkspaceBillingPage() {
   const { workspaceSlug } = Route.useParams();
   const router = useRouter();
-  const { organizations } = useOrganization();
+  const { workspaces } = useWorkspace();
 
-  const org = organizations.find((o) => o.slug === workspaceSlug);
+  const org = workspaces.find((o) => o.slug === workspaceSlug);
 
   // Billing is scoped to the workspace level
   const workspaceId = org?.id ?? "";

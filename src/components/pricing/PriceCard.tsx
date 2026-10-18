@@ -34,7 +34,7 @@ import { capitalizeFirstLetter } from "@/lib/util";
 import cn from "@/lib/utils";
 import { createCheckoutWithWorkspace } from "@/server/functions/subscriptions";
 
-import type { Organization } from "@/lib/context/organization.context";
+import type { Workspace } from "@/lib/context/workspace.context";
 import type { Price, Subscription } from "@/lib/providers/billing";
 
 export type { Price };
@@ -42,7 +42,7 @@ export type { Price };
 type Props = {
   price: Price;
   orgSubscriptions?: Record<string, Subscription | null>;
-  organizations?: Organization[];
+  organizations?: Workspace[];
   disableAction?: boolean;
 };
 
