@@ -85,7 +85,7 @@ const CommandPalette = () => {
       },
       {
         id: "organizations",
-        label: "Organizations",
+        label: "Workspaces",
         group: "Navigation",
         icon: Boxes,
         keywords: ["orgs", "teams"],
