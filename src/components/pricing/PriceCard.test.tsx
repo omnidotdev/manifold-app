@@ -22,7 +22,9 @@ mock.module("@/lib/auth/authClient", () => ({
 
 // Mock server function
 mock.module("@/server/functions/subscriptions", () => ({
-  getCheckoutUrl: mock(() => Promise.resolve("https://checkout.stripe.com")),
+  createCheckoutWithWorkspace: mock(() =>
+    Promise.resolve({ checkoutUrl: "https://checkout.stripe.com" }),
+  ),
 }));
 
 // Import after mocking
