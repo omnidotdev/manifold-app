@@ -1,5 +1,10 @@
+import { json } from "@codemirror/lang-json";
+import { wast } from "@codemirror/lang-wast";
+import { yaml } from "@codemirror/lang-yaml";
 import { Button } from "@omnidotdev/thornberry/button";
+import { CodeEditor } from "@omnidotdev/thornberry/code-editor";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { graphql } from "cm6-graphql";
 import {
   ArrowLeft,
   Box,
@@ -8,7 +13,7 @@ import {
   Layers,
   Network,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { InternalLink } from "@/components/core";
 import { Card, CardContent } from "@/components/ui/card";
@@ -18,7 +23,53 @@ import { Textarea } from "@/components/ui/textarea";
 import { SCHEMA_TEMPLATES, SCHEMA_TYPE_LABELS } from "@/lib/manifold/schemas";
 import createMetaTags from "@/lib/util/createMetaTags";
 
+import type { Extension } from "@codemirror/state";
 import type { SchemaType } from "@/lib/manifold/types";
+
+type EditorLanguage = "json" | "yaml" | "graphql" | "wast";
+
+/** CodeMirror language extensions, built once and shared across renders */
+const EDITOR_LANGUAGES: Record<EditorLanguage, Extension> = {
+  json: json(),
+  yaml: yaml(),
+  graphql: graphql(),
+  wast: wast(),
+};
+
+/** Whether the text reads as JSON rather than YAML */
+const isLikelyJson = (text: string) => {
+  const trimmed = text.trimStart();
+  return trimmed.startsWith("{") || trimmed.startsWith("[");
+};
+
+/**
+ * Pick the CodeMirror language for a schema format. The editor reconfigures its
+ * language compartment live, so switching the selected type reflows highlighting
+ * without remounting. OpenAPI may be authored as JSON or YAML, so it is resolved
+ * from the content (defaulting to JSON). Container (OCI) manifests have no
+ * dedicated grammar and stay plain text
+ */
+const languageIdForSchema = (
+  type: SchemaType,
+  content: string,
+): EditorLanguage | undefined => {
+  switch (type) {
+    // JSON Schema is always JSON
+    case "json":
+      return "json";
+    // OpenAPI specs come in either JSON or YAML
+    case "openapi":
+      return isLikelyJson(content) ? "json" : "yaml";
+    case "graphql":
+      return "graphql";
+    // WebAssembly modules are edited as WAST (WebAssembly text)
+    case "wasm":
+      return "wast";
+    // OCI image manifests carry no dedicated grammar, so leave them plain
+    default:
+      return undefined;
+  }
+};
 
 const SCHEMA_TYPE_OPTIONS: {
   type: SchemaType;
@@ -68,7 +119,14 @@ function SchemaCreatePage() {
   const [description, setDescription] = useState("");
   const [schemaType, setSchemaType] = useState<SchemaType | undefined>();
   const [content, setContent] = useState("");
-  const editorRef = useRef<HTMLTextAreaElement>(null);
+
+  const languageId = schemaType
+    ? languageIdForSchema(schemaType, content)
+    : undefined;
+  const language = useMemo(
+    () => (languageId ? EDITOR_LANGUAGES[languageId] : undefined),
+    [languageId],
+  );
 
   const handleTypeSelect = (type: SchemaType) => {
     setSchemaType(type);
@@ -181,12 +239,11 @@ function SchemaCreatePage() {
             </div>
             <Card>
               <CardContent className="p-0">
-                <textarea
-                  ref={editorRef}
+                <CodeEditor
                   value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  spellCheck={false}
-                  className="min-h-[400px] w-full resize-y bg-transparent p-4 font-mono text-sm leading-relaxed outline-none"
+                  onChange={setContent}
+                  language={language}
+                  className="min-h-[400px] w-full overflow-auto p-2 text-sm"
                 />
               </CardContent>
             </Card>
