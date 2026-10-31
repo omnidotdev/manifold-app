@@ -26,7 +26,7 @@ const FAQ = [
   },
   {
     question: "Can I self-host this software?",
-    answer: `Yes! ${app.name} is open source software. Instructions for self-hosting will be available soon.`,
+    answer: `Yes. ${app.name} is open source (Apache 2.0) and self-hostable: run it with the Docker Compose setup in the repository. See the docs for configuration.`,
   },
 ];
 
