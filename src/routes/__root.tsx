@@ -303,19 +303,21 @@ function RootDocument({ children }: PropsWithChildren) {
           <Toaster position="top-center" richColors />
         </ThemeProvider>
 
-        <TanStackDevtools
-          plugins={[
-            {
-              name: "TanStack Router",
-              render: <TanStackRouterDevtoolsPanel />,
-              defaultOpen: true,
-            },
-            {
-              name: "TanStack Query",
-              render: <ReactQueryDevtoolsPanel />,
-            },
-          ]}
-        />
+        {isDevEnv && (
+          <TanStackDevtools
+            plugins={[
+              {
+                name: "TanStack Router",
+                render: <TanStackRouterDevtoolsPanel />,
+                defaultOpen: true,
+              },
+              {
+                name: "TanStack Query",
+                render: <ReactQueryDevtoolsPanel />,
+              },
+            ]}
+          />
+        )}
 
         <Scripts />
       </body>

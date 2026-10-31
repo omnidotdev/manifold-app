@@ -22,9 +22,9 @@ const FREE_PRICE: Price = {
     name: "Free",
     description: "Start for free.",
     marketing_features: [
-      { name: "Feature 1" },
-      { name: "Feature 2" },
-      { name: "Feature 3" },
+      { name: "3 private repos" },
+      { name: "500 MB storage" },
+      { name: "2 GB bandwidth/month" },
     ],
   },
   metadata: { tier: "free" },
