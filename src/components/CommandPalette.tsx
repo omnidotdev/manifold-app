@@ -8,10 +8,8 @@ import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import {
   Boxes,
   CreditCard,
-  FileJson,
   HomeIcon,
   KeyRound,
-  LayoutDashboard,
   Library,
   MoonStar,
   UserRound,
@@ -62,26 +60,12 @@ const CommandPalette = () => {
   if (auth) {
     commands.push(
       {
-        id: "dashboard",
-        label: "Dashboard",
-        group: "Navigation",
-        icon: LayoutDashboard,
-        onSelect: () => navigate({ to: "/dashboard" }),
-      },
-      {
         id: "registry",
         label: "Registry",
         group: "Navigation",
         icon: Library,
         keywords: ["packages", "namespaces"],
         onSelect: () => navigate({ to: "/registry" }),
-      },
-      {
-        id: "schemas",
-        label: "Schemas",
-        group: "Navigation",
-        icon: FileJson,
-        onSelect: () => navigate({ to: "/schemas" }),
       },
       {
         id: "organizations",

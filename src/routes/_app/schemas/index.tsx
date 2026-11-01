@@ -1,6 +1,6 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import {
   ChevronLeft,
   ChevronRight,
@@ -52,6 +52,11 @@ type SearchParams = {
 };
 
 export const Route = createFileRoute("/_app/schemas/")({
+  // The schemas browser renders demo data and is not in the nav; the real
+  // artifact surface is /registry. Redirect here until it is wired to live data
+  beforeLoad: () => {
+    throw redirect({ to: "/registry" });
+  },
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
     search: (search.search as string) || undefined,
     type: (search.type as SchemaType | "all") || undefined,
