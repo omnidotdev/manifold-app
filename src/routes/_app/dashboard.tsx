@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Box, Container, FileJson, Layers, Network, Plus } from "lucide-react";
 
 import { InternalLink } from "@/components/core";
@@ -69,6 +69,10 @@ const DISTRIBUTION_COLORS: Record<SchemaType, string> = {
 };
 
 export const Route = createFileRoute("/_app/dashboard")({
+  // Demo-data overview, not in the nav; send users to the real /registry
+  beforeLoad: () => {
+    throw redirect({ to: "/registry" });
+  },
   head: () => ({
     meta: createMetaTags({
       title: "Dashboard | Manifold",
