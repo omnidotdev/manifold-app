@@ -26,7 +26,7 @@ const DOCS_URL = "https://docs.omni.dev/products/manifold";
 export const Route = createFileRoute("/")({
   beforeLoad: ({ context: { auth }, preload }) => {
     // skip during preload so hovering this link does not navigate authed users
-    if (!preload && auth) throw redirect({ to: "/schemas" });
+    if (!preload && auth) throw redirect({ to: "/registry" });
   },
   head: () => ({
     meta: createMetaTags({
@@ -122,13 +122,14 @@ const FEATURES: Array<{
 
 function HomePage() {
   // This page only renders for signed-out visitors (authed users are
-  // redirected to /schemas in beforeLoad), so the primary CTA signs in and
-  // lands on /schemas afterward rather than linking straight to the gated route
+  // redirected to /registry in beforeLoad), so the primary CTA signs in and
+  // lands on the registry afterward rather than linking straight to a gated
+  // route. /registry is the real data surface; /schemas is a mock placeholder
   const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () =>
       await authClient.signIn.social({
         provider: "omni",
-        callbackURL: "/schemas",
+        callbackURL: "/registry",
         disableRedirect: false,
       }),
   });
