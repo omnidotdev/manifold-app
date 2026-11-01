@@ -23,6 +23,17 @@ bun i
 bun dev
 ```
 
+## Diagnostics
+
+```bash
+bun test          # Run the test suite
+bun test:coverage # Run tests with coverage
+bun test:e2e      # Run Playwright end-to-end tests
+bunx tsc --noEmit # Type-check
+bun check         # Lint and format check with Biome
+bun knip          # Check for unused code/deps
+```
+
 ## Building
 
 ```bash
