@@ -125,6 +125,9 @@ function RepositoryDetailPage() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Package className="h-5 w-5" />
+              </div>
               <h1 className="font-semibold text-2xl">{repoName}</h1>
 
               {artifactType && (
@@ -265,8 +268,10 @@ function RepositoryDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <Package className="mb-4 h-12 w-12 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <Package className="h-8 w-8" />
+                  </div>
                   <h3 className="mb-2 font-semibold text-lg">
                     No artifacts yet
                   </h3>
@@ -349,8 +354,10 @@ function RepositoryDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <Tag className="mb-4 h-12 w-12 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <Tag className="h-8 w-8" />
+                  </div>
                   <h3 className="mb-2 font-semibold text-lg">No tags yet</h3>
                   <p className="text-muted-foreground">
                     Tags will appear when artifacts are uploaded with tag names
