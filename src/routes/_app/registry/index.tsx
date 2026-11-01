@@ -115,8 +115,10 @@ function RegistryPage() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Package className="mb-4 h-12 w-12 text-muted-foreground" />
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Package className="h-8 w-8" />
+            </div>
             <h3 className="mb-2 font-semibold text-lg">No namespaces found</h3>
             {searchQuery ? (
               <p className="text-muted-foreground">Try adjusting your search</p>

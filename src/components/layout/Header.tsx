@@ -68,12 +68,15 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full border border-b bg-background shadow-sm blur-ms">
+    <header className="fixed top-0 z-50 w-full border-white/10 border-b bg-[oklch(0.2_0.09_265)] text-white shadow-sm backdrop-blur">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex min-w-0 gap-2">
             <InternalLink to="/" variant="unstyled" className="-ml-4">
-              <LogoLockup name={app.name} nameClassName="font-bold text-xl" />
+              <LogoLockup
+                name={app.name}
+                nameClassName="font-bold text-xl text-white"
+              />
             </InternalLink>
 
             {navLinks.map(({ to, label }) => (
@@ -81,7 +84,7 @@ const Header = () => {
                 key={to}
                 to={to}
                 variant="ghost"
-                className="hidden sm:inline-flex"
+                className="hidden text-white/75 hover:bg-white/10 hover:text-white sm:inline-flex"
               >
                 {label}
               </InternalLink>
@@ -92,7 +95,7 @@ const Header = () => {
             <MenuRootProvider value={navMenu}>
               <MenuTrigger
                 aria-label="Open navigation menu"
-                className="inline-flex size-9 items-center justify-center rounded-md sm:hidden"
+                className="inline-flex size-9 items-center justify-center rounded-md text-white hover:bg-white/10 sm:hidden"
               >
                 <MenuIcon className="size-5" />
               </MenuTrigger>
@@ -114,7 +117,7 @@ const Header = () => {
               </MenuPositioner>
             </MenuRootProvider>
 
-            <ThemeToggle />
+            <ThemeToggle className="text-white hover:bg-white/10" />
 
             {auth ? (
               <MenuRootProvider value={accountMenu}>
