@@ -21,6 +21,7 @@ import {
 } from "@/components/layout";
 import app from "@/lib/config/app.config";
 import { isDevEnv } from "@/lib/config/env.config";
+import { WorkspaceProvider } from "@/lib/context";
 import { fetchMaintenanceMode } from "@/lib/flags";
 import appCss from "@/lib/styles/globals.css?url";
 import createMetaTags from "@/lib/util/createMetaTags";
@@ -276,6 +277,7 @@ const unregisterServiceWorkers = async () => {
  */
 function RootDocument({ children }: PropsWithChildren) {
   const theme = Route.useLoaderData();
+  const { organizations } = useRouteContext({ from: "__root__" });
 
   // Evict any service worker left over from when this app shipped one
   useEffect(() => {
@@ -290,17 +292,19 @@ function RootDocument({ children }: PropsWithChildren) {
 
       <body>
         <ThemeProvider theme={theme}>
-          <CommandPalette />
+          <WorkspaceProvider workspaces={organizations}>
+            <CommandPalette />
 
-          <Header />
+            <Header />
 
-          <div className="relative flex h-dvh w-full flex-col gap-0">
-            <main className="mt-16.5 flex-1">{children}</main>
+            <div className="relative flex h-dvh w-full flex-col gap-0">
+              <main className="mt-16.5 flex-1">{children}</main>
 
-            <Footer />
-          </div>
+              <Footer />
+            </div>
 
-          <Toaster position="top-center" richColors />
+            <Toaster position="top-center" richColors />
+          </WorkspaceProvider>
         </ThemeProvider>
 
         {isDevEnv && (

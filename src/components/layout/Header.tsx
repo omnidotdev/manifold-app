@@ -22,6 +22,7 @@ import {
   MenuSeparator,
   MenuTrigger,
 } from "@/components/ui/menu";
+import WorkspaceSwitcher from "@/components/workspaces/WorkspaceSwitcher";
 import authClient from "@/lib/auth/authClient";
 import signOut from "@/lib/auth/signOut";
 import app from "@/lib/config/app.config";
@@ -71,13 +72,15 @@ const Header = () => {
     <header className="fixed top-0 z-50 w-full border-white/10 border-b bg-[oklch(0.2_0.09_265)] text-white shadow-sm backdrop-blur">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <div className="flex min-w-0 gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <InternalLink to="/" variant="unstyled" className="-ml-4">
               <LogoLockup
                 name={app.name}
                 nameClassName="font-bold text-xl text-white"
               />
             </InternalLink>
+
+            {auth && <WorkspaceSwitcher />}
 
             {navLinks.map(({ to, label }) => (
               <InternalLink

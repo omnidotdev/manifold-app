@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 
+import { WorkspaceProvider } from "@/lib/context";
+
 // Mock auth client before importing Header
 const mockSignIn = mock(() => Promise.resolve());
 const mockSignOut = mock(() => Promise.resolve());
@@ -61,7 +63,12 @@ const renderWithProviders = async (
     defaultOptions: { queries: { retry: false } },
   });
 
-  const router = createTestRouter(<Header />, auth);
+  const router = createTestRouter(
+    <WorkspaceProvider workspaces={[]}>
+      <Header />
+    </WorkspaceProvider>,
+    auth,
+  );
 
   const result = render(
     <QueryClientProvider client={queryClient}>
