@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateNamespaceMutation } from "@/generated/graphql";
+import { useWorkspace } from "@/lib/context";
 
 import type { PropsWithChildren } from "react";
 
@@ -31,6 +32,7 @@ const CreateNamespaceModal = ({
   onSuccess,
   children,
 }: PropsWithChildren<Props>) => {
+  const { activeWorkspace } = useWorkspace();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -54,6 +56,9 @@ const CreateNamespaceModal = ({
         namespace: {
           name,
           description: description || undefined,
+          // Scope the namespace to the active workspace so it is owned by the
+          // right org (and visible under org-scoped reads)
+          organizationId: activeWorkspace?.id,
         },
       },
     });

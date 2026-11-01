@@ -8,6 +8,7 @@ import CreateNamespaceModal from "@/components/namespace/CreateNamespaceModal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useNamespacesQuery } from "@/generated/graphql";
+import { useWorkspace } from "@/lib/context";
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/_app/registry/")({
@@ -25,8 +26,15 @@ export const Route = createFileRoute("/_app/registry/")({
  */
 function RegistryPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { activeWorkspace } = useWorkspace();
 
-  const { data, isLoading } = useNamespacesQuery();
+  // Scope the registry to the active workspace. With no active workspace, fall
+  // back to the server's org-isolated default (all the viewer's namespaces).
+  const { data, isLoading } = useNamespacesQuery(
+    activeWorkspace
+      ? { condition: { organizationId: activeWorkspace.id } }
+      : {},
+  );
 
   const namespaces =
     data?.namespaces?.nodes?.filter(
