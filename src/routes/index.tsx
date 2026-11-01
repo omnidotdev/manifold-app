@@ -137,19 +137,45 @@ function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b bg-gradient-to-b from-primary/5 via-background to-background">
-        <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 py-20 text-center sm:py-28">
-          <span className="inline-flex items-center gap-2 rounded-full border bg-muted/50 px-3 py-1 font-medium text-muted-foreground text-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+      <section className="relative overflow-hidden border-b bg-gradient-to-b from-[oklch(0.3_0.12_264)] via-[oklch(0.2_0.09_265)] to-[oklch(0.15_0.05_266)] text-white">
+        {/* topology motif: nodes + loops behind the hero */}
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute inset-0 h-full w-full opacity-20"
+          preserveAspectRatio="none"
+          viewBox="0 0 1100 460"
+          role="img"
+        >
+          <title>Topology of connected artifacts</title>
+          <g fill="none" stroke="white" strokeWidth="1">
+            <circle cx="250" cy="160" r="70" />
+            <circle cx="430" cy="270" r="120" />
+            <circle cx="660" cy="130" r="95" />
+            <circle cx="850" cy="300" r="150" />
+            <circle cx="560" cy="360" r="60" />
+            <path d="M250 160 430 270 660 130 850 300M560 360 430 270" />
+          </g>
+          <g fill="white">
+            <circle cx="250" cy="160" r="3" />
+            <circle cx="430" cy="270" r="3" />
+            <circle cx="660" cy="130" r="3" />
+            <circle cx="850" cy="300" r="3" />
+            <circle cx="560" cy="360" r="3" />
+          </g>
+        </svg>
+
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 py-24 text-center sm:py-32">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 font-medium text-white text-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-secondary-300" />
             Universal artifact registry
           </span>
 
           <h1 className="max-w-3xl text-balance font-bold text-4xl tracking-tight sm:text-6xl">
             Every build artifact.
-            <span className="text-primary"> One registry.</span>
+            <span className="text-secondary-300"> One registry.</span>
           </h1>
 
-          <p className="max-w-2xl text-pretty text-lg text-muted-foreground">
+          <p className="max-w-2xl text-pretty text-lg text-white/70">
             Manifold stores, versions, and distributes containers, Cargo crates,
             npm packages, schemas, and WASM modules, through the tools you
             already use. Private by default, isolated per workspace, and
@@ -165,15 +191,25 @@ function HomePage() {
               Get started free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-white/30 bg-transparent text-white hover:bg-white/10"
+              asChild
+            >
               <a href={DOCS_URL}>Read the docs</a>
             </Button>
-            <Button size="lg" variant="ghost" asChild>
+            <Button
+              size="lg"
+              variant="ghost"
+              className="text-white/80 hover:bg-white/10 hover:text-white"
+              asChild
+            >
               <Link to="/pricing">View pricing</Link>
             </Button>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-muted-foreground text-sm">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/60">
             {ARTIFACTS.map(({ icon: Icon, name }) => (
               <span key={name} className="inline-flex items-center gap-2">
                 <Icon className="h-4 w-4" />
