@@ -93,18 +93,25 @@ function TokensPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Key className="h-6 w-6 text-primary" />
-              <h1 className="font-semibold text-2xl">API Tokens</h1>
+        <div className="container mx-auto flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Key className="h-5 w-5" />
             </div>
-
-            <Button onClick={() => setCreateOpen(true)}>
-              <Plus className="mr-2 h-4 w-4" />
-              Create Token
-            </Button>
+            <div>
+              <h1 className="font-semibold text-2xl leading-tight">
+                API Tokens
+              </h1>
+              <p className="text-muted-foreground text-sm">
+                Scoped tokens for pushing and pulling from CI and your machine.
+              </p>
+            </div>
           </div>
+
+          <Button className="shrink-0" onClick={() => setCreateOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Create Token
+          </Button>
         </div>
       </div>
 

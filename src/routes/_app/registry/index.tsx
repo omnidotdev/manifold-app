@@ -44,25 +44,33 @@ function RegistryPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <h1 className="font-semibold text-2xl">Registry</h1>
+        <div className="container mx-auto flex flex-col gap-4 px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+              <Package className="h-5 w-5" />
+            </div>
+            <div>
+              <h1 className="font-semibold text-2xl leading-tight">Registry</h1>
+              <p className="text-muted-foreground text-sm">
+                Namespaces and the artifacts they hold.
+              </p>
+            </div>
+          </div>
 
-              <div className="relative">
-                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  placeholder="Search namespaces..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-64 pl-10"
-                />
-              </div>
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1 lg:w-64 lg:flex-none">
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search namespaces..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10"
+              />
             </div>
 
             <CreateNamespaceModal
               trigger={
-                <Button>
+                <Button className="shrink-0">
                   <Plus className="mr-2 h-4 w-4" />
                   New Namespace
                 </Button>

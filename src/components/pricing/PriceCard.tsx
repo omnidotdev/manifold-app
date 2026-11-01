@@ -173,11 +173,22 @@ const PriceCard = ({
         key={price.product.name}
         className={cn(
           "size-full max-w-lg overflow-hidden lg:min-w-80",
-          isProTier && "border-primary/30",
+          isProTier &&
+            "border-primary shadow-lg shadow-primary/5 ring-1 ring-primary/20",
         )}
       >
-        <CardHeader className="bg-muted pb-3 lg:min-h-50.5">
+        <CardHeader
+          className={cn(
+            "pb-3 lg:min-h-50.5",
+            isProTier ? "bg-primary/5" : "bg-muted",
+          )}
+        >
           <div className="flex flex-1 flex-col">
+            {isProTier && (
+              <span className="mb-2 inline-flex w-fit items-center rounded-full bg-primary px-2.5 py-0.5 font-medium text-primary-foreground text-xs">
+                Most popular
+              </span>
+            )}
             <CardTitle className="text-lg">
               {capitalizeFirstLetter(price.product.name)}
             </CardTitle>
