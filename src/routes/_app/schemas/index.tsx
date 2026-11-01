@@ -130,59 +130,10 @@ function SchemasPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-6">
-              <h1 className="font-semibold text-2xl">Schemas</h1>
-
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    placeholder="Search schemas..."
-                    value={searchQuery}
-                    onChange={(e) =>
-                      updateSearch({
-                        search: e.target.value || undefined,
-                        page: undefined,
-                      })
-                    }
-                    className="w-64 pl-10"
-                  />
-                </div>
-
-                <Tabs
-                  value={filterType}
-                  onValueChange={(v) =>
-                    updateSearch({
-                      type: v as SchemaType | "all",
-                      page: undefined,
-                    })
-                  }
-                >
-                  <TabsList>
-                    <TabsTrigger value="all">
-                      All ({schemas.length})
-                    </TabsTrigger>
-                    <TabsTrigger value="openapi">
-                      OpenAPI ({typeCounts.openapi || 0})
-                    </TabsTrigger>
-                    <TabsTrigger value="graphql">
-                      GraphQL ({typeCounts.graphql || 0})
-                    </TabsTrigger>
-                    <TabsTrigger value="json">
-                      JSON ({typeCounts.json || 0})
-                    </TabsTrigger>
-                    <TabsTrigger value="wasm">
-                      WASM ({typeCounts.wasm || 0})
-                    </TabsTrigger>
-                    <TabsTrigger value="container">
-                      Container ({typeCounts.container || 0})
-                    </TabsTrigger>
-                  </TabsList>
-                </Tabs>
-              </div>
-            </div>
+        <div className="container mx-auto flex flex-col gap-4 px-6 py-4">
+          {/* Title + primary actions */}
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="font-semibold text-2xl">Schemas</h1>
 
             <div className="flex items-center gap-3">
               <div className="flex rounded-md border bg-background">
@@ -190,6 +141,7 @@ function SchemasPage() {
                   variant={viewMode === "grid" ? "solid" : "ghost"}
                   size="icon"
                   onClick={() => updateSearch({ view: "grid" })}
+                  aria-label="Grid view"
                 >
                   <Grid className="h-4 w-4" />
                 </Button>
@@ -197,6 +149,7 @@ function SchemasPage() {
                   variant={viewMode === "list" ? "solid" : "ghost"}
                   size="icon"
                   onClick={() => updateSearch({ view: "list" })}
+                  aria-label="List view"
                 >
                   <List className="h-4 w-4" />
                 </Button>
@@ -206,6 +159,55 @@ function SchemasPage() {
                 <Plus className="mr-2 h-4 w-4" />
                 New Schema
               </InternalLink>
+            </div>
+          </div>
+
+          {/* Search + type filters (filters scroll horizontally when narrow) */}
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <div className="relative lg:w-72">
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search schemas..."
+                value={searchQuery}
+                onChange={(e) =>
+                  updateSearch({
+                    search: e.target.value || undefined,
+                    page: undefined,
+                  })
+                }
+                className="w-full pl-10"
+              />
+            </div>
+
+            <div className="-mx-6 overflow-x-auto px-6 lg:mx-0 lg:px-0">
+              <Tabs
+                value={filterType}
+                onValueChange={(v) =>
+                  updateSearch({
+                    type: v as SchemaType | "all",
+                    page: undefined,
+                  })
+                }
+              >
+                <TabsList className="w-max">
+                  <TabsTrigger value="all">All ({schemas.length})</TabsTrigger>
+                  <TabsTrigger value="openapi">
+                    OpenAPI ({typeCounts.openapi || 0})
+                  </TabsTrigger>
+                  <TabsTrigger value="graphql">
+                    GraphQL ({typeCounts.graphql || 0})
+                  </TabsTrigger>
+                  <TabsTrigger value="json">
+                    JSON ({typeCounts.json || 0})
+                  </TabsTrigger>
+                  <TabsTrigger value="wasm">
+                    WASM ({typeCounts.wasm || 0})
+                  </TabsTrigger>
+                  <TabsTrigger value="container">
+                    Container ({typeCounts.container || 0})
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
           </div>
         </div>
