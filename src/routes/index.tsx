@@ -1,4 +1,5 @@
 import { Button } from "@omnidotdev/thornberry/button";
+import { useMutation } from "@tanstack/react-query";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import {
   Box,
@@ -11,6 +12,7 @@ import {
   Shield,
 } from "lucide-react";
 
+import authClient from "@/lib/auth/authClient";
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/")({
@@ -32,6 +34,19 @@ export const Route = createFileRoute("/")({
  * Home page / Landing.
  */
 function HomePage() {
+  // This page only renders for signed-out visitors (authed users are
+  // redirected to /schemas in beforeLoad), and /schemas is auth-gated, so the
+  // primary CTA signs in and lands on /schemas afterward rather than linking
+  // straight to the gated route (which would just bounce back here)
+  const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
+    mutationFn: async () =>
+      await authClient.signIn.social({
+        provider: "omni",
+        callbackURL: "/schemas",
+        disableRedirect: false,
+      }),
+  });
+
   return (
     <div className="flex min-h-[calc(100vh-4rem)] flex-col">
       {/* Hero Section */}
@@ -49,8 +64,8 @@ function HomePage() {
         </div>
 
         <div className="flex gap-4">
-          <Button size="lg" asChild>
-            <Link to="/schemas">View Schemas</Link>
+          <Button size="lg" onClick={() => signIn()} disabled={isSignInPending}>
+            View Schemas
           </Button>
           <Button size="lg" variant="outline" asChild>
             <Link to="/pricing">Get Started</Link>
