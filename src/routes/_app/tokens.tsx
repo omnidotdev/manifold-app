@@ -125,8 +125,10 @@ function TokensPage() {
         ) : null}
 
         {!isLoading && !error && activeTokens.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Key className="mb-4 h-12 w-12 text-muted-foreground" />
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Key className="h-8 w-8" />
+            </div>
             <h3 className="mb-2 font-semibold text-lg">No active tokens</h3>
             <p className="mb-4 text-muted-foreground">
               Create an API token for programmatic access to your registries

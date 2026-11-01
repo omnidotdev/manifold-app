@@ -6,7 +6,7 @@ import { useTheme } from "@/providers/ThemeProvider";
 /**
  * Theme toggle.
  */
-const ThemeToggle = () => {
+const ThemeToggle = ({ className }: { className?: string }) => {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
@@ -15,6 +15,7 @@ const ThemeToggle = () => {
     <Button
       variant="ghost"
       onClick={toggleTheme}
+      className={className}
       aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
     >
       {theme === "light" ? <MoonIcon /> : <SunIcon />}
