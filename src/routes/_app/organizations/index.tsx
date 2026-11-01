@@ -1,5 +1,6 @@
 import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute, useRouteContext } from "@tanstack/react-router";
+import { Boxes } from "lucide-react";
 
 import CreateWorkspaceButton from "@/components/organizations/CreateWorkspaceButton";
 import { Avatar } from "@/components/ui/avatar";
@@ -26,9 +27,14 @@ function OrganizationsPage() {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto px-6 py-8">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <h1 className="font-bold text-2xl">Workspaces</h1>
+        <div>
+          <h1 className="font-semibold text-2xl leading-tight">Workspaces</h1>
+          <p className="text-muted-foreground text-sm">
+            Organizations you belong to. Switch the active one from the header.
+          </p>
+        </div>
 
         {workspaces.length > 0 && <CreateWorkspaceButton />}
       </div>
@@ -101,7 +107,10 @@ function OrganizationsPage() {
             </Button>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-16 text-center">
+          <div className="flex flex-col items-center gap-3 rounded-lg border border-dashed py-20 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Boxes className="h-8 w-8" />
+            </div>
             <p className="text-muted-foreground text-sm">
               No workspaces yet. Create one to get started.
             </p>
