@@ -205,12 +205,7 @@ function HomePage() {
                 Start free
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white/15 bg-white/5 text-white hover:bg-white/10"
-                asChild
-              >
+              <Button size="lg" variant="outline" asChild>
                 <a href={DOCS_URL}>Read the docs</a>
               </Button>
             </div>
@@ -320,12 +315,7 @@ function HomePage() {
               Get started free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white/15 bg-white/5 font-mono text-white hover:bg-white/10"
-              asChild
-            >
+            <Button size="lg" variant="outline" asChild>
               <Link to="/pricing">View pricing</Link>
             </Button>
           </div>
