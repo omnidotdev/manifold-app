@@ -212,7 +212,7 @@ function RepositoryDetailPage() {
 
             <TabsContent value="artifacts" className="mt-4">
               {artifacts.length > 0 ? (
-                <Card>
+                <Card className="overflow-hidden rounded-2xl">
                   <CardContent className="p-0">
                     <table className="w-full">
                       <thead>
@@ -289,7 +289,7 @@ function RepositoryDetailPage() {
 
             <TabsContent value="tags" className="mt-4">
               {tags.length > 0 ? (
-                <Card>
+                <Card className="overflow-hidden rounded-2xl">
                   <CardContent className="p-0">
                     <table className="w-full">
                       <thead>

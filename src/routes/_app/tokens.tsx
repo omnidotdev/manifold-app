@@ -148,7 +148,7 @@ function TokensPage() {
         )}
 
         {activeTokens.length > 0 && (
-          <Card>
+          <Card className="overflow-hidden rounded-2xl">
             <CardHeader>
               <CardTitle>Active Tokens</CardTitle>
             </CardHeader>
@@ -209,7 +209,7 @@ function TokensPage() {
         )}
 
         {revokedTokens.length > 0 && (
-          <Card>
+          <Card className="overflow-hidden rounded-2xl">
             <CardHeader>
               <CardTitle className="text-muted-foreground">
                 Revoked Tokens
