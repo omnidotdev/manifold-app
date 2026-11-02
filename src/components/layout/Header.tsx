@@ -1,6 +1,5 @@
 import { MenuRootProvider, useMenu } from "@ark-ui/react";
 import { Button } from "@omnidotdev/thornberry/button";
-import { LogoLockup } from "@omnidotdev/thornberry/logo-lockup";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
 import { ExternalLinkIcon, Menu as MenuIcon } from "lucide-react";
@@ -25,7 +24,6 @@ import {
 import WorkspaceSwitcher from "@/components/workspaces/WorkspaceSwitcher";
 import authClient from "@/lib/auth/authClient";
 import signOut from "@/lib/auth/signOut";
-import app from "@/lib/config/app.config";
 import { CONSOLE_URL } from "@/lib/config/env.config";
 
 /**
@@ -69,15 +67,30 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full border-white/10 border-b bg-[oklch(0.2_0.09_265)] text-white shadow-sm backdrop-blur">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+    <header className="fixed top-0 z-50 w-full text-white">
+      <div className="mx-auto flex h-16 max-w-6xl items-center px-4">
+        <div className="flex h-12 w-full items-center justify-between gap-2 rounded-2xl border border-white/10 bg-[#0e1016]/75 px-3 shadow-[0_18px_44px_-24px_rgba(0,0,0,0.9)] backdrop-blur-xl">
           <div className="flex min-w-0 items-center gap-2">
-            <InternalLink to="/" variant="unstyled" className="-ml-4">
-              <LogoLockup
-                name={app.name}
-                nameClassName="font-bold text-xl text-white"
-              />
+            <InternalLink to="/" variant="unstyled">
+              <span className="flex items-center gap-2.5 font-extrabold text-lg tracking-tight">
+                <span className="grid h-7 w-7 place-items-center rounded-[9px] bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] shadow-[0_6px_18px_-6px_rgba(99,102,241,0.8)]">
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#fff"
+                    strokeWidth="2.4"
+                    role="img"
+                  >
+                    <title>Manifold</title>
+                    <circle cx="7" cy="7" r="3" />
+                    <circle cx="17" cy="17" r="3" />
+                    <path d="M9.2 9.2 14.8 14.8M7 10v1a3 3 0 0 0 3 3h1M17 14v-1a3 3 0 0 0-3-3h-1" />
+                  </svg>
+                </span>
+                <span className="text-white">manifold</span>
+              </span>
             </InternalLink>
 
             {auth && <WorkspaceSwitcher />}
