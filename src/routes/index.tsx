@@ -4,15 +4,12 @@ import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import {
   ArrowRight,
   Boxes,
-  Container,
-  FileJson,
   GitBranch,
-  Layers,
   Lock,
-  Package,
   Server,
   ShieldCheck,
 } from "lucide-react";
+import { useState } from "react";
 
 import authClient from "@/lib/auth/authClient";
 import createMetaTags from "@/lib/util/createMetaTags";
@@ -36,52 +33,114 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const CHIPS: Array<{ icon: LucideIcon; label: string }> = [
-  { icon: Container, label: "Containers" },
-  { icon: Boxes, label: "Cargo" },
-  { icon: Package, label: "npm" },
-  { icon: FileJson, label: "Schemas" },
-  { icon: Layers, label: "WASM" },
+type Line = { c?: "d" | "c" | "p" | "g"; t: string };
+const CLS: Record<string, string> = {
+  d: "text-[#636b80]",
+  c: "text-[#38bdf8]",
+  p: "text-[#6aa6ff]",
+  g: "text-[#34d399]",
+};
+
+const PROTOCOLS: Array<{ key: string; label: string; lines: Line[] }> = [
+  {
+    key: "oci",
+    label: "OCI",
+    lines: [
+      { c: "d", t: "$ " },
+      { t: "docker push " },
+      { c: "c", t: "manifold.omni.dev/acme/api:1.4.0\n" },
+      {
+        c: "d",
+        t: "The push refers to repository [manifold.omni.dev/acme/api]\n",
+      },
+      { c: "g", t: "1.4.0: digest: sha256:9f2a…e1 size: 2847" },
+    ],
+  },
+  {
+    key: "cargo",
+    label: "Cargo",
+    lines: [
+      { c: "d", t: "$ " },
+      { t: "cargo publish " },
+      { c: "p", t: "--registry manifold\n" },
+      { c: "g", t: "   Packaging engine v1.4.0\n" },
+      { c: "g", t: "   Uploading engine v1.4.0 (manifold)" },
+    ],
+  },
+  {
+    key: "npm",
+    label: "npm",
+    lines: [
+      { c: "d", t: "$ " },
+      { t: "npm publish " },
+      { c: "d", t: "# @acme/sdk\n" },
+      { c: "g", t: "npm notice publishing to manifold\n" },
+      { c: "g", t: "+ @acme/sdk@1.4.0 " },
+      { c: "d", t: "(private)" },
+    ],
+  },
+  {
+    key: "schema",
+    label: "Schema",
+    lines: [
+      { c: "d", t: "$ " },
+      { t: "curl -XPOST " },
+      { c: "c", t: "api.manifold.omni.dev/graphql\n" },
+      { c: "d", t: "# createSchema(openapi) …\n" },
+      { c: "g", t: '{ "schema": { "name": "orders", "version": "1.4.0" } }' },
+    ],
+  },
 ];
 
-const BENTO: Array<{
+const FEATURES: Array<{
   icon: LucideIcon;
   title: string;
   body: string;
-  wide?: boolean;
+  span: string;
+  feat?: boolean;
 }> = [
   {
     icon: Boxes,
-    title: "Containers, crates, packages, schemas & WASM",
-    body: "OCI over the standard Distribution API, a real Cargo registry, scoped npm, versioned schemas, and WASM modules, side by side in one place.",
-    wide: true,
+    title: "Five protocols, one home",
+    body: "OCI, Cargo, npm, schemas, and WASM, side by side, each spoken natively.",
+    span: "md:col-span-3",
+    feat: true,
   },
   {
     icon: Lock,
     title: "Private by default",
-    body: "New repositories are private; flip to public for anonymous pulls.",
+    body: "New repos are private; make them public for anonymous pulls.",
+    span: "md:col-span-3",
   },
   {
     icon: ShieldCheck,
-    title: "Per-workspace isolation",
-    body: "Every artifact is scoped to your workspace. Full stop.",
+    title: "Workspace isolation",
+    body: "Scoped to your workspace, always.",
+    span: "md:col-span-2",
   },
   {
     icon: GitBranch,
     title: "Versioned history",
-    body: "Immutable versions, full history, instant rollback.",
+    body: "Immutable versions, instant rollback.",
+    span: "md:col-span-2",
   },
   {
     icon: Server,
-    title: "Self-host or let us run it",
-    body: "Bring it up with docker compose, or use the hosted cloud. Apache-2.0, no lock-in.",
-    wide: true,
+    title: "Self-host or cloud",
+    body: "docker compose up, or let us run it.",
+    span: "md:col-span-2",
   },
 ];
 
+const TRUST = [
+  "5 protocols",
+  "Private by default",
+  "Self-host or cloud",
+  "Apache-2.0",
+];
+
 function HomePage() {
-  // Only renders for signed-out visitors (authed users redirect to /registry);
-  // the primary CTA signs in and lands there
+  // Only renders for signed-out visitors (authed users redirect to /registry)
   const { mutateAsync: signIn, isPending } = useMutation({
     mutationFn: async () =>
       await authClient.signIn.social({
@@ -90,69 +149,59 @@ function HomePage() {
         disableRedirect: false,
       }),
   });
+  const [proto, setProto] = useState("oci");
+  const active = PROTOCOLS.find((p) => p.key === proto) ?? PROTOCOLS[0];
 
   return (
-    <div className="relative overflow-hidden bg-[#07080c] text-[#eef1f8]">
+    <div className="relative overflow-hidden bg-[#060709] text-[#f2f4fa]">
       {/* atmosphere */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
-            backgroundSize: "26px 26px",
+              "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
             maskImage:
-              "radial-gradient(circle at 50% 0%, #000 0%, transparent 70%)",
+              "radial-gradient(circle at 50% -5%, #000, transparent 68%)",
             WebkitMaskImage:
-              "radial-gradient(circle at 50% 0%, #000 0%, transparent 70%)",
+              "radial-gradient(circle at 50% -5%, #000, transparent 68%)",
           }}
         />
         <div
           className="absolute"
           style={{
-            top: "-260px",
+            top: "-320px",
             left: "50%",
             transform: "translateX(-50%)",
-            width: "1100px",
-            height: "700px",
+            width: "1200px",
+            height: "760px",
             borderRadius: "50%",
             background:
-              "radial-gradient(closest-side, rgba(59,130,246,0.26), rgba(59,130,246,0.05) 60%, transparent 75%)",
-            filter: "blur(20px)",
+              "radial-gradient(closest-side, rgba(59,130,246,0.3), rgba(139,92,246,0.08) 55%, transparent 74%)",
+            filter: "blur(16px)",
           }}
         />
       </div>
 
       {/* hero */}
-      <section className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
+      <section className="relative mx-auto max-w-6xl px-6 pt-28 pb-16">
+        <div className="grid items-center gap-[52px] lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#262c3d] bg-[#3b82f6]/10 px-3 py-1.5 font-semibold text-[#60a5fa] text-xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]" />
-              Universal artifact registry
-            </span>
-
-            <h1 className="mt-5 font-extrabold text-5xl leading-[1.03] tracking-tight sm:text-6xl">
-              Every build artifact.
+            <h1 className="font-extrabold text-6xl leading-[0.98] tracking-[-0.045em] sm:text-7xl">
+              Ship anything.
               <br />
-              <span className="bg-gradient-to-r from-[#60a5fa] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#6aa6ff] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
                 One registry.
               </span>
             </h1>
-
-            <p className="mt-6 max-w-[34ch] text-[#9aa3b8] text-lg">
+            <p className="mt-6 max-w-[40ch] text-[#99a1b5] text-xl">
               Containers, Cargo crates, npm packages, schemas, and WASM,
-              versioned, private by default, and pushed with the tools you
-              already use.
+              versioned, private by default, pushed with the tools you already
+              use.
             </p>
-
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button
-                size="lg"
-                onClick={() => signIn()}
-                disabled={isPending}
-                className="shadow-[0_8px_28px_-8px_rgba(59,130,246,0.8)]"
-              >
+              <Button size="lg" onClick={() => signIn()} disabled={isPending}>
                 Start free
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -165,57 +214,55 @@ function HomePage() {
                 <a href={DOCS_URL}>Read the docs</a>
               </Button>
             </div>
-
-            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-[#9aa3b8] text-sm">
-              {CHIPS.map(({ icon: Icon, label }) => (
-                <span key={label} className="inline-flex items-center gap-2">
-                  <Icon className="h-4 w-4 text-[#60a5fa]" />
-                  {label}
+            <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[#636b80] text-sm">
+              {TRUST.map((t, i) => (
+                <span key={t} className="inline-flex items-center gap-2">
+                  {i > 0 && (
+                    <span className="h-1 w-1 rounded-full bg-[#272c3a]" />
+                  )}
+                  {t}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* terminal mock */}
-          <div className="overflow-hidden rounded-2xl border border-[#262c3d] bg-gradient-to-b from-[#131726] to-[#0f121b] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]">
-            <div className="flex items-center gap-2 border-[#1c2130] border-b px-4 py-3">
-              <span className="h-3 w-3 rounded-full bg-[#f4645f]" />
-              <span className="h-3 w-3 rounded-full bg-[#f5be4f]" />
-              <span className="h-3 w-3 rounded-full bg-[#4fc758]" />
-              <span className="ml-2 font-mono text-[#697086] text-xs">
-                ~/acme/api
-              </span>
+          {/* protocol switcher + terminal */}
+          <div>
+            <div className="mb-3.5 inline-flex gap-0.5 rounded-xl border border-[#1b1f2b] bg-[#0e1016] p-1">
+              {PROTOCOLS.map((p) => (
+                <button
+                  key={p.key}
+                  type="button"
+                  onClick={() => setProto(p.key)}
+                  className={`rounded-lg px-3 py-2 font-semibold text-xs transition-colors ${
+                    p.key === proto
+                      ? "bg-[#191d29] text-white shadow-[inset_0_0_0_1px_#272c3a]"
+                      : "text-[#99a1b5] hover:text-white"
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
             </div>
-            <div className="space-y-1 p-5 font-mono text-[13.5px] leading-[1.9]">
-              <div>
-                <span className="text-[#697086]">$</span> docker push{" "}
-                <span className="text-[#38bdf8]">
-                  manifold.omni.dev/acme/api:1.4.0
+            <div className="overflow-hidden rounded-2xl border border-[#272c3a] bg-gradient-to-b from-[#13161f] to-[#0e1016] shadow-[0_44px_100px_-46px_#000]">
+              <div className="flex items-center gap-2 border-[#1b1f2b] border-b px-4 py-3">
+                <span className="h-[11px] w-[11px] rounded-full bg-[#f4645f]" />
+                <span className="h-[11px] w-[11px] rounded-full bg-[#f5be4f]" />
+                <span className="h-[11px] w-[11px] rounded-full bg-[#4fc758]" />
+                <span className="ml-2 font-mono text-[#636b80] text-xs">
+                  ~/acme
                 </span>
               </div>
-              <div className="text-[#697086]">
-                The push refers to repository [manifold.omni.dev/acme/api]
-              </div>
-              <div className="text-[#4fc758]">
-                1.4.0: digest: sha256:9f2a…e1 size: 2847
-              </div>
-              <div className="h-2.5" />
-              <div>
-                <span className="text-[#697086]">$</span> cargo publish{" "}
-                <span className="text-[#60a5fa]">--registry manifold</span>
-              </div>
-              <div className="text-[#4fc758]">
-                {"   "}Uploading engine v1.4.0 (manifold)
-              </div>
-              <div className="h-2.5" />
-              <div>
-                <span className="text-[#697086]">$</span> npm publish{" "}
-                <span className="text-[#697086]"># @acme/sdk</span>
-              </div>
-              <div>
-                <span className="text-[#4fc758]">+ @acme/sdk@1.4.0</span>{" "}
-                <span className="text-[#697086]">(private)</span>
-              </div>
+              <pre className="min-h-[164px] whitespace-pre-wrap p-5 font-mono text-[13.5px] leading-[1.95]">
+                {active.lines.map((l, i) => (
+                  <span
+                    key={`${active.key}-${i}`}
+                    className={l.c ? CLS[l.c] : "text-[#f2f4fa]"}
+                  >
+                    {l.t}
+                  </span>
+                ))}
+              </pre>
             </div>
           </div>
         </div>
@@ -223,37 +270,30 @@ function HomePage() {
 
       {/* bento */}
       <section className="relative mx-auto max-w-6xl px-6 py-20">
-        <div className="mx-auto mb-11 max-w-[620px] text-center">
-          <h2 className="font-extrabold text-4xl tracking-tight">
+        <div className="mx-auto mb-11 max-w-[640px] text-center">
+          <h2 className="font-extrabold text-4xl tracking-[-0.035em]">
             One registry for everything you ship
           </h2>
-          <p className="mt-3 text-[#9aa3b8]">
+          <p className="mt-3 text-[#99a1b5] text-lg">
             Standard tooling, one auth model, every artifact type. No new CLI to
             learn.
           </p>
         </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {BENTO.map(({ icon: Icon, title, body, wide }) => (
+        <div className="grid gap-4 md:grid-cols-6">
+          {FEATURES.map(({ icon: Icon, title, body, span, feat }) => (
             <div
               key={title}
-              className={`group relative overflow-hidden rounded-2xl border border-[#1c2130] bg-[#0f121b] p-6 transition-all hover:-translate-y-0.5 hover:border-[#262c3d] ${
-                wide ? "md:col-span-2" : ""
+              className={`rounded-[18px] border border-[#1b1f2b] p-6 transition-all hover:-translate-y-0.5 hover:border-[#272c3a] ${span} ${
+                feat
+                  ? "bg-gradient-to-br from-[#3b82f6]/10 to-[#0e1016]"
+                  : "bg-[#0e1016]"
               }`}
             >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
-                style={{
-                  background:
-                    "radial-gradient(400px 120px at 20% 0%, rgba(59,130,246,0.1), transparent)",
-                }}
-              />
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#3b82f6]/12 text-[#60a5fa]">
+              <div className="mb-4 flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-[#3b82f6]/12 text-[#6aa6ff]">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="font-bold text-lg">{title}</h3>
-              <p className="mt-1.5 text-[#9aa3b8] text-sm">{body}</p>
+              <h3 className="font-bold text-lg tracking-tight">{title}</h3>
+              <p className="mt-2 text-[#99a1b5] text-sm">{body}</p>
             </div>
           ))}
         </div>
@@ -262,16 +302,16 @@ function HomePage() {
       {/* CTA */}
       <section className="relative mx-auto max-w-6xl px-6 pb-24">
         <div
-          className="rounded-2xl border border-[#262c3d] px-6 py-14 text-center"
+          className="rounded-[22px] border border-[#272c3a] px-6 py-14 text-center"
           style={{
             background:
-              "radial-gradient(600px 200px at 50% 0%, rgba(59,130,246,0.14), #0f121b)",
+              "radial-gradient(640px 220px at 50% 0%, rgba(59,130,246,0.16), #0e1016)",
           }}
         >
-          <h2 className="font-extrabold text-4xl tracking-tight">
+          <h2 className="font-extrabold text-4xl tracking-[-0.035em]">
             Start pushing in minutes
           </h2>
-          <p className="mx-auto mt-3 max-w-[46ch] text-[#9aa3b8]">
+          <p className="mx-auto mt-3 max-w-[46ch] text-[#99a1b5]">
             Free to start, no credit card. Upgrade or self-host whenever you are
             ready.
           </p>
@@ -283,7 +323,7 @@ function HomePage() {
             <Button
               size="lg"
               variant="outline"
-              className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+              className="border-white/15 bg-white/5 font-mono text-white hover:bg-white/10"
               asChild
             >
               <Link to="/pricing">View pricing</Link>
