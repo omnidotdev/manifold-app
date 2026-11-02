@@ -1,11 +1,10 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { Loader2, Package, Plus, Search } from "lucide-react";
+import { ChevronRight, Loader2, Package, Plus, Search } from "lucide-react";
 import { useState } from "react";
 
 import CreateNamespaceModal from "@/components/namespace/CreateNamespaceModal";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useNamespacesQuery } from "@/generated/graphql";
 import { useWorkspace } from "@/lib/context";
@@ -95,38 +94,30 @@ function RegistryPage() {
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : filteredNamespaces.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredNamespaces.map((ns) => (
+          <div className="overflow-hidden rounded-2xl border bg-card">
+            {filteredNamespaces.map((ns, i) => (
               <Link
                 key={ns.rowId}
                 to="/registry/$namespaceName"
                 params={{ namespaceName: ns.name }}
-                className="block"
+                className={`flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/40 ${
+                  i > 0 ? "border-t" : ""
+                }`}
               >
-                <Card className="group cursor-pointer transition-shadow hover:shadow-md">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <Package className="h-5 w-5 text-primary" />
-                        <CardTitle className="text-base">{ns.name}</CardTitle>
-                      </div>
-                      <Badge variant="outline">
-                        {ns.repositories.totalCount}{" "}
-                        {ns.repositories.totalCount === 1 ? "repo" : "repos"}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="line-clamp-2 text-muted-foreground text-sm">
-                      {ns.description || "No description"}
-                    </p>
-                    {ns.createdAt && (
-                      <p className="mt-4 text-muted-foreground text-xs">
-                        Created {new Date(ns.createdAt).toLocaleDateString()}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Package className="h-5 w-5" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="truncate font-semibold">{ns.name}</div>
+                  <p className="truncate text-muted-foreground text-sm">
+                    {ns.description || "No description"}
+                  </p>
+                </div>
+                <Badge variant="outline" className="shrink-0">
+                  {ns.repositories.totalCount}{" "}
+                  {ns.repositories.totalCount === 1 ? "repo" : "repos"}
+                </Badge>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
               </Link>
             ))}
           </div>
