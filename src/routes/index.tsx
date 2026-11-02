@@ -153,7 +153,7 @@ function HomePage() {
   const active = PROTOCOLS.find((p) => p.key === proto) ?? PROTOCOLS[0];
 
   return (
-    <div className="relative overflow-hidden bg-[#060709] text-[#f2f4fa]">
+    <div className="dark relative -mt-[66px] overflow-hidden bg-[#060709] text-[#f2f4fa]">
       {/* atmosphere */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div
