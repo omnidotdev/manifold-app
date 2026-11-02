@@ -7,11 +7,9 @@ import {
   Container,
   FileJson,
   GitBranch,
-  KeyRound,
   Layers,
   Lock,
   Package,
-  Search,
   Server,
   ShieldCheck,
 } from "lucide-react";
@@ -38,94 +36,53 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-/** Artifact types Manifold hosts, with the real way you interact with each. */
-const ARTIFACTS: Array<{
-  icon: LucideIcon;
-  name: string;
-  blurb: string;
-  snippet: string;
-}> = [
-  {
-    icon: Container,
-    name: "Containers",
-    blurb: "OCI images and artifacts over the standard Distribution API.",
-    snippet: "docker push manifold.omni.dev/acme/api:1.4.0",
-  },
-  {
-    icon: Boxes,
-    name: "Cargo crates",
-    blurb: "A private crate registry that speaks cargo publish and install.",
-    snippet: "cargo publish --registry manifold",
-  },
-  {
-    icon: Package,
-    name: "npm packages",
-    blurb: "Scoped packages, private by default, installed with your token.",
-    snippet: "npm publish   # @acme/sdk",
-  },
-  {
-    icon: FileJson,
-    name: "Schemas",
-    blurb: "Version OpenAPI, GraphQL, and JSON Schema with full history.",
-    snippet: "Create & version in the dashboard or API",
-  },
-  {
-    icon: Layers,
-    name: "WASM modules",
-    blurb: "Distribute WASM components alongside the rest of your stack.",
-    snippet: "docker push manifold.omni.dev/acme/plugin.wasm:0.2.0",
-  },
+const CHIPS: Array<{ icon: LucideIcon; label: string }> = [
+  { icon: Container, label: "Containers" },
+  { icon: Boxes, label: "Cargo" },
+  { icon: Package, label: "npm" },
+  { icon: FileJson, label: "Schemas" },
+  { icon: Layers, label: "WASM" },
 ];
 
-const FEATURES: Array<{
+const BENTO: Array<{
   icon: LucideIcon;
   title: string;
-  description: string;
+  body: string;
+  wide?: boolean;
 }> = [
   {
-    icon: GitBranch,
-    title: "Versioned by default",
-    description:
-      "Immutable versions and full history for every artifact, so rollbacks and audits are trivial.",
+    icon: Boxes,
+    title: "Containers, crates, packages, schemas & WASM",
+    body: "OCI over the standard Distribution API, a real Cargo registry, scoped npm, versioned schemas, and WASM modules, side by side in one place.",
+    wide: true,
   },
   {
     icon: Lock,
     title: "Private by default",
-    description:
-      "New repositories are private. Flip to public when you want anonymous pulls.",
+    body: "New repositories are private; flip to public for anonymous pulls.",
   },
   {
     icon: ShieldCheck,
     title: "Per-workspace isolation",
-    description:
-      "Every artifact is scoped to your workspace. One org can never see another's private repos.",
+    body: "Every artifact is scoped to your workspace. Full stop.",
   },
   {
-    icon: KeyRound,
-    title: "Scoped access tokens",
-    description:
-      "Mint read, write, or admin tokens per namespace for CI and local development.",
-  },
-  {
-    icon: Search,
-    title: "One place to find anything",
-    description:
-      "Search and browse containers, crates, packages, and schemas from a single registry.",
+    icon: GitBranch,
+    title: "Versioned history",
+    body: "Immutable versions, full history, instant rollback.",
   },
   {
     icon: Server,
-    title: "Self-hostable",
-    description:
-      "Run the whole registry yourself with docker compose, or let us host it. Apache-2.0.",
+    title: "Self-host or let us run it",
+    body: "Bring it up with docker compose, or use the hosted cloud. Apache-2.0, no lock-in.",
+    wide: true,
   },
 ];
 
 function HomePage() {
-  // This page only renders for signed-out visitors (authed users are
-  // redirected to /registry in beforeLoad), so the primary CTA signs in and
-  // lands on the registry afterward rather than linking straight to a gated
-  // route. /registry is the real data surface; /schemas is a mock placeholder
-  const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
+  // Only renders for signed-out visitors (authed users redirect to /registry);
+  // the primary CTA signs in and lands there
+  const { mutateAsync: signIn, isPending } = useMutation({
     mutationFn: async () =>
       await authClient.signIn.social({
         provider: "omni",
@@ -135,178 +92,201 @@ function HomePage() {
   });
 
   return (
-    <div className="flex flex-col">
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b bg-gradient-to-b from-[oklch(0.3_0.12_264)] via-[oklch(0.2_0.09_265)] to-[oklch(0.15_0.05_266)] text-white">
-        {/* topology motif: nodes + loops behind the hero */}
-        <svg
-          aria-hidden
-          className="pointer-events-none absolute inset-0 h-full w-full opacity-20"
-          preserveAspectRatio="none"
-          viewBox="0 0 1100 460"
-          role="img"
-        >
-          <title>Topology of connected artifacts</title>
-          <g fill="none" stroke="white" strokeWidth="1">
-            <circle cx="250" cy="160" r="70" />
-            <circle cx="430" cy="270" r="120" />
-            <circle cx="660" cy="130" r="95" />
-            <circle cx="850" cy="300" r="150" />
-            <circle cx="560" cy="360" r="60" />
-            <path d="M250 160 430 270 660 130 850 300M560 360 430 270" />
-          </g>
-          <g fill="white">
-            <circle cx="250" cy="160" r="3" />
-            <circle cx="430" cy="270" r="3" />
-            <circle cx="660" cy="130" r="3" />
-            <circle cx="850" cy="300" r="3" />
-            <circle cx="560" cy="360" r="3" />
-          </g>
-        </svg>
+    <div className="relative overflow-hidden bg-[#07080c] text-[#eef1f8]">
+      {/* atmosphere */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(255,255,255,0.045) 1px, transparent 1px)",
+            backgroundSize: "26px 26px",
+            maskImage:
+              "radial-gradient(circle at 50% 0%, #000 0%, transparent 70%)",
+            WebkitMaskImage:
+              "radial-gradient(circle at 50% 0%, #000 0%, transparent 70%)",
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            top: "-260px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "1100px",
+            height: "700px",
+            borderRadius: "50%",
+            background:
+              "radial-gradient(closest-side, rgba(59,130,246,0.26), rgba(59,130,246,0.05) 60%, transparent 75%)",
+            filter: "blur(20px)",
+          }}
+        />
+      </div>
 
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center gap-6 px-6 py-24 text-center sm:py-32">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 font-medium text-white text-xs">
-            <span className="h-1.5 w-1.5 rounded-full bg-secondary-300" />
-            Universal artifact registry
-          </span>
+      {/* hero */}
+      <section className="relative mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_1fr]">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#262c3d] bg-[#3b82f6]/10 px-3 py-1.5 font-semibold text-[#60a5fa] text-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]" />
+              Universal artifact registry
+            </span>
 
-          <h1 className="max-w-3xl text-balance font-bold text-4xl tracking-tight sm:text-6xl">
-            Every build artifact.
-            <span className="text-secondary-300"> One registry.</span>
-          </h1>
+            <h1 className="mt-5 font-extrabold text-5xl leading-[1.03] tracking-tight sm:text-6xl">
+              Every build artifact.
+              <br />
+              <span className="bg-gradient-to-r from-[#60a5fa] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
+                One registry.
+              </span>
+            </h1>
 
-          <p className="max-w-2xl text-pretty text-lg text-white/70">
-            Manifold stores, versions, and distributes containers, Cargo crates,
-            npm packages, schemas, and WASM modules, through the tools you
-            already use. Private by default, isolated per workspace, and
-            self-hostable.
+            <p className="mt-6 max-w-[34ch] text-[#9aa3b8] text-lg">
+              Containers, Cargo crates, npm packages, schemas, and WASM,
+              versioned, private by default, and pushed with the tools you
+              already use.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button
+                size="lg"
+                onClick={() => signIn()}
+                disabled={isPending}
+                className="shadow-[0_8px_28px_-8px_rgba(59,130,246,0.8)]"
+              >
+                Start free
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/15 bg-white/5 text-white hover:bg-white/10"
+                asChild
+              >
+                <a href={DOCS_URL}>Read the docs</a>
+              </Button>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3 text-[#9aa3b8] text-sm">
+              {CHIPS.map(({ icon: Icon, label }) => (
+                <span key={label} className="inline-flex items-center gap-2">
+                  <Icon className="h-4 w-4 text-[#60a5fa]" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* terminal mock */}
+          <div className="overflow-hidden rounded-2xl border border-[#262c3d] bg-gradient-to-b from-[#131726] to-[#0f121b] shadow-[0_40px_90px_-40px_rgba(0,0,0,0.9)]">
+            <div className="flex items-center gap-2 border-[#1c2130] border-b px-4 py-3">
+              <span className="h-3 w-3 rounded-full bg-[#f4645f]" />
+              <span className="h-3 w-3 rounded-full bg-[#f5be4f]" />
+              <span className="h-3 w-3 rounded-full bg-[#4fc758]" />
+              <span className="ml-2 font-mono text-[#697086] text-xs">
+                ~/acme/api
+              </span>
+            </div>
+            <div className="space-y-1 p-5 font-mono text-[13.5px] leading-[1.9]">
+              <div>
+                <span className="text-[#697086]">$</span> docker push{" "}
+                <span className="text-[#38bdf8]">
+                  manifold.omni.dev/acme/api:1.4.0
+                </span>
+              </div>
+              <div className="text-[#697086]">
+                The push refers to repository [manifold.omni.dev/acme/api]
+              </div>
+              <div className="text-[#4fc758]">
+                1.4.0: digest: sha256:9f2a…e1 size: 2847
+              </div>
+              <div className="h-2.5" />
+              <div>
+                <span className="text-[#697086]">$</span> cargo publish{" "}
+                <span className="text-[#60a5fa]">--registry manifold</span>
+              </div>
+              <div className="text-[#4fc758]">
+                {"   "}Uploading engine v1.4.0 (manifold)
+              </div>
+              <div className="h-2.5" />
+              <div>
+                <span className="text-[#697086]">$</span> npm publish{" "}
+                <span className="text-[#697086]"># @acme/sdk</span>
+              </div>
+              <div>
+                <span className="text-[#4fc758]">+ @acme/sdk@1.4.0</span>{" "}
+                <span className="text-[#697086]">(private)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* bento */}
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
+        <div className="mx-auto mb-11 max-w-[620px] text-center">
+          <h2 className="font-extrabold text-4xl tracking-tight">
+            One registry for everything you ship
+          </h2>
+          <p className="mt-3 text-[#9aa3b8]">
+            Standard tooling, one auth model, every artifact type. No new CLI to
+            learn.
           </p>
+        </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button
-              size="lg"
-              onClick={() => signIn()}
-              disabled={isSignInPending}
+        <div className="grid gap-4 md:grid-cols-3">
+          {BENTO.map(({ icon: Icon, title, body, wide }) => (
+            <div
+              key={title}
+              className={`group relative overflow-hidden rounded-2xl border border-[#1c2130] bg-[#0f121b] p-6 transition-all hover:-translate-y-0.5 hover:border-[#262c3d] ${
+                wide ? "md:col-span-2" : ""
+              }`}
             >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
+                style={{
+                  background:
+                    "radial-gradient(400px 120px at 20% 0%, rgba(59,130,246,0.1), transparent)",
+                }}
+              />
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#3b82f6]/12 text-[#60a5fa]">
+                <Icon className="h-5 w-5" />
+              </div>
+              <h3 className="font-bold text-lg">{title}</h3>
+              <p className="mt-1.5 text-[#9aa3b8] text-sm">{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative mx-auto max-w-6xl px-6 pb-24">
+        <div
+          className="rounded-2xl border border-[#262c3d] px-6 py-14 text-center"
+          style={{
+            background:
+              "radial-gradient(600px 200px at 50% 0%, rgba(59,130,246,0.14), #0f121b)",
+          }}
+        >
+          <h2 className="font-extrabold text-4xl tracking-tight">
+            Start pushing in minutes
+          </h2>
+          <p className="mx-auto mt-3 max-w-[46ch] text-[#9aa3b8]">
+            Free to start, no credit card. Upgrade or self-host whenever you are
+            ready.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Button size="lg" onClick={() => signIn()} disabled={isPending}>
               Get started free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-white/30 bg-transparent text-white hover:bg-white/10"
-              asChild
-            >
-              <a href={DOCS_URL}>Read the docs</a>
-            </Button>
-            <Button
-              size="lg"
-              variant="ghost"
-              className="text-white/80 hover:bg-white/10 hover:text-white"
+              className="border-white/15 bg-white/5 text-white hover:bg-white/10"
               asChild
             >
               <Link to="/pricing">View pricing</Link>
-            </Button>
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-white/60">
-            {ARTIFACTS.map(({ icon: Icon, name }) => (
-              <span key={name} className="inline-flex items-center gap-2">
-                <Icon className="h-4 w-4" />
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* One registry for everything you ship */}
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <h2 className="font-bold text-3xl tracking-tight">
-              One registry for everything you ship
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              Push with standard tooling. No new CLI to learn, no separate
-              registry per artifact type.
-            </p>
-          </div>
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {ARTIFACTS.map(({ icon: Icon, name, blurb, snippet }) => (
-              <div
-                key={name}
-                className="flex flex-col rounded-xl border bg-card p-6 shadow-sm"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <h3 className="font-semibold text-lg">{name}</h3>
-                <p className="mt-1 flex-1 text-muted-foreground text-sm">
-                  {blurb}
-                </p>
-                <code className="mt-4 block overflow-x-auto whitespace-nowrap rounded-md bg-muted px-3 py-2 font-mono text-muted-foreground text-xs">
-                  {snippet}
-                </code>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="border-t bg-muted/30 px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <h2 className="font-bold text-3xl tracking-tight">
-              Built for teams that ship a lot
-            </h2>
-            <p className="mt-3 text-muted-foreground">
-              The guarantees you expect from a registry, across every artifact
-              type.
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map(({ icon: Icon, title, description }) => (
-              <div key={title} className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">{title}</h3>
-                  <p className="mt-1 text-muted-foreground text-sm">
-                    {description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="border-t px-6 py-20">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <h2 className="text-balance font-bold text-3xl tracking-tight sm:text-4xl">
-            Start pushing artifacts in minutes
-          </h2>
-          <p className="max-w-xl text-muted-foreground">
-            Free to start: 3 private repos, 500 MB storage, and 2 GB of transfer
-            a month. Upgrade or self-host whenever you are ready.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <Button
-              size="lg"
-              onClick={() => signIn()}
-              disabled={isSignInPending}
-            >
-              Get started free
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href={DOCS_URL}>Read the docs</a>
             </Button>
           </div>
         </div>
