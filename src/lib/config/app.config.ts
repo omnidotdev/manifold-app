@@ -7,7 +7,7 @@ const app = {
   // manifold `icon`). Used in the "Made with <symbol> by Omni" footer credit.
   icon: "➰",
   description:
-    "Schema registry and management platform for OpenAPI, GraphQL, JSON Schema, WASM, and Container artifacts.",
+    "The universal artifact registry. One hub for your containers, Cargo crates, npm packages, schemas, and WASM, versioned, private by default, and self-hostable.",
   url: "https://manifold.omni.dev",
   docsUrl: "https://docs.omni.dev",
   socials: {

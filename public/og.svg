@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Noto Sans, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07080c"/>
+      <stop offset="1" stop-color="#0b0d14"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.68" cy="0.22" r="0.6">
+      <stop offset="0" stop-color="#3b82f6" stop-opacity="0.32"/>
+      <stop offset="0.55" stop-color="#8b5cf6" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cobalt" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6aa6ff"/>
+      <stop offset="0.5" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <radialGradient id="core" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#6aa6ff"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- hub constellation (right side) -->
+  <g transform="translate(910,300)" opacity="0.95">
+    <g stroke="url(#edge)" stroke-width="1.5" fill="none" opacity="0.45" stroke-dasharray="4 6">
+      <line x1="0" y1="0" x2="0" y2="-150"/>
+      <line x1="0" y1="0" x2="138" y2="-46"/>
+      <line x1="0" y1="0" x2="86" y2="124"/>
+      <line x1="0" y1="0" x2="-86" y2="124"/>
+      <line x1="0" y1="0" x2="-138" y2="-46"/>
+    </g>
+    <g fill="#13161f" stroke="#272c3a" stroke-width="1.5">
+      <circle cx="0" cy="-150" r="30"/>
+      <circle cx="138" cy="-46" r="30"/>
+      <circle cx="86" cy="124" r="30"/>
+      <circle cx="-86" cy="124" r="30"/>
+      <circle cx="-138" cy="-46" r="30"/>
+    </g>
+    <g fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <g stroke="#6aa6ff" transform="translate(0,-150)"><rect x="-9" y="-6" width="18" height="12" rx="1.5"/><path d="M-3 -6v12M3 -6v12"/></g>
+      <g stroke="#fb923c" transform="translate(138,-46)"><rect x="-8" y="-8" width="16" height="16" rx="1.5"/><path d="M-6 -6 6 6M6 -6 -6 6"/></g>
+      <g stroke="#f87171" transform="translate(86,124)"><path d="M0 -9 8 -4.5v9L0 12 -8 7.5v-9Z"/><path d="M-8 -4.5 0 0l8-4.5M0 0v12"/></g>
+      <g stroke="#a78bfa" transform="translate(-86,124)"><path d="M-2 -8c-2 0-2.5 1-2.5 2.5V-3c0 1.5-1.5 2-2.5 2 1 0 2.5.5 2.5 2v2.5C-4.5 6-4 7-2 7"/><path d="M2 -8c2 0 2.5 1 2.5 2.5V-3c0 1.5 1.5 2 2.5 2-1 0-2.5.5-2.5 2v2.5C4.5 6 4 7 2 7"/></g>
+      <g stroke="#34d399" transform="translate(-138,-46)"><path d="M0 -9 8 -4.5v9L0 12 -8 7.5v-9Z"/></g>
+    </g>
+    <circle cx="0" cy="0" r="46" fill="url(#core)"/>
+    <g stroke="#fff" stroke-width="2.6" fill="none" transform="translate(-17,-17)">
+      <circle cx="6" cy="6" r="4.5"/>
+      <circle cx="22" cy="22" r="4.5"/>
+      <path d="M9.5 9.5 18.5 18.5M6 11v2a4 4 0 0 0 4 4h2M22 17v-2a4 4 0 0 0-4-4h-2"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <g transform="translate(96,86)">
+    <rect width="54" height="54" rx="14" fill="url(#mark)"/>
+    <g stroke="#fff" stroke-width="3" fill="none" transform="translate(13,13)">
+      <circle cx="6" cy="6" r="4.5"/>
+      <circle cx="22" cy="22" r="4.5"/>
+      <path d="M9.5 9.5 18.5 18.5M6 11v2a4 4 0 0 0 4 4h2M22 17v-2a4 4 0 0 0-4-4h-2"/>
+    </g>
+    <text x="70" y="38" font-size="30" font-weight="bold" fill="#f2f4fa">manifold</text>
+  </g>
+
+  <!-- headline -->
+  <text x="94" y="320" font-size="88" font-weight="bold" fill="#f2f4fa" letter-spacing="-3">Every artifact,</text>
+  <text x="94" y="420" font-size="88" font-weight="bold" fill="url(#cobalt)" letter-spacing="-3">one manifold.</text>
+
+  <!-- subhead -->
+  <text x="96" y="492" font-size="33" fill="#99a1b5">The universal artifact registry</text>
+  <text x="96" y="536" font-size="25" fill="#636b80" letter-spacing="0.5">Containers · Crates · Packages · Schemas · WASM</text>
+
+  <!-- footer accent + domain -->
+  <rect x="0" y="624" width="1200" height="6" fill="url(#cobalt)"/>
+  <text x="96" y="590" font-size="23" fill="#636b80">manifold.omni.dev</text>
+</svg>
