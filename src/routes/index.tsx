@@ -1,20 +1,10 @@
 import { Button } from "@omnidotdev/thornberry/button";
 import { useMutation } from "@tanstack/react-query";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  Boxes,
-  GitBranch,
-  Lock,
-  Server,
-  ShieldCheck,
-} from "lucide-react";
-import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 import authClient from "@/lib/auth/authClient";
 import createMetaTags from "@/lib/util/createMetaTags";
-
-import type { LucideIcon } from "lucide-react";
 
 const DOCS_URL = "https://docs.omni.dev/products/manifold";
 
@@ -27,117 +17,115 @@ export const Route = createFileRoute("/")({
     meta: createMetaTags({
       title: "Manifold - Universal Artifact Registry",
       description:
-        "One registry for every build artifact: containers, Cargo crates, npm packages, schemas, and WASM. Versioned, private by default, and self-hostable.",
+        "The hub where your containers, Cargo crates, npm packages, schemas, and WASM live together. Versioned, private by default, and self-hostable.",
     }),
   }),
   component: HomePage,
 });
 
-type Line = { c?: "d" | "c" | "p" | "g"; t: string };
-const CLS: Record<string, string> = {
-  d: "text-[#636b80]",
-  c: "text-[#38bdf8]",
-  p: "text-[#6aa6ff]",
-  g: "text-[#34d399]",
+/** Shared stroke props for the original, non-brand category marks. */
+const stroke = {
+  fill: "none" as const,
+  strokeWidth: 1.8,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
 };
 
-const PROTOCOLS: Array<{ key: string; label: string; lines: Line[] }> = [
-  {
-    key: "oci",
-    label: "OCI",
-    lines: [
-      { c: "d", t: "$ " },
-      { t: "docker push " },
-      { c: "c", t: "manifold.omni.dev/acme/api:1.4.0\n" },
-      {
-        c: "d",
-        t: "The push refers to repository [manifold.omni.dev/acme/api]\n",
-      },
-      { c: "g", t: "1.4.0: digest: sha256:9f2a…e1 size: 2847" },
-    ],
-  },
-  {
-    key: "cargo",
-    label: "Cargo",
-    lines: [
-      { c: "d", t: "$ " },
-      { t: "cargo publish " },
-      { c: "p", t: "--registry manifold\n" },
-      { c: "g", t: "   Packaging engine v1.4.0\n" },
-      { c: "g", t: "   Uploading engine v1.4.0 (manifold)" },
-    ],
-  },
-  {
-    key: "npm",
-    label: "npm",
-    lines: [
-      { c: "d", t: "$ " },
-      { t: "npm publish " },
-      { c: "d", t: "# @acme/sdk\n" },
-      { c: "g", t: "npm notice publishing to manifold\n" },
-      { c: "g", t: "+ @acme/sdk@1.4.0 " },
-      { c: "d", t: "(private)" },
-    ],
-  },
-  {
-    key: "schema",
-    label: "Schema",
-    lines: [
-      { c: "d", t: "$ " },
-      { t: "curl -XPOST " },
-      { c: "c", t: "api.manifold.omni.dev/graphql\n" },
-      { c: "d", t: "# createSchema(openapi) …\n" },
-      { c: "g", t: '{ "schema": { "name": "orders", "version": "1.4.0" } }' },
-    ],
-  },
+/** Original category marks (deliberately not brand logos). */
+const MARK = {
+  containers: (
+    <>
+      <rect x="3.5" y="6.5" width="17" height="11" rx="1.5" />
+      <path d="M8 6.5v11M12 6.5v11M16 6.5v11" />
+    </>
+  ),
+  cargo: (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="1.5" />
+      <path d="M4.6 4.6 19.4 19.4M19.4 4.6 4.6 19.4" />
+    </>
+  ),
+  packages: (
+    <>
+      <path d="M12 3 20 7.2v9.6L12 21 4 16.8V7.2Z" />
+      <path d="M4 7.2 12 11.6l8-4.4M12 11.6V21" />
+    </>
+  ),
+  schemas: (
+    <>
+      <path d="M10 4c-2 0-2.5 1-2.5 2.5V9c0 1.5-1.5 2-2.5 2 1 0 2.5.5 2.5 2v2.5C7.5 19 8 20 10 20" />
+      <path d="M14 4c2 0 2.5 1 2.5 2.5V9c0 1.5 1.5 2 2.5 2-1 0-2.5.5-2.5 2v2.5C16.5 19 16 20 14 20" />
+    </>
+  ),
+  wasm: (
+    <>
+      <path d="M12 2.5 20 7v10l-8 4.5L4 17V7Z" />
+      <path d="M8 9.3 12 11.6l4-2.3M12 11.6v4.4" />
+    </>
+  ),
+};
+
+type Kind = keyof typeof MARK;
+
+const NODES: Array<{
+  kind: Kind;
+  label: string;
+  color: string;
+  x: number;
+  y: number;
+}> = [
+  { kind: "containers", label: "Containers", color: "#6aa6ff", x: 200, y: 72 },
+  { kind: "cargo", label: "Cargo", color: "#fb923c", x: 315, y: 158 },
+  { kind: "packages", label: "Packages", color: "#f87171", x: 270, y: 298 },
+  { kind: "schemas", label: "Schemas", color: "#a78bfa", x: 130, y: 298 },
+  { kind: "wasm", label: "WASM", color: "#34d399", x: 85, y: 158 },
 ];
 
-const FEATURES: Array<{
-  icon: LucideIcon;
-  title: string;
-  body: string;
-  span: string;
-  feat?: boolean;
+const FLOWS: Array<{
+  kind: Kind;
+  name: string;
+  cmd: string;
+  color: string;
+  tint: string;
 }> = [
   {
-    icon: Boxes,
-    title: "Five protocols, one home",
-    body: "OCI, Cargo, npm, schemas, and WASM, side by side, each spoken natively.",
-    span: "md:col-span-3",
-    feat: true,
+    kind: "containers",
+    name: "Containers",
+    cmd: "docker push",
+    color: "#6aa6ff",
+    tint: "rgba(106,166,255,.14)",
   },
   {
-    icon: Lock,
-    title: "Private by default",
-    body: "New repos are private; make them public for anonymous pulls.",
-    span: "md:col-span-3",
+    kind: "cargo",
+    name: "Cargo crates",
+    cmd: "cargo publish",
+    color: "#fb923c",
+    tint: "rgba(251,146,60,.14)",
   },
   {
-    icon: ShieldCheck,
-    title: "Workspace isolation",
-    body: "Scoped to your workspace, always.",
-    span: "md:col-span-2",
+    kind: "packages",
+    name: "npm packages",
+    cmd: "npm publish",
+    color: "#f87171",
+    tint: "rgba(248,113,113,.14)",
   },
   {
-    icon: GitBranch,
-    title: "Versioned history",
-    body: "Immutable versions, instant rollback.",
-    span: "md:col-span-2",
+    kind: "schemas",
+    name: "Schemas",
+    cmd: "OpenAPI · GraphQL",
+    color: "#a78bfa",
+    tint: "rgba(167,139,250,.14)",
   },
   {
-    icon: Server,
-    title: "Self-host or cloud",
-    body: "docker compose up, or let us run it.",
-    span: "md:col-span-2",
+    kind: "wasm",
+    name: "WASM",
+    cmd: "oci artifacts",
+    color: "#34d399",
+    tint: "rgba(52,211,153,.14)",
   },
 ];
 
-const TRUST = [
-  "5 protocols",
-  "Private by default",
-  "Self-host or cloud",
-  "Apache-2.0",
-];
+const TRUST = ["5 artifact types", "Private by default", "Self-host or cloud"];
 
 function HomePage() {
   // Only renders for signed-out visitors (authed users redirect to /registry)
@@ -149,8 +137,6 @@ function HomePage() {
         disableRedirect: false,
       }),
   });
-  const [proto, setProto] = useState("oci");
-  const active = PROTOCOLS.find((p) => p.key === proto) ?? PROTOCOLS[0];
 
   return (
     <div className="dark relative -mt-[66px] overflow-hidden bg-[#060709] text-[#f2f4fa]">
@@ -163,132 +149,166 @@ function HomePage() {
               "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
             backgroundSize: "24px 24px",
             maskImage:
-              "radial-gradient(circle at 50% -5%, #000, transparent 68%)",
+              "radial-gradient(circle at 50% -2%, #000, transparent 66%)",
             WebkitMaskImage:
-              "radial-gradient(circle at 50% -5%, #000, transparent 68%)",
+              "radial-gradient(circle at 50% -2%, #000, transparent 66%)",
           }}
         />
         <div
           className="absolute"
           style={{
-            top: "-320px",
+            top: "-300px",
             left: "50%",
             transform: "translateX(-50%)",
             width: "1200px",
             height: "760px",
             borderRadius: "50%",
             background:
-              "radial-gradient(closest-side, rgba(59,130,246,0.3), rgba(139,92,246,0.08) 55%, transparent 74%)",
+              "radial-gradient(closest-side, rgba(59,130,246,0.28), rgba(139,92,246,0.08) 55%, transparent 74%)",
             filter: "blur(16px)",
           }}
         />
       </div>
 
       {/* hero */}
-      <section className="relative mx-auto max-w-6xl px-6 pt-28 pb-16">
-        <div className="grid items-center gap-[52px] lg:grid-cols-[1.1fr_0.9fr]">
-          <div>
-            <h1 className="font-extrabold text-6xl leading-[0.98] tracking-[-0.045em] sm:text-7xl">
-              Ship anything.
-              <br />
-              <span className="bg-gradient-to-r from-[#6aa6ff] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
-                One registry.
+      <section className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 pt-28 pb-14 lg:grid-cols-2">
+        <div>
+          <h1 className="font-extrabold text-6xl leading-[0.98] tracking-[-0.045em]">
+            Every artifact,
+            <br />
+            <span className="bg-gradient-to-r from-[#6aa6ff] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
+              one manifold.
+            </span>
+          </h1>
+          <p className="mt-6 max-w-[42ch] text-[#99a1b5] text-xl">
+            The hub where your containers, crates, packages, schemas, and WASM
+            live together, versioned, private, and one command away. One surface
+            for everything you build.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button size="lg" onClick={() => signIn()} disabled={isPending}>
+              Create your hub
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <a href={DOCS_URL}>Read the docs</a>
+            </Button>
+          </div>
+          <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[#636b80] text-sm">
+            {TRUST.map((t, i) => (
+              <span key={t} className="inline-flex items-center gap-5">
+                {i > 0 && (
+                  <span className="h-1 w-1 rounded-full bg-[#272c3a]" />
+                )}
+                {t}
               </span>
-            </h1>
-            <p className="mt-6 max-w-[40ch] text-[#99a1b5] text-xl">
-              Containers, Cargo crates, npm packages, schemas, and WASM,
-              versioned, private by default, pushed with the tools you already
-              use.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button size="lg" onClick={() => signIn()} disabled={isPending}>
-                Start free
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href={DOCS_URL}>Read the docs</a>
-              </Button>
-            </div>
-            <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[#636b80] text-sm">
-              {TRUST.map((t, i) => (
-                <span key={t} className="inline-flex items-center gap-2">
-                  {i > 0 && (
-                    <span className="h-1 w-1 rounded-full bg-[#272c3a]" />
-                  )}
-                  {t}
-                </span>
-              ))}
-            </div>
+            ))}
           </div>
+        </div>
 
-          {/* protocol switcher + terminal */}
-          <div>
-            <div className="mb-3.5 inline-flex gap-0.5 rounded-xl border border-[#1b1f2b] bg-[#0e1016] p-1">
-              {PROTOCOLS.map((p) => (
-                <button
-                  key={p.key}
-                  type="button"
-                  onClick={() => setProto(p.key)}
-                  className={`rounded-lg px-3 py-2 font-semibold text-xs transition-colors ${
-                    p.key === proto
-                      ? "bg-[#191d29] text-white shadow-[inset_0_0_0_1px_#272c3a]"
-                      : "text-[#99a1b5] hover:text-white"
-                  }`}
-                >
-                  {p.label}
-                </button>
+        {/* hub constellation */}
+        <div className="mx-auto w-full max-w-[460px]">
+          <svg viewBox="0 0 400 420" className="w-full overflow-visible">
+            <title>Manifold connects every artifact type in one hub</title>
+            <defs>
+              <linearGradient id="mf-edge" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stopColor="#3b82f6" />
+                <stop offset="1" stopColor="#8b5cf6" />
+              </linearGradient>
+              <radialGradient id="mf-core">
+                <stop offset="0" stopColor="#6aa6ff" />
+                <stop offset="1" stopColor="#3b82f6" />
+              </radialGradient>
+            </defs>
+            <g
+              stroke="url(#mf-edge)"
+              strokeWidth="1.5"
+              fill="none"
+              opacity="0.5"
+              strokeDasharray="4 6"
+            >
+              {NODES.map((n) => (
+                <line key={n.kind} x1="200" y1="200" x2={n.x} y2={n.y} />
               ))}
-            </div>
-            <div className="overflow-hidden rounded-2xl border border-[#272c3a] bg-gradient-to-b from-[#13161f] to-[#0e1016] shadow-[0_44px_100px_-46px_#000]">
-              <div className="flex items-center gap-2 border-[#1b1f2b] border-b px-4 py-3">
-                <span className="h-[11px] w-[11px] rounded-full bg-[#f4645f]" />
-                <span className="h-[11px] w-[11px] rounded-full bg-[#f5be4f]" />
-                <span className="h-[11px] w-[11px] rounded-full bg-[#4fc758]" />
-                <span className="ml-2 font-mono text-[#636b80] text-xs">
-                  ~/acme
-                </span>
-              </div>
-              <pre className="min-h-[164px] whitespace-pre-wrap p-5 font-mono text-[13.5px] leading-[1.95]">
-                {active.lines.map((l, i) => (
-                  <span
-                    key={`${active.key}-${i}`}
-                    className={l.c ? CLS[l.c] : "text-[#f2f4fa]"}
-                  >
-                    {l.t}
-                  </span>
-                ))}
-              </pre>
-            </div>
-          </div>
+            </g>
+            {NODES.map((n) => (
+              <g key={n.kind} transform={`translate(${n.x},${n.y})`}>
+                <circle
+                  r="30"
+                  fill="#13161f"
+                  stroke="#272c3a"
+                  strokeWidth="1.5"
+                />
+                <g transform="translate(-12,-12)" stroke={n.color} {...stroke}>
+                  {MARK[n.kind]}
+                </g>
+                <text
+                  y="50"
+                  textAnchor="middle"
+                  fontSize="12"
+                  fontWeight="600"
+                  fill="#f2f4fa"
+                >
+                  {n.label}
+                </text>
+              </g>
+            ))}
+            <circle
+              cx="200"
+              cy="200"
+              r="46"
+              fill="url(#mf-core)"
+              style={{ filter: "drop-shadow(0 0 22px rgba(59,130,246,0.75))" }}
+            />
+            <g
+              stroke="#fff"
+              strokeWidth="2.6"
+              fill="none"
+              transform="translate(183,183)"
+            >
+              <circle cx="6" cy="6" r="4.5" />
+              <circle cx="22" cy="22" r="4.5" />
+              <path d="M9.5 9.5 18.5 18.5M6 11v2a4 4 0 0 0 4 4h2M22 17v-2a4 4 0 0 0-4-4h-2" />
+            </g>
+          </svg>
         </div>
       </section>
 
-      {/* bento */}
+      {/* flows */}
       <section className="relative mx-auto max-w-6xl px-6 py-20">
         <div className="mx-auto mb-11 max-w-[640px] text-center">
           <h2 className="font-extrabold text-4xl tracking-[-0.035em]">
-            One registry for everything you ship
+            One surface. Every artifact type.
           </h2>
           <p className="mt-3 text-[#99a1b5] text-lg">
-            Standard tooling, one auth model, every artifact type. No new CLI to
-            learn.
+            Push with the tools you already use. Manifold speaks each protocol
+            natively, so everything you ship lands in the same connected hub.
           </p>
         </div>
-        <div className="grid gap-4 md:grid-cols-6">
-          {FEATURES.map(({ icon: Icon, title, body, span, feat }) => (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+          {FLOWS.map((f) => (
             <div
-              key={title}
-              className={`rounded-[18px] border border-[#1b1f2b] p-6 transition-all hover:-translate-y-0.5 hover:border-[#272c3a] ${span} ${
-                feat
-                  ? "bg-gradient-to-br from-[#3b82f6]/10 to-[#0e1016]"
-                  : "bg-[#0e1016]"
-              }`}
+              key={f.kind}
+              className="rounded-2xl border border-[#1b1f2b] bg-[#0e1016] p-5 text-center"
             >
-              <div className="mb-4 flex h-[42px] w-[42px] items-center justify-center rounded-xl bg-[#3b82f6]/12 text-[#6aa6ff]">
-                <Icon className="h-5 w-5" />
+              <div
+                className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl"
+                style={{ background: f.tint }}
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  stroke={f.color}
+                  {...stroke}
+                  role="img"
+                >
+                  <title>{f.name}</title>
+                  {MARK[f.kind]}
+                </svg>
               </div>
-              <h3 className="font-bold text-lg tracking-tight">{title}</h3>
-              <p className="mt-2 text-[#99a1b5] text-sm">{body}</p>
+              <h4 className="font-bold text-sm">{f.name}</h4>
+              <p className="mt-1 font-mono text-[#636b80] text-xs">{f.cmd}</p>
             </div>
           ))}
         </div>
@@ -304,15 +324,15 @@ function HomePage() {
           }}
         >
           <h2 className="font-extrabold text-4xl tracking-[-0.035em]">
-            Start pushing in minutes
+            Spin up your hub in minutes
           </h2>
-          <p className="mx-auto mt-3 max-w-[46ch] text-[#99a1b5]">
-            Free to start, no credit card. Upgrade or self-host whenever you are
-            ready.
+          <p className="mx-auto mt-3 max-w-[48ch] text-[#99a1b5]">
+            Free to start, no credit card. Scale as your artifacts do, or
+            self-host the whole hub with Run, one command, no seats.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button size="lg" onClick={() => signIn()} disabled={isPending}>
-              Get started free
+              Create your hub
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             <Button size="lg" variant="outline" asChild>
