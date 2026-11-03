@@ -20,11 +20,11 @@ const FREE_PRICE: Price = {
   product: {
     id: "free-product",
     name: "Free",
-    description: "Start for free.",
+    description: "Your personal artifact hub, free forever.",
     marketing_features: [
       { name: "3 private repos" },
-      { name: "500 MB storage" },
-      { name: "2 GB bandwidth/month" },
+      { name: "2 GB storage" },
+      { name: "10 GB bandwidth/month" },
     ],
   },
   metadata: { tier: "free" },
@@ -54,16 +54,22 @@ const PricingPage = () => {
   );
 
   return (
-    <div className="flex h-full flex-col items-center px-4 py-8 text-center">
-      <h1 className="my-6 font-bold text-4xl">Simple, transparent pricing</h1>
+    <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-center px-4 py-14 text-center">
+      <h1 className="font-extrabold text-5xl tracking-[-0.04em]">
+        Grow your{" "}
+        <span className="bg-gradient-to-r from-[#6aa6ff] via-[#38bdf8] to-[#8b5cf6] bg-clip-text text-transparent">
+          hub
+        </span>
+      </h1>
 
-      <h2 className="font-medium text-muted-foreground text-xl">
-        Start for free. As your business grows, upgrade to fit your needs.
+      <h2 className="mt-4 max-w-[52ch] font-medium text-lg text-muted-foreground">
+        Start free and scale as your artifacts do. Every plan is one connected
+        hub for your containers, crates, packages, schemas, and WASM.
       </h2>
 
       <TabsRootProvider
         value={tabs}
-        className="mt-8 flex w-full flex-col lg:w-fit"
+        className="mt-10 flex w-full flex-col lg:w-fit"
       >
         <TabsList className="place-self-center">
           <TabsTrigger value="month">Monthly</TabsTrigger>
@@ -73,7 +79,7 @@ const PricingPage = () => {
         {tabs.value != null && (
           <TabsContent
             value={tabs.value}
-            className="flex flex-col items-center gap-4 lg:flex-row"
+            className="flex flex-col items-stretch justify-center gap-4 lg:flex-row"
           >
             <PriceCard price={FREE_PRICE} disableAction />
 
@@ -89,7 +95,16 @@ const PricingPage = () => {
         )}
       </TabsRootProvider>
 
-      <FrequentlyAskedQuestions className="mt-12 w-full" />
+      <div className="mt-10 w-full max-w-3xl rounded-2xl border bg-muted/30 px-6 py-5 text-left text-muted-foreground text-sm sm:text-center">
+        Prefer to run it yourself? Self-host the entire hub with{" "}
+        <span className="font-semibold text-foreground">Run</span>, one command,{" "}
+        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground text-xs">
+          run up
+        </code>
+        . Apache-2.0, no seats, no limits.
+      </div>
+
+      <FrequentlyAskedQuestions className="mt-14 w-full" />
     </div>
   );
 };
