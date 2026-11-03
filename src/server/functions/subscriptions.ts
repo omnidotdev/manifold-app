@@ -77,7 +77,7 @@ export const getSubscriptions = createServerFn()
  * Get billing portal URL for updating a subscription.
  */
 export const getManageSubscriptionUrl = createServerFn({ method: "POST" })
-  .inputValidator((data) => subscriptionSchema.parse(data))
+  .validator((data) => subscriptionSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     return billing.getBillingPortalUrl(
@@ -94,7 +94,7 @@ export const getManageSubscriptionUrl = createServerFn({ method: "POST" })
  * Get billing portal URL for canceling a subscription.
  */
 export const getCancelSubscriptionUrl = createServerFn({ method: "POST" })
-  .inputValidator((data) => subscriptionSchema.parse(data))
+  .validator((data) => subscriptionSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     return billing.getBillingPortalUrl(
@@ -113,7 +113,7 @@ export const getCancelSubscriptionUrl = createServerFn({ method: "POST" })
  * Get subscription for a workspace.
  */
 export const getSubscription = createServerFn()
-  .inputValidator((data) => workspaceSchema.parse(data))
+  .validator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     return billing.getSubscription(
@@ -127,7 +127,7 @@ export const getSubscription = createServerFn()
  * Get billing portal URL for a workspace.
  */
 export const getManageBillingUrl = createServerFn({ method: "POST" })
-  .inputValidator((data) => manageBillingSchema.parse(data))
+  .validator((data) => manageBillingSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     try {
@@ -147,7 +147,7 @@ export const getManageBillingUrl = createServerFn({ method: "POST" })
  * Revoke (cancel) a workspace subscription.
  */
 export const revokeSubscription = createServerFn({ method: "POST" })
-  .inputValidator((data) => workspaceSchema.parse(data))
+  .validator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     await billing.cancelSubscription(
@@ -163,7 +163,7 @@ export const revokeSubscription = createServerFn({ method: "POST" })
  * Reactivate a canceled workspace subscription.
  */
 export const reactivateSubscription = createServerFn({ method: "POST" })
-  .inputValidator((data) => workspaceSchema.parse(data))
+  .validator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     await billing.renewSubscription(
@@ -182,7 +182,7 @@ export const reactivateSubscription = createServerFn({ method: "POST" })
  */
 export const getOrgSubscription = createServerFn()
   .middleware([authMiddleware])
-  .inputValidator((data) => organizationSchema.parse(data))
+  .validator((data) => organizationSchema.parse(data))
   .handler(async ({ data, context }) => {
     return billing.getSubscription(
       "organization",
@@ -196,7 +196,7 @@ export const getOrgSubscription = createServerFn()
  */
 export const createCheckoutWithWorkspace = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .inputValidator((data) => checkoutWithWorkspaceSchema.parse(data))
+  .validator((data) => checkoutWithWorkspaceSchema.parse(data))
   .handler(async ({ data, context }) => {
     return billing.createCheckoutWithWorkspace({
       appId: app.name.toLowerCase(),

@@ -19,7 +19,7 @@ const getOrganizationBySlugSchema = z.object({
  * Create a new organization via Gatekeeper
  */
 export const createOrganization = createServerFn({ method: "POST" })
-  .inputValidator((data) => createOrganizationSchema.parse(data))
+  .validator((data) => createOrganizationSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     const accessToken = context.session.accessToken;
@@ -43,7 +43,7 @@ const checkOrganizationHandleSchema = z.object({
 export const checkOrganizationHandleAvailability = createServerFn({
   method: "GET",
 })
-  .inputValidator((data) => checkOrganizationHandleSchema.parse(data))
+  .validator((data) => checkOrganizationHandleSchema.parse(data))
   .handler(async ({ data }) => {
     return gatekeeperOrg.checkNamespaceAvailability(data.slug);
   });
@@ -53,7 +53,7 @@ export const checkOrganizationHandleAvailability = createServerFn({
  * Used when JWT claims are stale and don't include a newly created org
  */
 export const getOrganizationBySlug = createServerFn({ method: "GET" })
-  .inputValidator((data) => getOrganizationBySlugSchema.parse(data))
+  .validator((data) => getOrganizationBySlugSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
     const accessToken = context.session.accessToken;
@@ -71,7 +71,7 @@ export const getOrganizationBySlug = createServerFn({ method: "GET" })
  * @knipignore
  */
 export const fetchOrganizationBySlug = createServerFn()
-  .inputValidator((data) => getOrganizationBySlugSchema.parse(data))
+  .validator((data) => getOrganizationBySlugSchema.parse(data))
   .handler(async ({ data }) => {
     try {
       return await gatekeeperOrg.fetchOrganizationBySlug(data.slug);
