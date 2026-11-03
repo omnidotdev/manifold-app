@@ -92,3 +92,25 @@ query RepositoriesByNamespace($namespaceId: UUID!, $first: Int, $offset: Int) {
     totalCount
   }
 }
+
+query SearchRepositories($query: String!, $first: Int) {
+  repositories(
+    filter: { name: { includesInsensitive: $query } }
+    first: $first
+  ) {
+    nodes {
+      id
+      rowId
+      name
+      description
+      artifactType
+      isPublic
+      downloadCount
+      namespace {
+        rowId
+        name
+      }
+    }
+    totalCount
+  }
+}
