@@ -6,8 +6,16 @@ import { useState } from "react";
 
 import CreateNamespaceModal from "@/components/namespace/CreateNamespaceModal";
 import { Input } from "@/components/ui/input";
-import { useNamespacesQuery } from "@/generated/graphql";
+import {
+  useNamespacesQuery,
+  useSearchRepositoriesQuery,
+} from "@/generated/graphql";
 import { useWorkspace } from "@/lib/context";
+import {
+  ARTIFACT_TYPE_COLORS,
+  ARTIFACT_TYPE_LABELS,
+  isValidArtifactType,
+} from "@/lib/manifold/registry.types";
 import createMetaTags from "@/lib/util/createMetaTags";
 
 export const Route = createFileRoute("/_app/registry/")({
@@ -40,6 +48,20 @@ function RegistryPage() {
       (n): n is NonNullable<typeof n> => n != null,
     ) ?? [];
 
+  // Server-side repository search (the repositories connection is org-scoped by
+  // OrgScopePlugin, so results are already limited to what the caller may see)
+  const trimmed = searchQuery.trim();
+  const isSearching = trimmed.length > 0;
+  const { data: searchData, isLoading: searchLoading } =
+    useSearchRepositoriesQuery(
+      { query: trimmed, first: 50 },
+      { enabled: isSearching },
+    );
+  const searchResults =
+    searchData?.repositories?.nodes?.filter(
+      (r): r is NonNullable<typeof r> => r != null,
+    ) ?? [];
+
   const query = searchQuery.toLowerCase();
   const filteredNamespaces = namespaces.filter(
     (ns) =>
@@ -68,7 +90,7 @@ function RegistryPage() {
             <div className="relative flex-1 lg:w-64 lg:flex-none">
               <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search namespaces..."
+                placeholder="Search repositories..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10"
@@ -89,7 +111,64 @@ function RegistryPage() {
 
       {/* Content */}
       <div className="container mx-auto px-6 py-6">
-        {isLoading ? (
+        {isSearching ? (
+          searchLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : searchResults.length > 0 ? (
+            <div className="overflow-hidden rounded-2xl border bg-card">
+              {searchResults.map((repo, i) => {
+                const at = isValidArtifactType(repo.artifactType)
+                  ? repo.artifactType
+                  : null;
+                return (
+                  <Link
+                    key={repo.rowId}
+                    to="/registry/$namespaceName/$repoName"
+                    params={{
+                      namespaceName: repo.namespace?.name ?? "",
+                      repoName: repo.name,
+                    }}
+                    className={`flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/40 ${
+                      i > 0 ? "border-t" : ""
+                    }`}
+                  >
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <Package className="h-5 w-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate font-semibold">
+                        {repo.namespace?.name}/{repo.name}
+                      </div>
+                      <p className="truncate text-muted-foreground text-sm">
+                        {repo.description || "No description"}
+                      </p>
+                    </div>
+                    {at && (
+                      <Badge className={ARTIFACT_TYPE_COLORS[at]}>
+                        {ARTIFACT_TYPE_LABELS[at]}
+                      </Badge>
+                    )}
+                    <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <Search className="h-8 w-8" />
+              </div>
+              <h3 className="mb-2 font-semibold text-lg">
+                No repositories match "{trimmed}"
+              </h3>
+              <p className="text-muted-foreground">
+                Try a different search term
+              </p>
+            </div>
+          )
+        ) : isLoading ? (
           <div className="flex items-center justify-center py-16">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>

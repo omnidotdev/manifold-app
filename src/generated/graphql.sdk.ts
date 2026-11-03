@@ -975,6 +975,39 @@ export type CreateNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
   orderBy?: Array<NpmMetadatumOrderBy>;
 };
 
+/** All input for the create `OidcIssuer` mutation. */
+export type CreateOidcIssuerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `OidcIssuer` to be created by this mutation. */
+  oidcIssuer: OidcIssuerInput;
+};
+
+/** The output of our create `OidcIssuer` mutation. */
+export type CreateOidcIssuerPayload = {
+  __typename?: 'CreateOidcIssuerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `OidcIssuer` that was created by this mutation. */
+  oidcIssuer?: Maybe<OidcIssuer>;
+  /** An edge for our `OidcIssuer`. May be used by Relay 1. */
+  oidcIssuerEdge?: Maybe<OidcIssuerEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our create `OidcIssuer` mutation. */
+export type CreateOidcIssuerPayloadOidcIssuerEdgeArgs = {
+  orderBy?: Array<OidcIssuerOrderBy>;
+};
+
 /** All input for the create `Plugin` mutation. */
 export type CreatePluginInput = {
   /**
@@ -1138,6 +1171,39 @@ export type CreateTagPayload = {
 /** The output of our create `Tag` mutation. */
 export type CreateTagPayloadTagEdgeArgs = {
   orderBy?: Array<TagOrderBy>;
+};
+
+/** All input for the create `TrustedPublisher` mutation. */
+export type CreateTrustedPublisherInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The `TrustedPublisher` to be created by this mutation. */
+  trustedPublisher: TrustedPublisherInput;
+};
+
+/** The output of our create `TrustedPublisher` mutation. */
+export type CreateTrustedPublisherPayload = {
+  __typename?: 'CreateTrustedPublisherPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `TrustedPublisher` that was created by this mutation. */
+  trustedPublisher?: Maybe<TrustedPublisher>;
+  /** An edge for our `TrustedPublisher`. May be used by Relay 1. */
+  trustedPublisherEdge?: Maybe<TrustedPublisherEdge>;
+};
+
+
+/** The output of our create `TrustedPublisher` mutation. */
+export type CreateTrustedPublisherPayloadTrustedPublisherEdgeArgs = {
+  orderBy?: Array<TrustedPublisherOrderBy>;
 };
 
 /** All input for the create `UploadSession` mutation. */
@@ -1648,6 +1714,60 @@ export type DeleteNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
   orderBy?: Array<NpmMetadatumOrderBy>;
 };
 
+/** All input for the `deleteOidcIssuerById` mutation. */
+export type DeleteOidcIssuerByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `OidcIssuer` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteOidcIssuerByIssuer` mutation. */
+export type DeleteOidcIssuerByIssuerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  issuer: Scalars['String']['input'];
+};
+
+/** All input for the `deleteOidcIssuer` mutation. */
+export type DeleteOidcIssuerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `OidcIssuer` mutation. */
+export type DeleteOidcIssuerPayload = {
+  __typename?: 'DeleteOidcIssuerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedOidcIssuerId?: Maybe<Scalars['ID']['output']>;
+  /** The `OidcIssuer` that was deleted by this mutation. */
+  oidcIssuer?: Maybe<OidcIssuer>;
+  /** An edge for our `OidcIssuer`. May be used by Relay 1. */
+  oidcIssuerEdge?: Maybe<OidcIssuerEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our delete `OidcIssuer` mutation. */
+export type DeleteOidcIssuerPayloadOidcIssuerEdgeArgs = {
+  orderBy?: Array<OidcIssuerOrderBy>;
+};
+
 /** All input for the `deletePluginById` mutation. */
 export type DeletePluginByIdInput = {
   /**
@@ -1876,6 +1996,50 @@ export type DeleteTagPayload = {
 /** The output of our delete `Tag` mutation. */
 export type DeleteTagPayloadTagEdgeArgs = {
   orderBy?: Array<TagOrderBy>;
+};
+
+/** All input for the `deleteTrustedPublisherById` mutation. */
+export type DeleteTrustedPublisherByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `TrustedPublisher` to be deleted. */
+  id: Scalars['ID']['input'];
+};
+
+/** All input for the `deleteTrustedPublisher` mutation. */
+export type DeleteTrustedPublisherInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our delete `TrustedPublisher` mutation. */
+export type DeleteTrustedPublisherPayload = {
+  __typename?: 'DeleteTrustedPublisherPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  deletedTrustedPublisherId?: Maybe<Scalars['ID']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `TrustedPublisher` that was deleted by this mutation. */
+  trustedPublisher?: Maybe<TrustedPublisher>;
+  /** An edge for our `TrustedPublisher`. May be used by Relay 1. */
+  trustedPublisherEdge?: Maybe<TrustedPublisherEdge>;
+};
+
+
+/** The output of our delete `TrustedPublisher` mutation. */
+export type DeleteTrustedPublisherPayloadTrustedPublisherEdgeArgs = {
+  orderBy?: Array<TrustedPublisherOrderBy>;
 };
 
 /** All input for the `deleteUploadSessionById` mutation. */
@@ -2259,6 +2423,8 @@ export type Mutation = {
   createNpmDistTag?: Maybe<CreateNpmDistTagPayload>;
   /** Creates a single `NpmMetadatum`. */
   createNpmMetadatum?: Maybe<CreateNpmMetadatumPayload>;
+  /** Creates a single `OidcIssuer`. */
+  createOidcIssuer?: Maybe<CreateOidcIssuerPayload>;
   /** Creates a single `Plugin`. */
   createPlugin?: Maybe<CreatePluginPayload>;
   /** Creates a single `Repository`. */
@@ -2269,6 +2435,8 @@ export type Mutation = {
   createSchemaMetadatum?: Maybe<CreateSchemaMetadatumPayload>;
   /** Creates a single `Tag`. */
   createTag?: Maybe<CreateTagPayload>;
+  /** Creates a single `TrustedPublisher`. */
+  createTrustedPublisher?: Maybe<CreateTrustedPublisherPayload>;
   /** Creates a single `UploadSession`. */
   createUploadSession?: Maybe<CreateUploadSessionPayload>;
   /** Creates a single `WasmMetadatum`. */
@@ -2313,6 +2481,12 @@ export type Mutation = {
   deleteNpmMetadatum?: Maybe<DeleteNpmMetadatumPayload>;
   /** Deletes a single `NpmMetadatum` using its globally unique id. */
   deleteNpmMetadatumById?: Maybe<DeleteNpmMetadatumPayload>;
+  /** Deletes a single `OidcIssuer` using a unique key. */
+  deleteOidcIssuer?: Maybe<DeleteOidcIssuerPayload>;
+  /** Deletes a single `OidcIssuer` using its globally unique id. */
+  deleteOidcIssuerById?: Maybe<DeleteOidcIssuerPayload>;
+  /** Deletes a single `OidcIssuer` using a unique key. */
+  deleteOidcIssuerByIssuer?: Maybe<DeleteOidcIssuerPayload>;
   /** Deletes a single `Plugin` using a unique key. */
   deletePlugin?: Maybe<DeletePluginPayload>;
   /** Deletes a single `Plugin` using its globally unique id. */
@@ -2335,6 +2509,10 @@ export type Mutation = {
   deleteTag?: Maybe<DeleteTagPayload>;
   /** Deletes a single `Tag` using its globally unique id. */
   deleteTagById?: Maybe<DeleteTagPayload>;
+  /** Deletes a single `TrustedPublisher` using a unique key. */
+  deleteTrustedPublisher?: Maybe<DeleteTrustedPublisherPayload>;
+  /** Deletes a single `TrustedPublisher` using its globally unique id. */
+  deleteTrustedPublisherById?: Maybe<DeleteTrustedPublisherPayload>;
   /** Deletes a single `UploadSession` using a unique key. */
   deleteUploadSession?: Maybe<DeleteUploadSessionPayload>;
   /** Deletes a single `UploadSession` using its globally unique id. */
@@ -2383,6 +2561,12 @@ export type Mutation = {
   updateNpmMetadatum?: Maybe<UpdateNpmMetadatumPayload>;
   /** Updates a single `NpmMetadatum` using its globally unique id and a patch. */
   updateNpmMetadatumById?: Maybe<UpdateNpmMetadatumPayload>;
+  /** Updates a single `OidcIssuer` using a unique key and a patch. */
+  updateOidcIssuer?: Maybe<UpdateOidcIssuerPayload>;
+  /** Updates a single `OidcIssuer` using its globally unique id and a patch. */
+  updateOidcIssuerById?: Maybe<UpdateOidcIssuerPayload>;
+  /** Updates a single `OidcIssuer` using a unique key and a patch. */
+  updateOidcIssuerByIssuer?: Maybe<UpdateOidcIssuerPayload>;
   /** Updates a single `Plugin` using a unique key and a patch. */
   updatePlugin?: Maybe<UpdatePluginPayload>;
   /** Updates a single `Plugin` using its globally unique id and a patch. */
@@ -2405,6 +2589,10 @@ export type Mutation = {
   updateTag?: Maybe<UpdateTagPayload>;
   /** Updates a single `Tag` using its globally unique id and a patch. */
   updateTagById?: Maybe<UpdateTagPayload>;
+  /** Updates a single `TrustedPublisher` using a unique key and a patch. */
+  updateTrustedPublisher?: Maybe<UpdateTrustedPublisherPayload>;
+  /** Updates a single `TrustedPublisher` using its globally unique id and a patch. */
+  updateTrustedPublisherById?: Maybe<UpdateTrustedPublisherPayload>;
   /** Updates a single `UploadSession` using a unique key and a patch. */
   updateUploadSession?: Maybe<UpdateUploadSessionPayload>;
   /** Updates a single `UploadSession` using its globally unique id and a patch. */
@@ -2471,6 +2659,12 @@ export type MutationCreateNpmMetadatumArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateOidcIssuerArgs = {
+  input: CreateOidcIssuerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreatePluginArgs = {
   input: CreatePluginInput;
 };
@@ -2497,6 +2691,12 @@ export type MutationCreateSchemaMetadatumArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationCreateTagArgs = {
   input: CreateTagInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationCreateTrustedPublisherArgs = {
+  input: CreateTrustedPublisherInput;
 };
 
 
@@ -2633,6 +2833,24 @@ export type MutationDeleteNpmMetadatumByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOidcIssuerArgs = {
+  input: DeleteOidcIssuerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOidcIssuerByIdArgs = {
+  input: DeleteOidcIssuerByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteOidcIssuerByIssuerArgs = {
+  input: DeleteOidcIssuerByIssuerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeletePluginArgs = {
   input: DeletePluginInput;
 };
@@ -2695,6 +2913,18 @@ export type MutationDeleteTagArgs = {
 /** The root mutation type which contains root level fields which mutate data. */
 export type MutationDeleteTagByIdArgs = {
   input: DeleteTagByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTrustedPublisherArgs = {
+  input: DeleteTrustedPublisherInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationDeleteTrustedPublisherByIdArgs = {
+  input: DeleteTrustedPublisherByIdInput;
 };
 
 
@@ -2843,6 +3073,24 @@ export type MutationUpdateNpmMetadatumByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOidcIssuerArgs = {
+  input: UpdateOidcIssuerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOidcIssuerByIdArgs = {
+  input: UpdateOidcIssuerByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateOidcIssuerByIssuerArgs = {
+  input: UpdateOidcIssuerByIssuerInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdatePluginArgs = {
   input: UpdatePluginInput;
 };
@@ -2909,6 +3157,18 @@ export type MutationUpdateTagByIdArgs = {
 
 
 /** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTrustedPublisherArgs = {
+  input: UpdateTrustedPublisherInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
+export type MutationUpdateTrustedPublisherByIdArgs = {
+  input: UpdateTrustedPublisherByIdInput;
+};
+
+
+/** The root mutation type which contains root level fields which mutate data. */
 export type MutationUpdateUploadSessionArgs = {
   input: UpdateUploadSessionInput;
 };
@@ -2944,6 +3204,8 @@ export type Namespace = Node & {
   /** Reads and enables pagination through a set of `Repository`. */
   repositories: RepositoryConnection;
   rowId: Scalars['UUID']['output'];
+  /** Reads and enables pagination through a set of `TrustedPublisher`. */
+  trustedPublishers: TrustedPublisherConnection;
   updatedAt?: Maybe<Scalars['Datetime']['output']>;
 };
 
@@ -2969,6 +3231,18 @@ export type NamespaceRepositoriesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<RepositoryOrderBy>>;
+};
+
+
+export type NamespaceTrustedPublishersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<TrustedPublisherCondition>;
+  filter?: InputMaybe<TrustedPublisherFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<TrustedPublisherOrderBy>>;
 };
 
 /**
@@ -3028,6 +3302,10 @@ export type NamespaceFilter = {
   repositoriesExist?: InputMaybe<Scalars['Boolean']['input']>;
   /** Filter by the object’s `rowId` field. */
   rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `trustedPublishers` relation. */
+  trustedPublishers?: InputMaybe<NamespaceToManyTrustedPublisherFilter>;
+  /** Some related `trustedPublishers` exist. */
+  trustedPublishersExist?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** An input for mutations affecting `Namespace` */
@@ -3081,6 +3359,16 @@ export type NamespaceToManyRepositoryFilter = {
   none?: InputMaybe<RepositoryFilter>;
   /** Some related `Repository` matches the filter criteria. All fields are combined with a logical ‘and.’ */
   some?: InputMaybe<RepositoryFilter>;
+};
+
+/** A filter to be used against many `TrustedPublisher` object types. All fields are combined with a logical ‘and.’ */
+export type NamespaceToManyTrustedPublisherFilter = {
+  /** Every related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<TrustedPublisherFilter>;
+  /** No related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<TrustedPublisherFilter>;
+  /** Some related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<TrustedPublisherFilter>;
 };
 
 /** An object with a globally unique `ID`. */
@@ -3304,6 +3592,130 @@ export type NpmMetadatumPatch = {
   version?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type OidcIssuer = Node & {
+  __typename?: 'OidcIssuer';
+  audience: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  enabled: Scalars['Boolean']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  issuer: Scalars['String']['output'];
+  jwksAuthTokenPath?: Maybe<Scalars['String']['output']>;
+  jwksUri?: Maybe<Scalars['String']['output']>;
+  rowId: Scalars['UUID']['output'];
+  /** Reads and enables pagination through a set of `TrustedPublisher`. */
+  trustedPublishersByIssuerId: TrustedPublisherConnection;
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+};
+
+
+export type OidcIssuerTrustedPublishersByIssuerIdArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<TrustedPublisherCondition>;
+  filter?: InputMaybe<TrustedPublisherFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<TrustedPublisherOrderBy>>;
+};
+
+/**
+ * A condition to be used against `OidcIssuer` object types. All fields are tested
+ * for equality and combined with a logical ‘and.’
+ */
+export type OidcIssuerCondition = {
+  /** Checks for equality with the object’s `issuer` field. */
+  issuer?: InputMaybe<Scalars['String']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+};
+
+/** A connection to a list of `OidcIssuer` values. */
+export type OidcIssuerConnection = {
+  __typename?: 'OidcIssuerConnection';
+  /** A list of edges which contains the `OidcIssuer` and cursor to aid in pagination. */
+  edges: Array<Maybe<OidcIssuerEdge>>;
+  /** A list of `OidcIssuer` objects. */
+  nodes: Array<Maybe<OidcIssuer>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `OidcIssuer` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `OidcIssuer` edge in the connection. */
+export type OidcIssuerEdge = {
+  __typename?: 'OidcIssuerEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `OidcIssuer` at the end of the edge. */
+  node?: Maybe<OidcIssuer>;
+};
+
+/** A filter to be used against `OidcIssuer` object types. All fields are combined with a logical ‘and.’ */
+export type OidcIssuerFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<OidcIssuerFilter>>;
+  /** Filter by the object’s `issuer` field. */
+  issuer?: InputMaybe<StringFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<OidcIssuerFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<OidcIssuerFilter>>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `trustedPublishersByIssuerId` relation. */
+  trustedPublishersByIssuerId?: InputMaybe<OidcIssuerToManyTrustedPublisherFilter>;
+  /** Some related `trustedPublishersByIssuerId` exist. */
+  trustedPublishersByIssuerIdExist?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** An input for mutations affecting `OidcIssuer` */
+export type OidcIssuerInput = {
+  audience: Scalars['String']['input'];
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  issuer: Scalars['String']['input'];
+  jwksAuthTokenPath?: InputMaybe<Scalars['String']['input']>;
+  jwksUri?: InputMaybe<Scalars['String']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** Methods to use when ordering `OidcIssuer`. */
+export enum OidcIssuerOrderBy {
+  IssuerAsc = 'ISSUER_ASC',
+  IssuerDesc = 'ISSUER_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC'
+}
+
+/** Represents an update to a `OidcIssuer`. Fields that are set will be updated. */
+export type OidcIssuerPatch = {
+  audience?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  enabled?: InputMaybe<Scalars['Boolean']['input']>;
+  issuer?: InputMaybe<Scalars['String']['input']>;
+  jwksAuthTokenPath?: InputMaybe<Scalars['String']['input']>;
+  jwksUri?: InputMaybe<Scalars['String']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** A filter to be used against many `TrustedPublisher` object types. All fields are combined with a logical ‘and.’ */
+export type OidcIssuerToManyTrustedPublisherFilter = {
+  /** Every related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  every?: InputMaybe<TrustedPublisherFilter>;
+  /** No related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  none?: InputMaybe<TrustedPublisherFilter>;
+  /** Some related `TrustedPublisher` matches the filter criteria. All fields are combined with a logical ‘and.’ */
+  some?: InputMaybe<TrustedPublisherFilter>;
+};
+
 /** Information about pagination in a connection. */
 export type PageInfo = {
   __typename?: 'PageInfo';
@@ -3424,38 +3836,26 @@ export type Query = Node & {
   __typename?: 'Query';
   /** Get a single `ApiToken`. */
   apiToken?: Maybe<ApiToken>;
-  /** Reads a single `ApiToken` using its globally unique `ID`. */
-  apiTokenById?: Maybe<ApiToken>;
   /** Reads and enables pagination through a set of `ApiToken`. */
   apiTokens?: Maybe<ApiTokenConnection>;
   /** Get a single `Artifact`. */
   artifact?: Maybe<Artifact>;
-  /** Reads a single `Artifact` using its globally unique `ID`. */
-  artifactById?: Maybe<Artifact>;
   /** Reads and enables pagination through a set of `Artifact`. */
   artifacts?: Maybe<ArtifactConnection>;
   /** Reads and enables pagination through a set of `CargoMetadatum`. */
   cargoMetadata?: Maybe<CargoMetadatumConnection>;
   /** Get a single `CargoMetadatum`. */
   cargoMetadatum?: Maybe<CargoMetadatum>;
-  /** Reads a single `CargoMetadatum` using its globally unique `ID`. */
-  cargoMetadatumById?: Maybe<CargoMetadatum>;
   /** Reads and enables pagination through a set of `ContainerMetadatum`. */
   containerMetadata?: Maybe<ContainerMetadatumConnection>;
   /** Get a single `ContainerMetadatum`. */
   containerMetadatum?: Maybe<ContainerMetadatum>;
-  /** Reads a single `ContainerMetadatum` using its globally unique `ID`. */
-  containerMetadatumById?: Maybe<ContainerMetadatum>;
   /** Get a single `FederatedSkillCache`. */
   federatedSkillCache?: Maybe<FederatedSkillCache>;
-  /** Reads a single `FederatedSkillCache` using its globally unique `ID`. */
-  federatedSkillCacheById?: Maybe<FederatedSkillCache>;
   /** Reads and enables pagination through a set of `FederatedSkillCache`. */
   federatedSkillCaches?: Maybe<FederatedSkillCacheConnection>;
   /** Get a single `FederatedSource`. */
   federatedSource?: Maybe<FederatedSource>;
-  /** Reads a single `FederatedSource` using its globally unique `ID`. */
-  federatedSourceById?: Maybe<FederatedSource>;
   /** Get a single `FederatedSource`. */
   federatedSourceByNamespace?: Maybe<FederatedSource>;
   /** Reads and enables pagination through a set of `FederatedSource`. */
@@ -3464,30 +3864,26 @@ export type Query = Node & {
   id: Scalars['ID']['output'];
   /** Get a single `Namespace`. */
   namespace?: Maybe<Namespace>;
-  /** Reads a single `Namespace` using its globally unique `ID`. */
-  namespaceById?: Maybe<Namespace>;
   /** Get a single `Namespace`. */
   namespaceByName?: Maybe<Namespace>;
   /** Reads and enables pagination through a set of `Namespace`. */
   namespaces?: Maybe<NamespaceConnection>;
-  /** Fetches an object given its globally unique `ID`. */
-  node?: Maybe<Node>;
   /** Get a single `NpmDistTag`. */
   npmDistTag?: Maybe<NpmDistTag>;
-  /** Reads a single `NpmDistTag` using its globally unique `ID`. */
-  npmDistTagById?: Maybe<NpmDistTag>;
   /** Reads and enables pagination through a set of `NpmDistTag`. */
   npmDistTags?: Maybe<NpmDistTagConnection>;
   /** Reads and enables pagination through a set of `NpmMetadatum`. */
   npmMetadata?: Maybe<NpmMetadatumConnection>;
   /** Get a single `NpmMetadatum`. */
   npmMetadatum?: Maybe<NpmMetadatum>;
-  /** Reads a single `NpmMetadatum` using its globally unique `ID`. */
-  npmMetadatumById?: Maybe<NpmMetadatum>;
+  /** Get a single `OidcIssuer`. */
+  oidcIssuer?: Maybe<OidcIssuer>;
+  /** Get a single `OidcIssuer`. */
+  oidcIssuerByIssuer?: Maybe<OidcIssuer>;
+  /** Reads and enables pagination through a set of `OidcIssuer`. */
+  oidcIssuers?: Maybe<OidcIssuerConnection>;
   /** Get a single `Plugin`. */
   plugin?: Maybe<Plugin>;
-  /** Reads a single `Plugin` using its globally unique `ID`. */
-  pluginById?: Maybe<Plugin>;
   /** Get a single `Plugin`. */
   pluginByName?: Maybe<Plugin>;
   /** Reads and enables pagination through a set of `Plugin`. */
@@ -3501,50 +3897,36 @@ export type Query = Node & {
   repositories?: Maybe<RepositoryConnection>;
   /** Get a single `Repository`. */
   repository?: Maybe<Repository>;
-  /** Reads a single `Repository` using its globally unique `ID`. */
-  repositoryById?: Maybe<Repository>;
   /** Get a single `ScanResult`. */
   scanResult?: Maybe<ScanResult>;
-  /** Reads a single `ScanResult` using its globally unique `ID`. */
-  scanResultById?: Maybe<ScanResult>;
   /** Reads and enables pagination through a set of `ScanResult`. */
   scanResults?: Maybe<ScanResultConnection>;
   /** Reads and enables pagination through a set of `SchemaMetadatum`. */
   schemaMetadata?: Maybe<SchemaMetadatumConnection>;
   /** Get a single `SchemaMetadatum`. */
   schemaMetadatum?: Maybe<SchemaMetadatum>;
-  /** Reads a single `SchemaMetadatum` using its globally unique `ID`. */
-  schemaMetadatumById?: Maybe<SchemaMetadatum>;
   /** Get a single `Tag`. */
   tag?: Maybe<Tag>;
-  /** Reads a single `Tag` using its globally unique `ID`. */
-  tagById?: Maybe<Tag>;
   /** Reads and enables pagination through a set of `Tag`. */
   tags?: Maybe<TagConnection>;
+  /** Get a single `TrustedPublisher`. */
+  trustedPublisher?: Maybe<TrustedPublisher>;
+  /** Reads and enables pagination through a set of `TrustedPublisher`. */
+  trustedPublishers?: Maybe<TrustedPublisherConnection>;
   /** Get a single `UploadSession`. */
   uploadSession?: Maybe<UploadSession>;
-  /** Reads a single `UploadSession` using its globally unique `ID`. */
-  uploadSessionById?: Maybe<UploadSession>;
   /** Reads and enables pagination through a set of `UploadSession`. */
   uploadSessions?: Maybe<UploadSessionConnection>;
   /** Reads and enables pagination through a set of `WasmMetadatum`. */
   wasmMetadata?: Maybe<WasmMetadatumConnection>;
   /** Get a single `WasmMetadatum`. */
   wasmMetadatum?: Maybe<WasmMetadatum>;
-  /** Reads a single `WasmMetadatum` using its globally unique `ID`. */
-  wasmMetadatumById?: Maybe<WasmMetadatum>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryApiTokenArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryApiTokenByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3564,12 +3946,6 @@ export type QueryApiTokensArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryArtifactArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryArtifactByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3606,12 +3982,6 @@ export type QueryCargoMetadatumArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryCargoMetadatumByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryContainerMetadataArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3631,20 +4001,8 @@ export type QueryContainerMetadatumArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryContainerMetadatumByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryFederatedSkillCacheArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryFederatedSkillCacheByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3664,12 +4022,6 @@ export type QueryFederatedSkillCachesArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryFederatedSourceArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryFederatedSourceByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3699,12 +4051,6 @@ export type QueryNamespaceArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryNamespaceByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryNamespaceByNameArgs = {
   name: Scalars['String']['input'];
 };
@@ -3724,20 +4070,8 @@ export type QueryNamespacesArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryNodeArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryNpmDistTagArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryNpmDistTagByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3774,20 +4108,33 @@ export type QueryNpmMetadatumArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryNpmMetadatumByIdArgs = {
-  id: Scalars['ID']['input'];
+export type QueryOidcIssuerArgs = {
+  rowId: Scalars['UUID']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOidcIssuerByIssuerArgs = {
+  issuer: Scalars['String']['input'];
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryOidcIssuersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<OidcIssuerCondition>;
+  filter?: InputMaybe<OidcIssuerFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<OidcIssuerOrderBy>>;
 };
 
 
 /** The root query type which gives access points into the data universe. */
 export type QueryPluginArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryPluginByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3830,20 +4177,8 @@ export type QueryRepositoryArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryRepositoryByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryScanResultArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryScanResultByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3880,20 +4215,8 @@ export type QuerySchemaMetadatumArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QuerySchemaMetadatumByIdArgs = {
-  id: Scalars['ID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
 export type QueryTagArgs = {
   rowId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryTagByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 
@@ -3911,14 +4234,27 @@ export type QueryTagsArgs = {
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUploadSessionArgs = {
+export type QueryTrustedPublisherArgs = {
   rowId: Scalars['UUID']['input'];
 };
 
 
 /** The root query type which gives access points into the data universe. */
-export type QueryUploadSessionByIdArgs = {
-  id: Scalars['ID']['input'];
+export type QueryTrustedPublishersArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<TrustedPublisherCondition>;
+  filter?: InputMaybe<TrustedPublisherFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<TrustedPublisherOrderBy>>;
+};
+
+
+/** The root query type which gives access points into the data universe. */
+export type QueryUploadSessionArgs = {
+  rowId: Scalars['UUID']['input'];
 };
 
 
@@ -3951,12 +4287,6 @@ export type QueryWasmMetadataArgs = {
 /** The root query type which gives access points into the data universe. */
 export type QueryWasmMetadatumArgs = {
   artifactId: Scalars['UUID']['input'];
-};
-
-
-/** The root query type which gives access points into the data universe. */
-export type QueryWasmMetadatumByIdArgs = {
-  id: Scalars['ID']['input'];
 };
 
 export type Repository = Node & {
@@ -4605,6 +4935,146 @@ export type TagPatch = {
   updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
 };
 
+export type TrustedPublisher = Node & {
+  __typename?: 'TrustedPublisher';
+  claimConstraints: Scalars['JSON']['output'];
+  createdAt?: Maybe<Scalars['Datetime']['output']>;
+  createdBy: Scalars['String']['output'];
+  /** A globally unique identifier. Can be used in various places throughout the system to identify this single value. */
+  id: Scalars['ID']['output'];
+  isActive: Scalars['Boolean']['output'];
+  /** Reads a single `OidcIssuer` that is related to this `TrustedPublisher`. */
+  issuer?: Maybe<OidcIssuer>;
+  issuerId: Scalars['UUID']['output'];
+  lastUsedAt?: Maybe<Scalars['Datetime']['output']>;
+  /** Reads a single `Namespace` that is related to this `TrustedPublisher`. */
+  namespace?: Maybe<Namespace>;
+  namespaceId: Scalars['UUID']['output'];
+  /** Reads a single `Repository` that is related to this `TrustedPublisher`. */
+  repository?: Maybe<Repository>;
+  repositoryId?: Maybe<Scalars['UUID']['output']>;
+  rowId: Scalars['UUID']['output'];
+  scope: Scalars['String']['output'];
+  subject: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['Datetime']['output']>;
+};
+
+/**
+ * A condition to be used against `TrustedPublisher` object types. All fields are
+ * tested for equality and combined with a logical ‘and.’
+ */
+export type TrustedPublisherCondition = {
+  /** Checks for equality with the object’s `isActive` field. */
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Checks for equality with the object’s `issuerId` field. */
+  issuerId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `namespaceId` field. */
+  namespaceId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `rowId` field. */
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  /** Checks for equality with the object’s `subject` field. */
+  subject?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** A connection to a list of `TrustedPublisher` values. */
+export type TrustedPublisherConnection = {
+  __typename?: 'TrustedPublisherConnection';
+  /** A list of edges which contains the `TrustedPublisher` and cursor to aid in pagination. */
+  edges: Array<Maybe<TrustedPublisherEdge>>;
+  /** A list of `TrustedPublisher` objects. */
+  nodes: Array<Maybe<TrustedPublisher>>;
+  /** Information to aid in pagination. */
+  pageInfo: PageInfo;
+  /** The count of *all* `TrustedPublisher` you could get from the connection. */
+  totalCount: Scalars['Int']['output'];
+};
+
+/** A `TrustedPublisher` edge in the connection. */
+export type TrustedPublisherEdge = {
+  __typename?: 'TrustedPublisherEdge';
+  /** A cursor for use in pagination. */
+  cursor?: Maybe<Scalars['Cursor']['output']>;
+  /** The `TrustedPublisher` at the end of the edge. */
+  node?: Maybe<TrustedPublisher>;
+};
+
+/** A filter to be used against `TrustedPublisher` object types. All fields are combined with a logical ‘and.’ */
+export type TrustedPublisherFilter = {
+  /** Checks for all expressions in this list. */
+  and?: InputMaybe<Array<TrustedPublisherFilter>>;
+  /** Filter by the object’s `isActive` field. */
+  isActive?: InputMaybe<BooleanFilter>;
+  /** Filter by the object’s `issuer` relation. */
+  issuer?: InputMaybe<OidcIssuerFilter>;
+  /** Filter by the object’s `issuerId` field. */
+  issuerId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `namespace` relation. */
+  namespace?: InputMaybe<NamespaceFilter>;
+  /** Filter by the object’s `namespaceId` field. */
+  namespaceId?: InputMaybe<UuidFilter>;
+  /** Negates the expression. */
+  not?: InputMaybe<TrustedPublisherFilter>;
+  /** Checks for any expressions in this list. */
+  or?: InputMaybe<Array<TrustedPublisherFilter>>;
+  /** Filter by the object’s `repository` relation. */
+  repository?: InputMaybe<RepositoryFilter>;
+  /** A related `repository` exists. */
+  repositoryExists?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Filter by the object’s `rowId` field. */
+  rowId?: InputMaybe<UuidFilter>;
+  /** Filter by the object’s `subject` field. */
+  subject?: InputMaybe<StringFilter>;
+};
+
+/** An input for mutations affecting `TrustedPublisher` */
+export type TrustedPublisherInput = {
+  claimConstraints?: InputMaybe<Scalars['JSON']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy: Scalars['String']['input'];
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  issuerId: Scalars['UUID']['input'];
+  lastUsedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  namespaceId: Scalars['UUID']['input'];
+  repositoryId?: InputMaybe<Scalars['UUID']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  subject: Scalars['String']['input'];
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+/** Methods to use when ordering `TrustedPublisher`. */
+export enum TrustedPublisherOrderBy {
+  IssuerIdAsc = 'ISSUER_ID_ASC',
+  IssuerIdDesc = 'ISSUER_ID_DESC',
+  IsActiveAsc = 'IS_ACTIVE_ASC',
+  IsActiveDesc = 'IS_ACTIVE_DESC',
+  NamespaceIdAsc = 'NAMESPACE_ID_ASC',
+  NamespaceIdDesc = 'NAMESPACE_ID_DESC',
+  Natural = 'NATURAL',
+  PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
+  PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
+  RowIdAsc = 'ROW_ID_ASC',
+  RowIdDesc = 'ROW_ID_DESC',
+  SubjectAsc = 'SUBJECT_ASC',
+  SubjectDesc = 'SUBJECT_DESC'
+}
+
+/** Represents an update to a `TrustedPublisher`. Fields that are set will be updated. */
+export type TrustedPublisherPatch = {
+  claimConstraints?: InputMaybe<Scalars['JSON']['input']>;
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  createdBy?: InputMaybe<Scalars['String']['input']>;
+  isActive?: InputMaybe<Scalars['Boolean']['input']>;
+  issuerId?: InputMaybe<Scalars['UUID']['input']>;
+  lastUsedAt?: InputMaybe<Scalars['Datetime']['input']>;
+  namespaceId?: InputMaybe<Scalars['UUID']['input']>;
+  repositoryId?: InputMaybe<Scalars['UUID']['input']>;
+  rowId?: InputMaybe<Scalars['UUID']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
 /** A filter to be used against UUID fields. All fields are combined with a logical ‘and.’ */
 export type UuidFilter = {
   /** Not equal to the specified value, treating null like an ordinary value. */
@@ -5078,6 +5548,65 @@ export type UpdateNpmMetadatumPayloadNpmMetadatumEdgeArgs = {
   orderBy?: Array<NpmMetadatumOrderBy>;
 };
 
+/** All input for the `updateOidcIssuerById` mutation. */
+export type UpdateOidcIssuerByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `OidcIssuer` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `OidcIssuer` being updated. */
+  patch: OidcIssuerPatch;
+};
+
+/** All input for the `updateOidcIssuerByIssuer` mutation. */
+export type UpdateOidcIssuerByIssuerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  issuer: Scalars['String']['input'];
+  /** An object where the defined keys will be set on the `OidcIssuer` being updated. */
+  patch: OidcIssuerPatch;
+};
+
+/** All input for the `updateOidcIssuer` mutation. */
+export type UpdateOidcIssuerInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `OidcIssuer` being updated. */
+  patch: OidcIssuerPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `OidcIssuer` mutation. */
+export type UpdateOidcIssuerPayload = {
+  __typename?: 'UpdateOidcIssuerPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The `OidcIssuer` that was updated by this mutation. */
+  oidcIssuer?: Maybe<OidcIssuer>;
+  /** An edge for our `OidcIssuer`. May be used by Relay 1. */
+  oidcIssuerEdge?: Maybe<OidcIssuerEdge>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+};
+
+
+/** The output of our update `OidcIssuer` mutation. */
+export type UpdateOidcIssuerPayloadOidcIssuerEdgeArgs = {
+  orderBy?: Array<OidcIssuerOrderBy>;
+};
+
 /** All input for the `updatePluginById` mutation. */
 export type UpdatePluginByIdInput = {
   /**
@@ -5323,6 +5852,53 @@ export type UpdateTagPayload = {
 /** The output of our update `Tag` mutation. */
 export type UpdateTagPayloadTagEdgeArgs = {
   orderBy?: Array<TagOrderBy>;
+};
+
+/** All input for the `updateTrustedPublisherById` mutation. */
+export type UpdateTrustedPublisherByIdInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** The globally unique `ID` which will identify a single `TrustedPublisher` to be updated. */
+  id: Scalars['ID']['input'];
+  /** An object where the defined keys will be set on the `TrustedPublisher` being updated. */
+  patch: TrustedPublisherPatch;
+};
+
+/** All input for the `updateTrustedPublisher` mutation. */
+export type UpdateTrustedPublisherInput = {
+  /**
+   * An arbitrary string value with no semantic meaning. Will be included in the
+   * payload verbatim. May be used to track mutations by the client.
+   */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** An object where the defined keys will be set on the `TrustedPublisher` being updated. */
+  patch: TrustedPublisherPatch;
+  rowId: Scalars['UUID']['input'];
+};
+
+/** The output of our update `TrustedPublisher` mutation. */
+export type UpdateTrustedPublisherPayload = {
+  __typename?: 'UpdateTrustedPublisherPayload';
+  /**
+   * The exact same `clientMutationId` that was provided in the mutation input,
+   * unchanged and unused. May be used by a client to track mutations.
+   */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** Our root query field type. Allows us to run any query from our mutation payload. */
+  query?: Maybe<Query>;
+  /** The `TrustedPublisher` that was updated by this mutation. */
+  trustedPublisher?: Maybe<TrustedPublisher>;
+  /** An edge for our `TrustedPublisher`. May be used by Relay 1. */
+  trustedPublisherEdge?: Maybe<TrustedPublisherEdge>;
+};
+
+
+/** The output of our update `TrustedPublisher` mutation. */
+export type UpdateTrustedPublisherPayloadTrustedPublisherEdgeArgs = {
+  orderBy?: Array<TrustedPublisherOrderBy>;
 };
 
 /** All input for the `updateUploadSessionById` mutation. */
@@ -5714,6 +6290,14 @@ export type RepositoriesByNamespaceQueryVariables = Exact<{
 
 export type RepositoriesByNamespaceQuery = { __typename?: 'Query', repositories?: { __typename?: 'RepositoryConnection', totalCount: number, nodes: Array<{ __typename?: 'Repository', id: string, rowId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, createdAt?: string | null, artifacts: { __typename?: 'ArtifactConnection', totalCount: number }, tags: { __typename?: 'TagConnection', totalCount: number } } | null> } | null };
 
+export type SearchRepositoriesQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type SearchRepositoriesQuery = { __typename?: 'Query', repositories?: { __typename?: 'RepositoryConnection', totalCount: number, nodes: Array<{ __typename?: 'Repository', id: string, rowId: string, name: string, description?: string | null, artifactType: string, isPublic: boolean, downloadCount: string, namespace?: { __typename?: 'Namespace', rowId: string, name: string } | null } | null> } | null };
+
 
 export const CreateArtifactDocument = gql`
     mutation CreateArtifact($input: CreateArtifactInput!) {
@@ -6013,6 +6597,26 @@ export const RepositoriesByNamespaceDocument = gql`
   }
 }
     `;
+export const SearchRepositoriesDocument = gql`
+    query SearchRepositories($query: String!, $first: Int) {
+  repositories(filter: {name: {includesInsensitive: $query}}, first: $first) {
+    nodes {
+      id
+      rowId
+      name
+      description
+      artifactType
+      isPublic
+      downloadCount
+      namespace {
+        rowId
+        name
+      }
+    }
+    totalCount
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string, variables?: any) => Promise<T>;
 
@@ -6068,6 +6672,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     RepositoriesByNamespace(variables: RepositoriesByNamespaceQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<RepositoriesByNamespaceQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<RepositoriesByNamespaceQuery>({ document: RepositoriesByNamespaceDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'RepositoriesByNamespace', 'query', variables);
+    },
+    SearchRepositories(variables: SearchRepositoriesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders, signal?: RequestInit['signal']): Promise<SearchRepositoriesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SearchRepositoriesQuery>({ document: SearchRepositoriesDocument, variables, requestHeaders: { ...requestHeaders, ...wrappedRequestHeaders }, signal }), 'SearchRepositories', 'query', variables);
     }
   };
 }
