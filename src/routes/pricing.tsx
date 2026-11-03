@@ -67,6 +67,11 @@ const PricingPage = () => {
         hub for your containers, crates, packages, schemas, and WASM.
       </h2>
 
+      <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 font-semibold text-amber-600 text-xs dark:text-amber-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+        Coming soon &mdash; pricing shown for preview
+      </span>
+
       <TabsRootProvider
         value={tabs}
         className="mt-10 flex w-full flex-col lg:w-fit"
