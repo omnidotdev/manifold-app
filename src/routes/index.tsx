@@ -185,7 +185,7 @@ function HomePage() {
             live together, versioned, private, and one command away. One surface
             for everything you build.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button size="lg" onClick={() => signIn()} disabled={isPending}>
               Create your hub
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -193,6 +193,10 @@ function HomePage() {
             <Button size="lg" variant="outline" asChild>
               <a href={DOCS_URL}>Read the docs</a>
             </Button>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#fb923c]/40 bg-[#fb923c]/10 px-3 py-1.5 font-semibold text-[#fb923c] text-xs">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
+              Coming soon
+            </span>
           </div>
           <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[#636b80] text-sm">
             {TRUST.map((t, i) => (
