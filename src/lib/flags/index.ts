@@ -16,7 +16,7 @@ export const FLAGS = {
  *                  @omni.dev users bypass maintenance mode via Unleash strategy.
  */
 export const fetchMaintenanceMode = createServerFn({ method: "GET" })
-  .inputValidator((data: FlagContext | undefined) => data)
+  .validator((data: FlagContext | undefined) => data)
   .handler(async ({ data: context }) => {
     const isMaintenanceMode = await flags.isEnabled(FLAGS.MAINTENANCE, context);
     return { isMaintenanceMode };

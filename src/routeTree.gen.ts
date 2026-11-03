@@ -9,56 +9,46 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppTokensRouteImport } from './routes/_app/tokens'
-import { Route as AppProfileRouteImport } from './routes/_app/profile'
-import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
-import { Route as AppAtChar123workspaceSlugChar125RouteImport } from './routes/_app/@{$workspaceSlug}'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AtomniSplatRouteImport } from './routes/@omni/$'
-import { Route as AppSchemasIndexRouteImport } from './routes/_app/schemas/index'
-import { Route as AppRegistryIndexRouteImport } from './routes/_app/registry/index'
-import { Route as AppOrganizationsIndexRouteImport } from './routes/_app/organizations/index'
+import { Route as AppAtChar123workspaceSlugChar125RouteImport } from './routes/_app/@{$workspaceSlug}'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppTokensRouteImport } from './routes/_app/tokens'
 import { Route as AppAtChar123workspaceSlugChar125IndexRouteImport } from './routes/_app/@{$workspaceSlug}/index'
-import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as AppSchemasCreateRouteImport } from './routes/_app/schemas/create'
-import { Route as AppSchemasSchemaIdRouteImport } from './routes/_app/schemas/$schemaId'
+import { Route as AppOrganizationsIndexRouteImport } from './routes/_app/organizations/index'
+import { Route as AppRegistryIndexRouteImport } from './routes/_app/registry/index'
 import { Route as AppRegistryNamespaceNameRouteImport } from './routes/_app/registry/$namespaceName'
+import { Route as AppSchemasIndexRouteImport } from './routes/_app/schemas/index'
+import { Route as AppSchemasSchemaIdRouteImport } from './routes/_app/schemas/$schemaId'
+import { Route as AppSchemasCreateRouteImport } from './routes/_app/schemas/create'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AppAtChar123workspaceSlugChar125Char126BillingRouteImport } from './routes/_app/@{$workspaceSlug}/~/billing'
+import { Route as AppAtChar123workspaceSlugChar125Char126MembersRouteImport } from './routes/_app/@{$workspaceSlug}/~/members'
+import { Route as AppAtChar123workspaceSlugChar125Char126SettingsRouteImport } from './routes/_app/@{$workspaceSlug}/~/settings'
 import { Route as AppRegistryNamespaceNameIndexRouteImport } from './routes/_app/registry/$namespaceName/index'
 import { Route as AppRegistryNamespaceNameRepoNameRouteImport } from './routes/_app/registry/$namespaceName/$repoName'
-import { Route as AppAtChar123workspaceSlugChar125Char126SettingsRouteImport } from './routes/_app/@{$workspaceSlug}/~/settings'
-import { Route as AppAtChar123workspaceSlugChar125Char126MembersRouteImport } from './routes/_app/@{$workspaceSlug}/~/members'
-import { Route as AppAtChar123workspaceSlugChar125Char126BillingRouteImport } from './routes/_app/@{$workspaceSlug}/~/billing'
 
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRoute = AppRouteImport.update({
   id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppTokensRoute = AppTokensRouteImport.update({
-  id: '/tokens',
-  path: '/tokens',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppProfileRoute = AppProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
+const AtomniSplatRoute = AtomniSplatRouteImport.update({
+  id: '/@omni/$',
+  path: '/@omni/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppAtChar123workspaceSlugChar125Route =
   AppAtChar123workspaceSlugChar125RouteImport.update({
@@ -66,24 +56,19 @@ const AppAtChar123workspaceSlugChar125Route =
     path: '/@{$workspaceSlug}',
     getParentRoute: () => AppRoute,
   } as any)
-const AtomniSplatRoute = AtomniSplatRouteImport.update({
-  id: '/@omni/$',
-  path: '/@omni/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppSchemasIndexRoute = AppSchemasIndexRouteImport.update({
-  id: '/schemas/',
-  path: '/schemas/',
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AppRoute,
 } as any)
-const AppRegistryIndexRoute = AppRegistryIndexRouteImport.update({
-  id: '/registry/',
-  path: '/registry/',
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => AppRoute,
 } as any)
-const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
-  id: '/organizations/',
-  path: '/organizations/',
+const AppTokensRoute = AppTokensRouteImport.update({
+  id: '/tokens',
+  path: '/tokens',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAtChar123workspaceSlugChar125IndexRoute =
@@ -92,19 +77,14 @@ const AppAtChar123workspaceSlugChar125IndexRoute =
     path: '/',
     getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
-const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
-  id: '/api/auth/$',
-  path: '/api/auth/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppSchemasCreateRoute = AppSchemasCreateRouteImport.update({
-  id: '/schemas/create',
-  path: '/schemas/create',
+const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
+  id: '/organizations/',
+  path: '/organizations/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSchemasSchemaIdRoute = AppSchemasSchemaIdRouteImport.update({
-  id: '/schemas/$schemaId',
-  path: '/schemas/$schemaId',
+const AppRegistryIndexRoute = AppRegistryIndexRouteImport.update({
+  id: '/registry/',
+  path: '/registry/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppRegistryNamespaceNameRoute =
@@ -112,6 +92,44 @@ const AppRegistryNamespaceNameRoute =
     id: '/registry/$namespaceName',
     path: '/registry/$namespaceName',
     getParentRoute: () => AppRoute,
+  } as any)
+const AppSchemasIndexRoute = AppSchemasIndexRouteImport.update({
+  id: '/schemas/',
+  path: '/schemas/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSchemasSchemaIdRoute = AppSchemasSchemaIdRouteImport.update({
+  id: '/schemas/$schemaId',
+  path: '/schemas/$schemaId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSchemasCreateRoute = AppSchemasCreateRouteImport.update({
+  id: '/schemas/create',
+  path: '/schemas/create',
+  getParentRoute: () => AppRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppAtChar123workspaceSlugChar125Char126BillingRoute =
+  AppAtChar123workspaceSlugChar125Char126BillingRouteImport.update({
+    id: '/~/billing',
+    path: '/~/billing',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126MembersRoute =
+  AppAtChar123workspaceSlugChar125Char126MembersRouteImport.update({
+    id: '/~/members',
+    path: '/~/members',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126SettingsRoute =
+  AppAtChar123workspaceSlugChar125Char126SettingsRouteImport.update({
+    id: '/~/settings',
+    path: '/~/settings',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
 const AppRegistryNamespaceNameIndexRoute =
   AppRegistryNamespaceNameIndexRouteImport.update({
@@ -124,24 +142,6 @@ const AppRegistryNamespaceNameRepoNameRoute =
     id: '/$repoName',
     path: '/$repoName',
     getParentRoute: () => AppRegistryNamespaceNameRoute,
-  } as any)
-const AppAtChar123workspaceSlugChar125Char126SettingsRoute =
-  AppAtChar123workspaceSlugChar125Char126SettingsRouteImport.update({
-    id: '/~/settings',
-    path: '/~/settings',
-    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
-  } as any)
-const AppAtChar123workspaceSlugChar125Char126MembersRoute =
-  AppAtChar123workspaceSlugChar125Char126MembersRouteImport.update({
-    id: '/~/members',
-    path: '/~/members',
-    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
-  } as any)
-const AppAtChar123workspaceSlugChar125Char126BillingRoute =
-  AppAtChar123workspaceSlugChar125Char126BillingRouteImport.update({
-    id: '/~/billing',
-    path: '/~/billing',
-    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -288,11 +288,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app': {
@@ -302,25 +302,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/tokens': {
-      id: '/_app/tokens'
-      path: '/tokens'
-      fullPath: '/tokens'
-      preLoaderRoute: typeof AppTokensRouteImport
-      parentRoute: typeof AppRoute
+    '/@omni/$': {
+      id: '/@omni/$'
+      path: '/@omni/$'
+      fullPath: '/@omni/$'
+      preLoaderRoute: typeof AtomniSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_app/profile': {
-      id: '/_app/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof AppProfileRouteImport
+    '/_app/@{$workspaceSlug}': {
+      id: '/_app/@{$workspaceSlug}'
+      path: '/@{$workspaceSlug}'
+      fullPath: '/@{$workspaceSlug}'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125RouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -330,39 +330,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDashboardRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/@{$workspaceSlug}': {
-      id: '/_app/@{$workspaceSlug}'
-      path: '/@{$workspaceSlug}'
-      fullPath: '/@{$workspaceSlug}'
-      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125RouteImport
+    '/_app/profile': {
+      id: '/_app/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof AppRoute
     }
-    '/@omni/$': {
-      id: '/@omni/$'
-      path: '/@omni/$'
-      fullPath: '/@omni/$'
-      preLoaderRoute: typeof AtomniSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_app/schemas/': {
-      id: '/_app/schemas/'
-      path: '/schemas'
-      fullPath: '/schemas/'
-      preLoaderRoute: typeof AppSchemasIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/registry/': {
-      id: '/_app/registry/'
-      path: '/registry'
-      fullPath: '/registry/'
-      preLoaderRoute: typeof AppRegistryIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/organizations/': {
-      id: '/_app/organizations/'
-      path: '/organizations'
-      fullPath: '/organizations/'
-      preLoaderRoute: typeof AppOrganizationsIndexRouteImport
+    '/_app/tokens': {
+      id: '/_app/tokens'
+      path: '/tokens'
+      fullPath: '/tokens'
+      preLoaderRoute: typeof AppTokensRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/@{$workspaceSlug}/': {
@@ -372,18 +351,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAtChar123workspaceSlugChar125IndexRouteImport
       parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
-    '/api/auth/$': {
-      id: '/api/auth/$'
-      path: '/api/auth/$'
-      fullPath: '/api/auth/$'
-      preLoaderRoute: typeof ApiAuthSplatRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_app/organizations/': {
+      id: '/_app/organizations/'
+      path: '/organizations'
+      fullPath: '/organizations/'
+      preLoaderRoute: typeof AppOrganizationsIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/_app/schemas/create': {
-      id: '/_app/schemas/create'
-      path: '/schemas/create'
-      fullPath: '/schemas/create'
-      preLoaderRoute: typeof AppSchemasCreateRouteImport
+    '/_app/registry/': {
+      id: '/_app/registry/'
+      path: '/registry'
+      fullPath: '/registry/'
+      preLoaderRoute: typeof AppRegistryIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/registry/$namespaceName': {
+      id: '/_app/registry/$namespaceName'
+      path: '/registry/$namespaceName'
+      fullPath: '/registry/$namespaceName'
+      preLoaderRoute: typeof AppRegistryNamespaceNameRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/schemas/': {
+      id: '/_app/schemas/'
+      path: '/schemas'
+      fullPath: '/schemas/'
+      preLoaderRoute: typeof AppSchemasIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/schemas/$schemaId': {
@@ -393,12 +386,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSchemasSchemaIdRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/registry/$namespaceName': {
-      id: '/_app/registry/$namespaceName'
-      path: '/registry/$namespaceName'
-      fullPath: '/registry/$namespaceName'
-      preLoaderRoute: typeof AppRegistryNamespaceNameRouteImport
+    '/_app/schemas/create': {
+      id: '/_app/schemas/create'
+      path: '/schemas/create'
+      fullPath: '/schemas/create'
+      preLoaderRoute: typeof AppSchemasCreateRouteImport
       parentRoute: typeof AppRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_app/@{$workspaceSlug}/~/billing': {
+      id: '/_app/@{$workspaceSlug}/~/billing'
+      path: '/~/billing'
+      fullPath: '/@{$workspaceSlug}/~/billing'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126BillingRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/members': {
+      id: '/_app/@{$workspaceSlug}/~/members'
+      path: '/~/members'
+      fullPath: '/@{$workspaceSlug}/~/members'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126MembersRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/settings': {
+      id: '/_app/@{$workspaceSlug}/~/settings'
+      path: '/~/settings'
+      fullPath: '/@{$workspaceSlug}/~/settings'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SettingsRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
     '/_app/registry/$namespaceName/': {
       id: '/_app/registry/$namespaceName/'
@@ -413,27 +434,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/registry/$namespaceName/$repoName'
       preLoaderRoute: typeof AppRegistryNamespaceNameRepoNameRouteImport
       parentRoute: typeof AppRegistryNamespaceNameRoute
-    }
-    '/_app/@{$workspaceSlug}/~/settings': {
-      id: '/_app/@{$workspaceSlug}/~/settings'
-      path: '/~/settings'
-      fullPath: '/@{$workspaceSlug}/~/settings'
-      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SettingsRouteImport
-      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
-    }
-    '/_app/@{$workspaceSlug}/~/members': {
-      id: '/_app/@{$workspaceSlug}/~/members'
-      path: '/~/members'
-      fullPath: '/@{$workspaceSlug}/~/members'
-      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126MembersRouteImport
-      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
-    }
-    '/_app/@{$workspaceSlug}/~/billing': {
-      id: '/_app/@{$workspaceSlug}/~/billing'
-      path: '/~/billing'
-      fullPath: '/@{$workspaceSlug}/~/billing'
-      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126BillingRouteImport
-      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
   }
 }

@@ -23,7 +23,7 @@ const checkEntitlementSchema = z.object({
  * Get all entitlements for an entity.
  */
 export const getEntitlements = createServerFn()
-  .inputValidator((data) => entitySchema.parse(data))
+  .validator((data) => entitySchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<EntitlementsResponse | null> => {
     return billing.getEntitlements(
@@ -39,7 +39,7 @@ export const getEntitlements = createServerFn()
  * Returns the entitlement value if found, null otherwise.
  */
 export const checkEntitlement = createServerFn()
-  .inputValidator((data) => checkEntitlementSchema.parse(data))
+  .validator((data) => checkEntitlementSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<string | null> => {
     const entitlements = await billing.getEntitlements(

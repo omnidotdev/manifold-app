@@ -27,7 +27,7 @@ const batchCheckSchema = z.object({
  * Check if the current user has permission on a resource.
  */
 export const checkPermission = createServerFn()
-  .inputValidator((data) => checkPermissionSchema.parse(data))
+  .validator((data) => checkPermissionSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<boolean> => {
     return checkPermissionClient(
@@ -43,7 +43,7 @@ export const checkPermission = createServerFn()
  * Returns an array of booleans corresponding to each check.
  */
 export const batchCheckPermissions = createServerFn()
-  .inputValidator((data) => batchCheckSchema.parse(data))
+  .validator((data) => batchCheckSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<boolean[]> => {
     return batchCheckPermissionsClient(

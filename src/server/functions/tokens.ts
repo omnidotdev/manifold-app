@@ -61,7 +61,7 @@ export const fetchTokens = createServerFn()
  */
 export const createToken = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .inputValidator((data) => createTokenSchema.parse(data))
+  .validator((data) => createTokenSchema.parse(data))
   .handler(async ({ context, data }) => {
     const res = await fetch(`${API_BASE_URL}/api/tokens`, {
       method: "POST",
@@ -91,7 +91,7 @@ export const createToken = createServerFn({ method: "POST" })
  */
 export const revokeToken = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
-  .inputValidator((data) => revokeTokenSchema.parse(data))
+  .validator((data) => revokeTokenSchema.parse(data))
   .handler(async ({ context, data }) => {
     const res = await fetch(`${API_BASE_URL}/api/tokens/${data.tokenId}`, {
       method: "DELETE",
