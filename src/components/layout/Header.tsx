@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useLocation, useRouteContext } from "@tanstack/react-router";
 import { ExternalLinkIcon, Menu as MenuIcon } from "lucide-react";
 
+import ManifoldMark from "@/components/brand/ManifoldMark";
 import { InternalLink } from "@/components/core";
 import { ThemeToggle } from "@/components/layout";
 import {
@@ -73,20 +74,7 @@ const Header = () => {
           <InternalLink to="/" variant="unstyled">
             <span className="flex items-center gap-2.5 font-extrabold text-lg tracking-tight">
               <span className="grid h-7 w-7 place-items-center rounded-[9px] bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] shadow-[0_6px_18px_-6px_rgba(99,102,241,0.8)]">
-                <svg
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#fff"
-                  strokeWidth="2.4"
-                  role="img"
-                >
-                  <title>Manifold</title>
-                  <circle cx="7" cy="7" r="3" />
-                  <circle cx="17" cy="17" r="3" />
-                  <path d="M9.2 9.2 14.8 14.8M7 10v1a3 3 0 0 0 3 3h1M17 14v-1a3 3 0 0 0-3-3h-1" />
-                </svg>
+                <ManifoldMark className="h-[15px] w-[15px] text-white" />
               </span>
               <span className="text-white">manifold</span>
             </span>
