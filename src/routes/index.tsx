@@ -126,8 +126,6 @@ const FLOWS: Array<{
   },
 ];
 
-const TRUST = ["5 artifact types", "Private by default", "Self-host or cloud"];
-
 function HomePage() {
   // Only renders for signed-out visitors (authed users redirect to /registry)
   const { mutateAsync: signIn, isPending } = useMutation({
@@ -198,16 +196,6 @@ function HomePage() {
               <span className="h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
               Coming soon
             </span>
-          </div>
-          <div className="mt-9 flex flex-wrap items-center gap-x-5 gap-y-2 text-[#636b80] text-sm">
-            {TRUST.map((t, i) => (
-              <span key={t} className="inline-flex items-center gap-5">
-                {i > 0 && (
-                  <span className="h-1 w-1 rounded-full bg-[#272c3a]" />
-                )}
-                {t}
-              </span>
-            ))}
           </div>
         </div>
 
