@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateNamespaceMutation } from "@/generated/graphql";
 import { useWorkspace } from "@/lib/context";
+import { cleanGraphqlError } from "@/lib/graphql/cleanError";
 
 import type { PropsWithChildren } from "react";
 
@@ -98,9 +99,7 @@ const CreateNamespaceModal = ({
           </div>
           {error ? (
             <p className="text-destructive text-sm">
-              {error instanceof Error
-                ? error.message
-                : "Failed to create namespace"}
+              {cleanGraphqlError(error, "Failed to create namespace")}
             </p>
           ) : null}
           <div className="flex justify-end gap-2">
