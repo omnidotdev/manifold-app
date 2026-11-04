@@ -27,7 +27,7 @@ import { fetchTokens, revokeToken } from "@/server/functions/tokens";
 
 import type { ApiToken } from "@/server/functions/tokens";
 
-export const Route = createFileRoute("/_app/tokens")({
+export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/tokens")({
   head: () => ({
     meta: createMetaTags({
       title: "API Tokens | Manifold",

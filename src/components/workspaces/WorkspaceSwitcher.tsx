@@ -1,3 +1,4 @@
+import { useNavigate } from "@tanstack/react-router";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import {
@@ -31,11 +32,26 @@ const WorkspaceAvatar = ({ workspace }: { workspace: Workspace }) => (
  */
 const WorkspaceSwitcher = () => {
   const { workspaces, activeWorkspace, setActiveWorkspace } = useWorkspace();
+  const navigate = useNavigate();
 
   if (!workspaces.length) return null;
 
+  // Selecting a workspace puts it in the URL (the fleet standard): navigate to
+  // that workspace's registry and sync the context so the rest of the UI (the
+  // switcher label, account menu) updates immediately.
+  const handleSelect = (orgId: string) => {
+    setActiveWorkspace(orgId);
+    const slug = workspaces.find((o) => o.id === orgId)?.slug;
+    if (slug) {
+      navigate({
+        to: "/@{$workspaceSlug}/~/registry",
+        params: { workspaceSlug: slug },
+      });
+    }
+  };
+
   return (
-    <MenuRoot onSelect={({ value }) => setActiveWorkspace(value)}>
+    <MenuRoot onSelect={({ value }) => handleSelect(value)}>
       <MenuTrigger asChild>
         <button
           type="button"

@@ -15,6 +15,7 @@ import {
   UserRound,
 } from "lucide-react";
 
+import { useWorkspace } from "@/lib/context";
 import { useTheme } from "@/providers/ThemeProvider";
 
 import type { CommandAction } from "@omnidotdev/thornberry/command-palette";
@@ -29,6 +30,8 @@ import type { CommandAction } from "@omnidotdev/thornberry/command-palette";
 const CommandPalette = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
+  const { activeWorkspace } = useWorkspace();
+  const workspaceSlug = activeWorkspace?.slug;
 
   // Root context (not the authed `_app` tree) so the palette can resolve the
   // session on any route, including public pages where there is no session.
@@ -65,7 +68,13 @@ const CommandPalette = () => {
         group: "Navigation",
         icon: Library,
         keywords: ["packages", "namespaces"],
-        onSelect: () => navigate({ to: "/registry" }),
+        onSelect: () => {
+          if (workspaceSlug)
+            navigate({
+              to: "/@{$workspaceSlug}/~/registry",
+              params: { workspaceSlug },
+            });
+        },
       },
       {
         id: "organizations",
@@ -81,7 +90,13 @@ const CommandPalette = () => {
         group: "Navigation",
         icon: KeyRound,
         keywords: ["keys", "settings"],
-        onSelect: () => navigate({ to: "/tokens" }),
+        onSelect: () => {
+          if (workspaceSlug)
+            navigate({
+              to: "/@{$workspaceSlug}/~/tokens",
+              params: { workspaceSlug },
+            });
+        },
       },
       {
         id: "profile",

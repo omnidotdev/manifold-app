@@ -14,22 +14,22 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AtomniSplatRouteImport } from './routes/@omni/$'
 import { Route as AppAtChar123workspaceSlugChar125RouteImport } from './routes/_app/@{$workspaceSlug}'
-import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
-import { Route as AppTokensRouteImport } from './routes/_app/tokens'
 import { Route as AppAtChar123workspaceSlugChar125IndexRouteImport } from './routes/_app/@{$workspaceSlug}/index'
 import { Route as AppOrganizationsIndexRouteImport } from './routes/_app/organizations/index'
-import { Route as AppRegistryIndexRouteImport } from './routes/_app/registry/index'
-import { Route as AppRegistryNamespaceNameRouteImport } from './routes/_app/registry/$namespaceName'
-import { Route as AppSchemasIndexRouteImport } from './routes/_app/schemas/index'
-import { Route as AppSchemasSchemaIdRouteImport } from './routes/_app/schemas/$schemaId'
-import { Route as AppSchemasCreateRouteImport } from './routes/_app/schemas/create'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as AppAtChar123workspaceSlugChar125Char126BillingRouteImport } from './routes/_app/@{$workspaceSlug}/~/billing'
+import { Route as AppAtChar123workspaceSlugChar125Char126DashboardRouteImport } from './routes/_app/@{$workspaceSlug}/~/dashboard'
 import { Route as AppAtChar123workspaceSlugChar125Char126MembersRouteImport } from './routes/_app/@{$workspaceSlug}/~/members'
 import { Route as AppAtChar123workspaceSlugChar125Char126SettingsRouteImport } from './routes/_app/@{$workspaceSlug}/~/settings'
-import { Route as AppRegistryNamespaceNameIndexRouteImport } from './routes/_app/registry/$namespaceName/index'
-import { Route as AppRegistryNamespaceNameRepoNameRouteImport } from './routes/_app/registry/$namespaceName/$repoName'
+import { Route as AppAtChar123workspaceSlugChar125Char126TokensRouteImport } from './routes/_app/@{$workspaceSlug}/~/tokens'
+import { Route as AppAtChar123workspaceSlugChar125Char126RegistryIndexRouteImport } from './routes/_app/@{$workspaceSlug}/~/registry/index'
+import { Route as AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteImport } from './routes/_app/@{$workspaceSlug}/~/registry/$namespaceName'
+import { Route as AppAtChar123workspaceSlugChar125Char126SchemasIndexRouteImport } from './routes/_app/@{$workspaceSlug}/~/schemas/index'
+import { Route as AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRouteImport } from './routes/_app/@{$workspaceSlug}/~/schemas/$schemaId'
+import { Route as AppAtChar123workspaceSlugChar125Char126SchemasCreateRouteImport } from './routes/_app/@{$workspaceSlug}/~/schemas/create'
+import { Route as AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRouteImport } from './routes/_app/@{$workspaceSlug}/~/registry/$namespaceName/index'
+import { Route as AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRouteImport } from './routes/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -56,19 +56,9 @@ const AppAtChar123workspaceSlugChar125Route =
     path: '/@{$workspaceSlug}',
     getParentRoute: () => AppRoute,
   } as any)
-const AppDashboardRoute = AppDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppTokensRoute = AppTokensRouteImport.update({
-  id: '/tokens',
-  path: '/tokens',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAtChar123workspaceSlugChar125IndexRoute =
@@ -82,32 +72,6 @@ const AppOrganizationsIndexRoute = AppOrganizationsIndexRouteImport.update({
   path: '/organizations/',
   getParentRoute: () => AppRoute,
 } as any)
-const AppRegistryIndexRoute = AppRegistryIndexRouteImport.update({
-  id: '/registry/',
-  path: '/registry/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppRegistryNamespaceNameRoute =
-  AppRegistryNamespaceNameRouteImport.update({
-    id: '/registry/$namespaceName',
-    path: '/registry/$namespaceName',
-    getParentRoute: () => AppRoute,
-  } as any)
-const AppSchemasIndexRoute = AppSchemasIndexRouteImport.update({
-  id: '/schemas/',
-  path: '/schemas/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSchemasSchemaIdRoute = AppSchemasSchemaIdRouteImport.update({
-  id: '/schemas/$schemaId',
-  path: '/schemas/$schemaId',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppSchemasCreateRoute = AppSchemasCreateRouteImport.update({
-  id: '/schemas/create',
-  path: '/schemas/create',
-  getParentRoute: () => AppRoute,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -117,6 +81,12 @@ const AppAtChar123workspaceSlugChar125Char126BillingRoute =
   AppAtChar123workspaceSlugChar125Char126BillingRouteImport.update({
     id: '/~/billing',
     path: '/~/billing',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126DashboardRoute =
+  AppAtChar123workspaceSlugChar125Char126DashboardRouteImport.update({
+    id: '/~/dashboard',
+    path: '/~/dashboard',
     getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
 const AppAtChar123workspaceSlugChar125Char126MembersRoute =
@@ -131,60 +101,104 @@ const AppAtChar123workspaceSlugChar125Char126SettingsRoute =
     path: '/~/settings',
     getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
-const AppRegistryNamespaceNameIndexRoute =
-  AppRegistryNamespaceNameIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AppRegistryNamespaceNameRoute,
+const AppAtChar123workspaceSlugChar125Char126TokensRoute =
+  AppAtChar123workspaceSlugChar125Char126TokensRouteImport.update({
+    id: '/~/tokens',
+    path: '/~/tokens',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
-const AppRegistryNamespaceNameRepoNameRoute =
-  AppRegistryNamespaceNameRepoNameRouteImport.update({
-    id: '/$repoName',
-    path: '/$repoName',
-    getParentRoute: () => AppRegistryNamespaceNameRoute,
+const AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute =
+  AppAtChar123workspaceSlugChar125Char126RegistryIndexRouteImport.update({
+    id: '/~/registry/',
+    path: '/~/registry/',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
   } as any)
+const AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute =
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteImport.update(
+    {
+      id: '/~/registry/$namespaceName',
+      path: '/~/registry/$namespaceName',
+      getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+    } as any,
+  )
+const AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute =
+  AppAtChar123workspaceSlugChar125Char126SchemasIndexRouteImport.update({
+    id: '/~/schemas/',
+    path: '/~/schemas/',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute =
+  AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRouteImport.update({
+    id: '/~/schemas/$schemaId',
+    path: '/~/schemas/$schemaId',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute =
+  AppAtChar123workspaceSlugChar125Char126SchemasCreateRouteImport.update({
+    id: '/~/schemas/create',
+    path: '/~/schemas/create',
+    getParentRoute: () => AppAtChar123workspaceSlugChar125Route,
+  } as any)
+const AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute =
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRouteImport.update(
+    {
+      id: '/',
+      path: '/',
+      getParentRoute: () =>
+        AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute,
+    } as any,
+  )
+const AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute =
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRouteImport.update(
+    {
+      id: '/$repoName',
+      path: '/$repoName',
+      getParentRoute: () =>
+        AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
   '/@omni/$': typeof AtomniSplatRoute
   '/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125RouteWithChildren
-  '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
-  '/tokens': typeof AppTokensRoute
-  '/registry/$namespaceName': typeof AppRegistryNamespaceNameRouteWithChildren
-  '/schemas/$schemaId': typeof AppSchemasSchemaIdRoute
-  '/schemas/create': typeof AppSchemasCreateRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/@{$workspaceSlug}/': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/organizations/': typeof AppOrganizationsIndexRoute
-  '/registry/': typeof AppRegistryIndexRoute
-  '/schemas/': typeof AppSchemasIndexRoute
   '/@{$workspaceSlug}/~/billing': typeof AppAtChar123workspaceSlugChar125Char126BillingRoute
+  '/@{$workspaceSlug}/~/dashboard': typeof AppAtChar123workspaceSlugChar125Char126DashboardRoute
   '/@{$workspaceSlug}/~/members': typeof AppAtChar123workspaceSlugChar125Char126MembersRoute
   '/@{$workspaceSlug}/~/settings': typeof AppAtChar123workspaceSlugChar125Char126SettingsRoute
-  '/registry/$namespaceName/$repoName': typeof AppRegistryNamespaceNameRepoNameRoute
-  '/registry/$namespaceName/': typeof AppRegistryNamespaceNameIndexRoute
+  '/@{$workspaceSlug}/~/tokens': typeof AppAtChar123workspaceSlugChar125Char126TokensRoute
+  '/@{$workspaceSlug}/~/registry/$namespaceName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteWithChildren
+  '/@{$workspaceSlug}/~/schemas/$schemaId': typeof AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute
+  '/@{$workspaceSlug}/~/schemas/create': typeof AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute
+  '/@{$workspaceSlug}/~/registry/': typeof AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute
+  '/@{$workspaceSlug}/~/schemas/': typeof AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute
+  '/@{$workspaceSlug}/~/registry/$namespaceName/$repoName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute
+  '/@{$workspaceSlug}/~/registry/$namespaceName/': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pricing': typeof PricingRoute
   '/@omni/$': typeof AtomniSplatRoute
-  '/dashboard': typeof AppDashboardRoute
   '/profile': typeof AppProfileRoute
-  '/tokens': typeof AppTokensRoute
-  '/schemas/$schemaId': typeof AppSchemasSchemaIdRoute
-  '/schemas/create': typeof AppSchemasCreateRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/organizations': typeof AppOrganizationsIndexRoute
-  '/registry': typeof AppRegistryIndexRoute
-  '/schemas': typeof AppSchemasIndexRoute
   '/@{$workspaceSlug}/~/billing': typeof AppAtChar123workspaceSlugChar125Char126BillingRoute
+  '/@{$workspaceSlug}/~/dashboard': typeof AppAtChar123workspaceSlugChar125Char126DashboardRoute
   '/@{$workspaceSlug}/~/members': typeof AppAtChar123workspaceSlugChar125Char126MembersRoute
   '/@{$workspaceSlug}/~/settings': typeof AppAtChar123workspaceSlugChar125Char126SettingsRoute
-  '/registry/$namespaceName/$repoName': typeof AppRegistryNamespaceNameRepoNameRoute
-  '/registry/$namespaceName': typeof AppRegistryNamespaceNameIndexRoute
+  '/@{$workspaceSlug}/~/tokens': typeof AppAtChar123workspaceSlugChar125Char126TokensRoute
+  '/@{$workspaceSlug}/~/schemas/$schemaId': typeof AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute
+  '/@{$workspaceSlug}/~/schemas/create': typeof AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute
+  '/@{$workspaceSlug}/~/registry': typeof AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute
+  '/@{$workspaceSlug}/~/schemas': typeof AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute
+  '/@{$workspaceSlug}/~/registry/$namespaceName/$repoName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute
+  '/@{$workspaceSlug}/~/registry/$namespaceName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -193,22 +207,22 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/@omni/$': typeof AtomniSplatRoute
   '/_app/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125RouteWithChildren
-  '/_app/dashboard': typeof AppDashboardRoute
   '/_app/profile': typeof AppProfileRoute
-  '/_app/tokens': typeof AppTokensRoute
-  '/_app/registry/$namespaceName': typeof AppRegistryNamespaceNameRouteWithChildren
-  '/_app/schemas/$schemaId': typeof AppSchemasSchemaIdRoute
-  '/_app/schemas/create': typeof AppSchemasCreateRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_app/@{$workspaceSlug}/': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/_app/organizations/': typeof AppOrganizationsIndexRoute
-  '/_app/registry/': typeof AppRegistryIndexRoute
-  '/_app/schemas/': typeof AppSchemasIndexRoute
   '/_app/@{$workspaceSlug}/~/billing': typeof AppAtChar123workspaceSlugChar125Char126BillingRoute
+  '/_app/@{$workspaceSlug}/~/dashboard': typeof AppAtChar123workspaceSlugChar125Char126DashboardRoute
   '/_app/@{$workspaceSlug}/~/members': typeof AppAtChar123workspaceSlugChar125Char126MembersRoute
   '/_app/@{$workspaceSlug}/~/settings': typeof AppAtChar123workspaceSlugChar125Char126SettingsRoute
-  '/_app/registry/$namespaceName/$repoName': typeof AppRegistryNamespaceNameRepoNameRoute
-  '/_app/registry/$namespaceName/': typeof AppRegistryNamespaceNameIndexRoute
+  '/_app/@{$workspaceSlug}/~/tokens': typeof AppAtChar123workspaceSlugChar125Char126TokensRoute
+  '/_app/@{$workspaceSlug}/~/registry/$namespaceName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteWithChildren
+  '/_app/@{$workspaceSlug}/~/schemas/$schemaId': typeof AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute
+  '/_app/@{$workspaceSlug}/~/schemas/create': typeof AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute
+  '/_app/@{$workspaceSlug}/~/registry/': typeof AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute
+  '/_app/@{$workspaceSlug}/~/schemas/': typeof AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute
+  '/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute
+  '/_app/@{$workspaceSlug}/~/registry/$namespaceName/': typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -217,42 +231,42 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/@omni/$'
     | '/@{$workspaceSlug}'
-    | '/dashboard'
     | '/profile'
-    | '/tokens'
-    | '/registry/$namespaceName'
-    | '/schemas/$schemaId'
-    | '/schemas/create'
     | '/api/auth/$'
     | '/@{$workspaceSlug}/'
     | '/organizations/'
-    | '/registry/'
-    | '/schemas/'
     | '/@{$workspaceSlug}/~/billing'
+    | '/@{$workspaceSlug}/~/dashboard'
     | '/@{$workspaceSlug}/~/members'
     | '/@{$workspaceSlug}/~/settings'
-    | '/registry/$namespaceName/$repoName'
-    | '/registry/$namespaceName/'
+    | '/@{$workspaceSlug}/~/tokens'
+    | '/@{$workspaceSlug}/~/registry/$namespaceName'
+    | '/@{$workspaceSlug}/~/schemas/$schemaId'
+    | '/@{$workspaceSlug}/~/schemas/create'
+    | '/@{$workspaceSlug}/~/registry/'
+    | '/@{$workspaceSlug}/~/schemas/'
+    | '/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
+    | '/@{$workspaceSlug}/~/registry/$namespaceName/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/pricing'
     | '/@omni/$'
-    | '/dashboard'
     | '/profile'
-    | '/tokens'
-    | '/schemas/$schemaId'
-    | '/schemas/create'
     | '/api/auth/$'
     | '/@{$workspaceSlug}'
     | '/organizations'
-    | '/registry'
-    | '/schemas'
     | '/@{$workspaceSlug}/~/billing'
+    | '/@{$workspaceSlug}/~/dashboard'
     | '/@{$workspaceSlug}/~/members'
     | '/@{$workspaceSlug}/~/settings'
-    | '/registry/$namespaceName/$repoName'
-    | '/registry/$namespaceName'
+    | '/@{$workspaceSlug}/~/tokens'
+    | '/@{$workspaceSlug}/~/schemas/$schemaId'
+    | '/@{$workspaceSlug}/~/schemas/create'
+    | '/@{$workspaceSlug}/~/registry'
+    | '/@{$workspaceSlug}/~/schemas'
+    | '/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
+    | '/@{$workspaceSlug}/~/registry/$namespaceName'
   id:
     | '__root__'
     | '/'
@@ -260,22 +274,22 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/@omni/$'
     | '/_app/@{$workspaceSlug}'
-    | '/_app/dashboard'
     | '/_app/profile'
-    | '/_app/tokens'
-    | '/_app/registry/$namespaceName'
-    | '/_app/schemas/$schemaId'
-    | '/_app/schemas/create'
     | '/api/auth/$'
     | '/_app/@{$workspaceSlug}/'
     | '/_app/organizations/'
-    | '/_app/registry/'
-    | '/_app/schemas/'
     | '/_app/@{$workspaceSlug}/~/billing'
+    | '/_app/@{$workspaceSlug}/~/dashboard'
     | '/_app/@{$workspaceSlug}/~/members'
     | '/_app/@{$workspaceSlug}/~/settings'
-    | '/_app/registry/$namespaceName/$repoName'
-    | '/_app/registry/$namespaceName/'
+    | '/_app/@{$workspaceSlug}/~/tokens'
+    | '/_app/@{$workspaceSlug}/~/registry/$namespaceName'
+    | '/_app/@{$workspaceSlug}/~/schemas/$schemaId'
+    | '/_app/@{$workspaceSlug}/~/schemas/create'
+    | '/_app/@{$workspaceSlug}/~/registry/'
+    | '/_app/@{$workspaceSlug}/~/schemas/'
+    | '/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
+    | '/_app/@{$workspaceSlug}/~/registry/$namespaceName/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -323,25 +337,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAtChar123workspaceSlugChar125RouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/dashboard': {
-      id: '/_app/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AppDashboardRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/profile': {
       id: '/_app/profile'
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/tokens': {
-      id: '/_app/tokens'
-      path: '/tokens'
-      fullPath: '/tokens'
-      preLoaderRoute: typeof AppTokensRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/@{$workspaceSlug}/': {
@@ -358,41 +358,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOrganizationsIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/registry/': {
-      id: '/_app/registry/'
-      path: '/registry'
-      fullPath: '/registry/'
-      preLoaderRoute: typeof AppRegistryIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/registry/$namespaceName': {
-      id: '/_app/registry/$namespaceName'
-      path: '/registry/$namespaceName'
-      fullPath: '/registry/$namespaceName'
-      preLoaderRoute: typeof AppRegistryNamespaceNameRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/schemas/': {
-      id: '/_app/schemas/'
-      path: '/schemas'
-      fullPath: '/schemas/'
-      preLoaderRoute: typeof AppSchemasIndexRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/schemas/$schemaId': {
-      id: '/_app/schemas/$schemaId'
-      path: '/schemas/$schemaId'
-      fullPath: '/schemas/$schemaId'
-      preLoaderRoute: typeof AppSchemasSchemaIdRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/schemas/create': {
-      id: '/_app/schemas/create'
-      path: '/schemas/create'
-      fullPath: '/schemas/create'
-      preLoaderRoute: typeof AppSchemasCreateRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -405,6 +370,13 @@ declare module '@tanstack/react-router' {
       path: '/~/billing'
       fullPath: '/@{$workspaceSlug}/~/billing'
       preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126BillingRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/dashboard': {
+      id: '/_app/@{$workspaceSlug}/~/dashboard'
+      path: '/~/dashboard'
+      fullPath: '/@{$workspaceSlug}/~/dashboard'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126DashboardRouteImport
       parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
     '/_app/@{$workspaceSlug}/~/members': {
@@ -421,28 +393,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SettingsRouteImport
       parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
-    '/_app/registry/$namespaceName/': {
-      id: '/_app/registry/$namespaceName/'
-      path: '/'
-      fullPath: '/registry/$namespaceName/'
-      preLoaderRoute: typeof AppRegistryNamespaceNameIndexRouteImport
-      parentRoute: typeof AppRegistryNamespaceNameRoute
+    '/_app/@{$workspaceSlug}/~/tokens': {
+      id: '/_app/@{$workspaceSlug}/~/tokens'
+      path: '/~/tokens'
+      fullPath: '/@{$workspaceSlug}/~/tokens'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126TokensRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
     }
-    '/_app/registry/$namespaceName/$repoName': {
-      id: '/_app/registry/$namespaceName/$repoName'
+    '/_app/@{$workspaceSlug}/~/registry/': {
+      id: '/_app/@{$workspaceSlug}/~/registry/'
+      path: '/~/registry'
+      fullPath: '/@{$workspaceSlug}/~/registry/'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryIndexRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/registry/$namespaceName': {
+      id: '/_app/@{$workspaceSlug}/~/registry/$namespaceName'
+      path: '/~/registry/$namespaceName'
+      fullPath: '/@{$workspaceSlug}/~/registry/$namespaceName'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/schemas/': {
+      id: '/_app/@{$workspaceSlug}/~/schemas/'
+      path: '/~/schemas'
+      fullPath: '/@{$workspaceSlug}/~/schemas/'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasIndexRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/schemas/$schemaId': {
+      id: '/_app/@{$workspaceSlug}/~/schemas/$schemaId'
+      path: '/~/schemas/$schemaId'
+      fullPath: '/@{$workspaceSlug}/~/schemas/$schemaId'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/schemas/create': {
+      id: '/_app/@{$workspaceSlug}/~/schemas/create'
+      path: '/~/schemas/create'
+      fullPath: '/@{$workspaceSlug}/~/schemas/create'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasCreateRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Route
+    }
+    '/_app/@{$workspaceSlug}/~/registry/$namespaceName/': {
+      id: '/_app/@{$workspaceSlug}/~/registry/$namespaceName/'
+      path: '/'
+      fullPath: '/@{$workspaceSlug}/~/registry/$namespaceName/'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute
+    }
+    '/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName': {
+      id: '/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
       path: '/$repoName'
-      fullPath: '/registry/$namespaceName/$repoName'
-      preLoaderRoute: typeof AppRegistryNamespaceNameRepoNameRouteImport
-      parentRoute: typeof AppRegistryNamespaceNameRoute
+      fullPath: '/@{$workspaceSlug}/~/registry/$namespaceName/$repoName'
+      preLoaderRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRouteImport
+      parentRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute
     }
   }
 }
 
+interface AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteChildren {
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute
+}
+
+const AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteChildren: AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteChildren =
+  {
+    AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute:
+      AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRepoNameRoute,
+    AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute:
+      AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameIndexRoute,
+  }
+
+const AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteWithChildren =
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute._addFileChildren(
+    AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteChildren,
+  )
+
 interface AppAtChar123workspaceSlugChar125RouteChildren {
   AppAtChar123workspaceSlugChar125IndexRoute: typeof AppAtChar123workspaceSlugChar125IndexRoute
   AppAtChar123workspaceSlugChar125Char126BillingRoute: typeof AppAtChar123workspaceSlugChar125Char126BillingRoute
+  AppAtChar123workspaceSlugChar125Char126DashboardRoute: typeof AppAtChar123workspaceSlugChar125Char126DashboardRoute
   AppAtChar123workspaceSlugChar125Char126MembersRoute: typeof AppAtChar123workspaceSlugChar125Char126MembersRoute
   AppAtChar123workspaceSlugChar125Char126SettingsRoute: typeof AppAtChar123workspaceSlugChar125Char126SettingsRoute
+  AppAtChar123workspaceSlugChar125Char126TokensRoute: typeof AppAtChar123workspaceSlugChar125Char126TokensRoute
+  AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteWithChildren
+  AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute
+  AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute
+  AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute: typeof AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute
+  AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute: typeof AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute
 }
 
 const AppAtChar123workspaceSlugChar125RouteChildren: AppAtChar123workspaceSlugChar125RouteChildren =
@@ -451,10 +490,24 @@ const AppAtChar123workspaceSlugChar125RouteChildren: AppAtChar123workspaceSlugCh
       AppAtChar123workspaceSlugChar125IndexRoute,
     AppAtChar123workspaceSlugChar125Char126BillingRoute:
       AppAtChar123workspaceSlugChar125Char126BillingRoute,
+    AppAtChar123workspaceSlugChar125Char126DashboardRoute:
+      AppAtChar123workspaceSlugChar125Char126DashboardRoute,
     AppAtChar123workspaceSlugChar125Char126MembersRoute:
       AppAtChar123workspaceSlugChar125Char126MembersRoute,
     AppAtChar123workspaceSlugChar125Char126SettingsRoute:
       AppAtChar123workspaceSlugChar125Char126SettingsRoute,
+    AppAtChar123workspaceSlugChar125Char126TokensRoute:
+      AppAtChar123workspaceSlugChar125Char126TokensRoute,
+    AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRoute:
+      AppAtChar123workspaceSlugChar125Char126RegistryNamespaceNameRouteWithChildren,
+    AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute:
+      AppAtChar123workspaceSlugChar125Char126SchemasSchemaIdRoute,
+    AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute:
+      AppAtChar123workspaceSlugChar125Char126SchemasCreateRoute,
+    AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute:
+      AppAtChar123workspaceSlugChar125Char126RegistryIndexRoute,
+    AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute:
+      AppAtChar123workspaceSlugChar125Char126SchemasIndexRoute,
   }
 
 const AppAtChar123workspaceSlugChar125RouteWithChildren =
@@ -462,48 +515,17 @@ const AppAtChar123workspaceSlugChar125RouteWithChildren =
     AppAtChar123workspaceSlugChar125RouteChildren,
   )
 
-interface AppRegistryNamespaceNameRouteChildren {
-  AppRegistryNamespaceNameRepoNameRoute: typeof AppRegistryNamespaceNameRepoNameRoute
-  AppRegistryNamespaceNameIndexRoute: typeof AppRegistryNamespaceNameIndexRoute
-}
-
-const AppRegistryNamespaceNameRouteChildren: AppRegistryNamespaceNameRouteChildren =
-  {
-    AppRegistryNamespaceNameRepoNameRoute:
-      AppRegistryNamespaceNameRepoNameRoute,
-    AppRegistryNamespaceNameIndexRoute: AppRegistryNamespaceNameIndexRoute,
-  }
-
-const AppRegistryNamespaceNameRouteWithChildren =
-  AppRegistryNamespaceNameRoute._addFileChildren(
-    AppRegistryNamespaceNameRouteChildren,
-  )
-
 interface AppRouteChildren {
   AppAtChar123workspaceSlugChar125Route: typeof AppAtChar123workspaceSlugChar125RouteWithChildren
-  AppDashboardRoute: typeof AppDashboardRoute
   AppProfileRoute: typeof AppProfileRoute
-  AppTokensRoute: typeof AppTokensRoute
-  AppRegistryNamespaceNameRoute: typeof AppRegistryNamespaceNameRouteWithChildren
-  AppSchemasSchemaIdRoute: typeof AppSchemasSchemaIdRoute
-  AppSchemasCreateRoute: typeof AppSchemasCreateRoute
   AppOrganizationsIndexRoute: typeof AppOrganizationsIndexRoute
-  AppRegistryIndexRoute: typeof AppRegistryIndexRoute
-  AppSchemasIndexRoute: typeof AppSchemasIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppAtChar123workspaceSlugChar125Route:
     AppAtChar123workspaceSlugChar125RouteWithChildren,
-  AppDashboardRoute: AppDashboardRoute,
   AppProfileRoute: AppProfileRoute,
-  AppTokensRoute: AppTokensRoute,
-  AppRegistryNamespaceNameRoute: AppRegistryNamespaceNameRouteWithChildren,
-  AppSchemasSchemaIdRoute: AppSchemasSchemaIdRoute,
-  AppSchemasCreateRoute: AppSchemasCreateRoute,
   AppOrganizationsIndexRoute: AppOrganizationsIndexRoute,
-  AppRegistryIndexRoute: AppRegistryIndexRoute,
-  AppSchemasIndexRoute: AppSchemasIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
