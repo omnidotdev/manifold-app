@@ -76,7 +76,7 @@ function NamespaceDetailPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
+        <div className="mx-auto w-full max-w-7xl px-6 py-4">
           {/* Breadcrumb */}
           <nav className="mb-3 flex items-center gap-1 text-muted-foreground text-sm">
             <Link to="/registry" className="hover:text-foreground">
@@ -123,7 +123,7 @@ function NamespaceDetailPage() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 py-6">
+      <div className="mx-auto w-full max-w-7xl px-6 py-6">
         {isLoading ? (
           <div className="flex items-center justify-center py-16">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />

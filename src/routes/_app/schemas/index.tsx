@@ -135,7 +135,7 @@ function SchemasPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto flex flex-col gap-4 px-6 py-4">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-4">
           {/* Title + primary actions */}
           <div className="flex items-center justify-between gap-4">
             <h1 className="font-semibold text-2xl">Schemas</h1>
@@ -219,7 +219,7 @@ function SchemasPage() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-6 py-6">
+      <div className="mx-auto w-full max-w-7xl px-6 py-6">
         {viewMode === "grid" ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {paginatedSchemas.map((schema) => (

@@ -27,7 +27,7 @@ function OrganizationsPage() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="mx-auto w-full max-w-7xl px-6 py-8">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <h1 className="font-semibold text-2xl leading-tight">Workspaces</h1>

@@ -58,7 +58,7 @@ function WorkspaceLayout() {
 
   if (!org) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <h1 className="font-bold text-2xl text-destructive">
           Workspace not found
         </h1>

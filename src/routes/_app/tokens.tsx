@@ -93,7 +93,7 @@ function TokensPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <Key className="h-5 w-5" />
@@ -116,7 +116,7 @@ function TokensPage() {
       </div>
 
       {/* Content */}
-      <div className="container mx-auto space-y-6 px-6 py-6">
+      <div className="mx-auto w-full max-w-7xl space-y-6 px-6 py-6">
         {isLoading && (
           <div className="flex items-center justify-center py-16">
             <p className="text-muted-foreground">Loading tokens...</p>

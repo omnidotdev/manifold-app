@@ -20,7 +20,7 @@ function WorkspaceSettingsPage() {
   const isPersonal = org.type === "personal";
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 font-bold text-2xl">Workspace Settings</h1>
 
       {isPersonal && (
