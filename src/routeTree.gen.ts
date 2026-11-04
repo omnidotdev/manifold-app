@@ -15,6 +15,8 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as AtomniSplatRouteImport } from './routes/@omni/$'
 import { Route as AppAtChar123workspaceSlugChar125RouteImport } from './routes/_app/@{$workspaceSlug}'
 import { Route as AppProfileRouteImport } from './routes/_app/profile'
+import { Route as AppRegistryRouteImport } from './routes/_app/registry'
+import { Route as AppTokensRouteImport } from './routes/_app/tokens'
 import { Route as AppAtChar123workspaceSlugChar125IndexRouteImport } from './routes/_app/@{$workspaceSlug}/index'
 import { Route as AppOrganizationsIndexRouteImport } from './routes/_app/organizations/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -59,6 +61,16 @@ const AppAtChar123workspaceSlugChar125Route =
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRegistryRoute = AppRegistryRouteImport.update({
+  id: '/registry',
+  path: '/registry',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTokensRoute = AppTokensRouteImport.update({
+  id: '/tokens',
+  path: '/tokens',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAtChar123workspaceSlugChar125IndexRoute =
@@ -164,6 +176,8 @@ export interface FileRoutesByFullPath {
   '/@omni/$': typeof AtomniSplatRoute
   '/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125RouteWithChildren
   '/profile': typeof AppProfileRoute
+  '/registry': typeof AppRegistryRoute
+  '/tokens': typeof AppTokensRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/@{$workspaceSlug}/': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/organizations/': typeof AppOrganizationsIndexRoute
@@ -185,6 +199,8 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/@omni/$': typeof AtomniSplatRoute
   '/profile': typeof AppProfileRoute
+  '/registry': typeof AppRegistryRoute
+  '/tokens': typeof AppTokensRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/organizations': typeof AppOrganizationsIndexRoute
@@ -208,6 +224,8 @@ export interface FileRoutesById {
   '/@omni/$': typeof AtomniSplatRoute
   '/_app/@{$workspaceSlug}': typeof AppAtChar123workspaceSlugChar125RouteWithChildren
   '/_app/profile': typeof AppProfileRoute
+  '/_app/registry': typeof AppRegistryRoute
+  '/_app/tokens': typeof AppTokensRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_app/@{$workspaceSlug}/': typeof AppAtChar123workspaceSlugChar125IndexRoute
   '/_app/organizations/': typeof AppOrganizationsIndexRoute
@@ -232,6 +250,8 @@ export interface FileRouteTypes {
     | '/@omni/$'
     | '/@{$workspaceSlug}'
     | '/profile'
+    | '/registry'
+    | '/tokens'
     | '/api/auth/$'
     | '/@{$workspaceSlug}/'
     | '/organizations/'
@@ -253,6 +273,8 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/@omni/$'
     | '/profile'
+    | '/registry'
+    | '/tokens'
     | '/api/auth/$'
     | '/@{$workspaceSlug}'
     | '/organizations'
@@ -275,6 +297,8 @@ export interface FileRouteTypes {
     | '/@omni/$'
     | '/_app/@{$workspaceSlug}'
     | '/_app/profile'
+    | '/_app/registry'
+    | '/_app/tokens'
     | '/api/auth/$'
     | '/_app/@{$workspaceSlug}/'
     | '/_app/organizations/'
@@ -342,6 +366,20 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/registry': {
+      id: '/_app/registry'
+      path: '/registry'
+      fullPath: '/registry'
+      preLoaderRoute: typeof AppRegistryRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/tokens': {
+      id: '/_app/tokens'
+      path: '/tokens'
+      fullPath: '/tokens'
+      preLoaderRoute: typeof AppTokensRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/@{$workspaceSlug}/': {
@@ -518,6 +556,8 @@ const AppAtChar123workspaceSlugChar125RouteWithChildren =
 interface AppRouteChildren {
   AppAtChar123workspaceSlugChar125Route: typeof AppAtChar123workspaceSlugChar125RouteWithChildren
   AppProfileRoute: typeof AppProfileRoute
+  AppRegistryRoute: typeof AppRegistryRoute
+  AppTokensRoute: typeof AppTokensRoute
   AppOrganizationsIndexRoute: typeof AppOrganizationsIndexRoute
 }
 
@@ -525,6 +565,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppAtChar123workspaceSlugChar125Route:
     AppAtChar123workspaceSlugChar125RouteWithChildren,
   AppProfileRoute: AppProfileRoute,
+  AppRegistryRoute: AppRegistryRoute,
+  AppTokensRoute: AppTokensRoute,
   AppOrganizationsIndexRoute: AppOrganizationsIndexRoute,
 }
 
