@@ -26,7 +26,6 @@ import WorkspaceSwitcher from "@/components/workspaces/WorkspaceSwitcher";
 import authClient from "@/lib/auth/authClient";
 import signOut from "@/lib/auth/signOut";
 import { CONSOLE_URL } from "@/lib/config/env.config";
-import { useWorkspace } from "@/lib/context";
 
 /**
  * Primary navigation destinations, rendered inline on larger viewports and
@@ -35,14 +34,11 @@ import { useWorkspace } from "@/lib/context";
 const NAV_LINKS = [{ to: "/pricing", label: "Pricing" }] as const;
 
 /**
- * Workspace-scoped destinations for authenticated users. These live under the
- * active workspace handle (`/@{slug}/~/...`) per the fleet URL standard, so they
- * are rendered explicitly (with the workspace slug) rather than via the static
- * nav map.
+ * Navigation destinations only available to authenticated users.
  */
 const AUTHED_NAV_LINKS = [
-  { to: "/@{$workspaceSlug}/~/registry", label: "Registry" },
-  { to: "/@{$workspaceSlug}/~/tokens", label: "Tokens" },
+  { to: "/registry", label: "Registry" },
+  { to: "/tokens", label: "Tokens" },
 ] as const;
 
 /**
@@ -51,15 +47,11 @@ const AUTHED_NAV_LINKS = [
 const Header = () => {
   const { auth } = useRouteContext({ strict: false });
   const location = useLocation();
-  const { activeWorkspace } = useWorkspace();
 
   const accountMenu = useMenu();
   const navMenu = useMenu();
 
-  const workspaceSlug = activeWorkspace?.slug;
-  // Workspace-scoped links only render once there is an active workspace to put
-  // in the URL; the generic nav (Pricing) always renders.
-  const authedLinks = auth && workspaceSlug ? AUTHED_NAV_LINKS : [];
+  const navLinks = auth ? [...NAV_LINKS, ...AUTHED_NAV_LINKS] : NAV_LINKS;
 
   const { mutateAsync: signIn, isPending: isSignInPending } = useMutation({
     mutationFn: async () =>
@@ -88,7 +80,7 @@ const Header = () => {
 
           {auth && <WorkspaceSwitcher />}
 
-          {NAV_LINKS.map(({ to, label }) => (
+          {navLinks.map(({ to, label }) => (
             <InternalLink
               key={to}
               to={to}
@@ -98,19 +90,6 @@ const Header = () => {
               {label}
             </InternalLink>
           ))}
-
-          {workspaceSlug &&
-            authedLinks.map(({ to, label }) => (
-              <InternalLink
-                key={to}
-                to={to}
-                params={{ workspaceSlug }}
-                variant="ghost"
-                className="hidden text-white/75 hover:bg-white/10 hover:text-white sm:inline-flex"
-              >
-                {label}
-              </InternalLink>
-            ))}
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-4">
@@ -124,7 +103,7 @@ const Header = () => {
 
             <MenuPositioner>
               <MenuContent className="min-w-40">
-                {NAV_LINKS.map(({ to, label }) => (
+                {navLinks.map(({ to, label }) => (
                   <MenuItem key={to} value={to} asChild>
                     <InternalLink
                       to={to}
@@ -135,20 +114,6 @@ const Header = () => {
                     </InternalLink>
                   </MenuItem>
                 ))}
-
-                {workspaceSlug &&
-                  authedLinks.map(({ to, label }) => (
-                    <MenuItem key={to} value={to} asChild>
-                      <InternalLink
-                        to={to}
-                        params={{ workspaceSlug }}
-                        variant="unstyled"
-                        className="justify-start"
-                      >
-                        <MenuItemText>{label}</MenuItemText>
-                      </InternalLink>
-                    </MenuItem>
-                  ))}
               </MenuContent>
             </MenuPositioner>
           </MenuRootProvider>
