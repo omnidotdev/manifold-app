@@ -28,17 +28,17 @@ import {
 import createMetaTags from "@/lib/util/createMetaTags";
 import formatCount from "@/lib/util/formatCount";
 
-export const Route = createFileRoute(
-  "/_app/@{$workspaceSlug}/~/registry/$namespaceName/$repoName",
-)({
-  head: ({ params }) => ({
-    meta: createMetaTags({
-      title: `${params.repoName} | ${params.namespaceName} | Registry`,
-      description: `Artifacts and tags in ${params.namespaceName}/${params.repoName}.`,
+export const Route = createFileRoute("/_app/registry/$namespaceName/$repoName")(
+  {
+    head: ({ params }) => ({
+      meta: createMetaTags({
+        title: `${params.repoName} | ${params.namespaceName} | Registry`,
+        description: `Artifacts and tags in ${params.namespaceName}/${params.repoName}.`,
+      }),
     }),
-  }),
-  component: RepositoryDetailPage,
-});
+    component: RepositoryDetailPage,
+  },
+);
 
 /**
  * Format bytes into a human-readable string
@@ -67,7 +67,7 @@ const truncateDigest = (digest: string): string => {
  * Repository detail page showing artifacts and tags
  */
 function RepositoryDetailPage() {
-  const { workspaceSlug, namespaceName, repoName } = Route.useParams();
+  const { namespaceName, repoName } = Route.useParams();
 
   // First, resolve the repo rowId via namespace lookup
   const { data: nsData, isLoading: nsLoading } = useNamespaceByNameQuery({
@@ -108,17 +108,13 @@ function RepositoryDetailPage() {
         <div className="mx-auto w-full max-w-7xl px-6 py-4">
           {/* Breadcrumb */}
           <nav className="mb-3 flex items-center gap-1 text-muted-foreground text-sm">
-            <Link
-              to="/@{$workspaceSlug}/~/registry"
-              params={{ workspaceSlug }}
-              className="hover:text-foreground"
-            >
+            <Link to="/registry" className="hover:text-foreground">
               Registry
             </Link>
             <ChevronRight className="h-4 w-4" />
             <Link
-              to="/@{$workspaceSlug}/~/registry/$namespaceName"
-              params={{ workspaceSlug, namespaceName }}
+              to="/registry/$namespaceName"
+              params={{ namespaceName }}
               className="hover:text-foreground"
             >
               {namespaceName}

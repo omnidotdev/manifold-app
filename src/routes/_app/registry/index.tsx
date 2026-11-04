@@ -18,7 +18,7 @@ import {
 } from "@/lib/manifold/registry.types";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/registry/")({
+export const Route = createFileRoute("/_app/registry/")({
   head: () => ({
     meta: createMetaTags({
       title: "Registry",
@@ -32,15 +32,8 @@ export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/registry/")({
  * Registry namespace list page
  */
 function RegistryPage() {
-  const { workspaceSlug } = Route.useParams();
   const [searchQuery, setSearchQuery] = useState("");
-  const { workspaces, activeWorkspace: ctxActive } = useWorkspace();
-
-  // The URL slug is the source of truth for the active workspace; fall back to
-  // the context value (which the workspace layout sets, covering a just-created
-  // org not yet in the claims list).
-  const activeWorkspace =
-    workspaces.find((o) => o.slug === workspaceSlug) ?? ctxActive;
+  const { activeWorkspace } = useWorkspace();
 
   // Scope the registry to the active workspace. With no active workspace, fall
   // back to the server's org-isolated default (all the viewer's namespaces).
@@ -132,9 +125,8 @@ function RegistryPage() {
                 return (
                   <Link
                     key={repo.rowId}
-                    to="/@{$workspaceSlug}/~/registry/$namespaceName/$repoName"
+                    to="/registry/$namespaceName/$repoName"
                     params={{
-                      workspaceSlug,
                       namespaceName: repo.namespace?.name ?? "",
                       repoName: repo.name,
                     }}
@@ -185,8 +177,8 @@ function RegistryPage() {
             {filteredNamespaces.map((ns, i) => (
               <Link
                 key={ns.rowId}
-                to="/@{$workspaceSlug}/~/registry/$namespaceName"
-                params={{ workspaceSlug, namespaceName: ns.name }}
+                to="/registry/$namespaceName"
+                params={{ namespaceName: ns.name }}
                 className={`flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/40 ${
                   i > 0 ? "border-t" : ""
                 }`}

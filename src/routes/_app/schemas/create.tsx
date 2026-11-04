@@ -103,9 +103,7 @@ const SCHEMA_TYPE_OPTIONS: {
   },
 ];
 
-export const Route = createFileRoute(
-  "/_app/@{$workspaceSlug}/~/schemas/create",
-)({
+export const Route = createFileRoute("/_app/schemas/create")({
   head: () => ({
     meta: createMetaTags({
       title: "Create Schema | Manifold",
@@ -116,7 +114,6 @@ export const Route = createFileRoute(
 });
 
 function SchemaCreatePage() {
-  const { workspaceSlug } = Route.useParams();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -139,7 +136,7 @@ function SchemaCreatePage() {
   const handleSave = () => {
     if (!name.trim() || !schemaType) return;
     // In production, this would call a mutation
-    navigate({ to: "/@{$workspaceSlug}/~/schemas", params: { workspaceSlug } });
+    navigate({ to: "/schemas" });
   };
 
   return (
@@ -149,23 +146,14 @@ function SchemaCreatePage() {
         <div className="mx-auto w-full max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <InternalLink
-                to="/@{$workspaceSlug}/~/schemas"
-                params={{ workspaceSlug }}
-                variant="ghost"
-                size="icon"
-              >
+              <InternalLink to="/schemas" variant="ghost" size="icon">
                 <ArrowLeft className="h-4 w-4" />
               </InternalLink>
               <h1 className="font-semibold text-xl">Create Schema</h1>
             </div>
 
             <div className="flex items-center gap-2">
-              <InternalLink
-                to="/@{$workspaceSlug}/~/schemas"
-                params={{ workspaceSlug }}
-                variant="outline"
-              >
+              <InternalLink to="/schemas" variant="outline">
                 Cancel
               </InternalLink>
               <Button

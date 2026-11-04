@@ -28,9 +28,7 @@ import {
 import { formatCount } from "@/lib/util";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute(
-  "/_app/@{$workspaceSlug}/~/registry/$namespaceName/",
-)({
+export const Route = createFileRoute("/_app/registry/$namespaceName/")({
   head: ({ params }) => ({
     meta: createMetaTags({
       title: `${params.namespaceName} | Registry`,
@@ -44,7 +42,7 @@ export const Route = createFileRoute(
  * Namespace detail page showing repositories
  */
 function NamespaceDetailPage() {
-  const { workspaceSlug, namespaceName } = Route.useParams();
+  const { namespaceName } = Route.useParams();
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: nsData, isLoading: nsLoading } = useNamespaceByNameQuery({
@@ -81,11 +79,7 @@ function NamespaceDetailPage() {
         <div className="mx-auto w-full max-w-7xl px-6 py-4">
           {/* Breadcrumb */}
           <nav className="mb-3 flex items-center gap-1 text-muted-foreground text-sm">
-            <Link
-              to="/@{$workspaceSlug}/~/registry"
-              params={{ workspaceSlug }}
-              className="hover:text-foreground"
-            >
+            <Link to="/registry" className="hover:text-foreground">
               Registry
             </Link>
             <ChevronRight className="h-4 w-4" />
@@ -152,9 +146,8 @@ function NamespaceDetailPage() {
               return (
                 <Link
                   key={repo.rowId}
-                  to="/@{$workspaceSlug}/~/registry/$namespaceName/$repoName"
+                  to="/registry/$namespaceName/$repoName"
                   params={{
-                    workspaceSlug,
                     namespaceName,
                     repoName: repo.name,
                   }}

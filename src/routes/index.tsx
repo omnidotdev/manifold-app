@@ -10,20 +10,9 @@ import createMetaTags from "@/lib/util/createMetaTags";
 const DOCS_URL = "https://docs.omni.dev/products/manifold";
 
 export const Route = createFileRoute("/")({
-  beforeLoad: ({ context: { auth, organizations }, preload }) => {
+  beforeLoad: ({ context: { auth }, preload }) => {
     // skip during preload so hovering this link does not navigate authed users
-    if (!preload && auth) {
-      // Land on the default workspace's registry (personal workspace, else the
-      // first). The workspace lives in the URL per the fleet standard.
-      const def =
-        organizations.find((o) => o.type === "personal") ?? organizations[0];
-      if (def?.slug) {
-        throw redirect({
-          to: "/@{$workspaceSlug}/~/registry",
-          params: { workspaceSlug: def.slug },
-        });
-      }
-    }
+    if (!preload && auth) throw redirect({ to: "/registry" });
   },
   head: () => ({
     meta: createMetaTags({

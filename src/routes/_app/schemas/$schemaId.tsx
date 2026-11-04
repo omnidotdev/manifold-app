@@ -30,9 +30,7 @@ import {
 } from "@/lib/manifold/schemas";
 import createMetaTags from "@/lib/util/createMetaTags";
 
-export const Route = createFileRoute(
-  "/_app/@{$workspaceSlug}/~/schemas/$schemaId",
-)({
+export const Route = createFileRoute("/_app/schemas/$schemaId")({
   head: () => ({
     meta: createMetaTags({
       title: "Schema Detail | Manifold",
@@ -43,7 +41,7 @@ export const Route = createFileRoute(
 });
 
 function SchemaDetailPage() {
-  const { workspaceSlug, schemaId } = Route.useParams();
+  const { schemaId } = Route.useParams();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"content" | "metadata">("content");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -58,11 +56,7 @@ function SchemaDetailPage() {
         <p className="text-muted-foreground">
           The schema you're looking for doesn't exist
         </p>
-        <InternalLink
-          to="/@{$workspaceSlug}/~/schemas"
-          params={{ workspaceSlug }}
-          variant="outline"
-        >
+        <InternalLink to="/schemas" variant="outline">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to schemas
         </InternalLink>
@@ -82,7 +76,7 @@ function SchemaDetailPage() {
 
   const handleDelete = () => {
     setShowDeleteDialog(false);
-    navigate({ to: "/@{$workspaceSlug}/~/schemas", params: { workspaceSlug } });
+    navigate({ to: "/schemas" });
   };
 
   // Pretty-print JSON-based content
@@ -108,12 +102,7 @@ function SchemaDetailPage() {
         <div className="mx-auto w-full max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <InternalLink
-                to="/@{$workspaceSlug}/~/schemas"
-                params={{ workspaceSlug }}
-                variant="ghost"
-                size="icon"
-              >
+              <InternalLink to="/schemas" variant="ghost" size="icon">
                 <ArrowLeft className="h-4 w-4" />
               </InternalLink>
               <div className="flex items-center gap-3">
