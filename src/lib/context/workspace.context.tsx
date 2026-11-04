@@ -8,6 +8,8 @@ import type { ReactNode } from "react";
 export interface Workspace {
   id: string;
   slug: string;
+  /** Human-readable workspace name (falls back to the slug) */
+  name: string;
   logo?: string | null;
   /** Discriminator: 'personal' (auto-created, immutable) or 'team' (collaborative) */
   type: "personal" | "team";
@@ -112,6 +114,7 @@ export function parseWorkspaceClaims(
   return claims.map((org) => ({
     id: org.id,
     slug: org.slug,
+    name: org.name ?? org.slug,
     logo: org.logo ?? null,
     type: org.type ?? "team",
     roles: org.roles ?? [],
