@@ -1,4 +1,10 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import type { ReactNode } from "react";
 
@@ -50,6 +56,28 @@ export function WorkspaceProvider({
   const [activeOrgId, setActiveOrgId] = useState<string | null>(
     initialOrgId ?? workspaces[0]?.id ?? null,
   );
+
+  // Restore the last-selected workspace from this browser after hydration.
+  // Kept out of the initial state (which must be deterministic across SSR and
+  // client to avoid a hydration mismatch): the server has no localStorage, so
+  // both render workspaces[0] first, then the client adjusts to the stored
+  // selection. Only honored when the user is still a member of that workspace,
+  // so a stale/removed org cannot stick. An explicit initialOrgId always wins.
+  useEffect(() => {
+    if (initialOrgId) return;
+    try {
+      const stored = localStorage.getItem("activeOrgId");
+      if (
+        stored &&
+        stored !== activeOrgId &&
+        workspaces.some((o) => o.id === stored)
+      ) {
+        setActiveOrgId(stored);
+      }
+    } catch {
+      // localStorage unavailable (private mode, blocked): fall back silently
+    }
+  }, [initialOrgId, workspaces, activeOrgId]);
 
   const activeWorkspace = workspaces.find((o) => o.id === activeOrgId) ?? null;
   const personalWorkspace =
