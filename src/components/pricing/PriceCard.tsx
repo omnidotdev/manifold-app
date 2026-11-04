@@ -172,7 +172,7 @@ const PriceCard = ({
       <CardRoot
         key={price.product.name}
         className={cn(
-          "size-full max-w-lg overflow-hidden lg:min-w-80",
+          "w-full max-w-lg overflow-hidden lg:h-full lg:min-w-80",
           isProTier &&
             "border-primary shadow-lg shadow-primary/5 ring-1 ring-primary/20",
         )}

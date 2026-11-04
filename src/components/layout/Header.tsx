@@ -73,10 +73,8 @@ const Header = () => {
         <div className="flex min-w-0 items-center gap-2">
           <InternalLink to="/" variant="unstyled">
             <span className="flex items-center gap-2.5 font-extrabold text-lg tracking-tight">
-              <span className="grid h-7 w-7 place-items-center rounded-[9px] bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] shadow-[0_6px_18px_-6px_rgba(99,102,241,0.8)]">
-                <ManifoldMark className="h-[15px] w-[15px] text-white" />
-              </span>
-              <span className="text-white">manifold</span>
+              <ManifoldMark className="h-6 w-6 text-[#6aa6ff]" />
+              <span className="text-white">Manifold</span>
             </span>
           </InternalLink>
 
