@@ -24,7 +24,7 @@ const WorkspaceSwitcher = () => {
       <MenuTrigger asChild>
         <button
           type="button"
-          className="inline-flex max-w-44 items-center gap-2 rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm text-white transition-colors hover:bg-white/10"
+          className="inline-flex min-w-0 max-w-32 shrink items-center gap-2 rounded-md border border-white/20 bg-white/5 px-2.5 py-1.5 text-sm text-white transition-colors hover:bg-white/10 sm:max-w-44 sm:px-3"
         >
           <span className="truncate font-medium">
             {activeWorkspace?.slug ?? "Select workspace"}
@@ -34,7 +34,7 @@ const WorkspaceSwitcher = () => {
       </MenuTrigger>
 
       <MenuPositioner>
-        <MenuContent className="min-w-52">
+        <MenuContent className="min-w-52 max-w-[calc(100vw-2rem)]">
           {workspaces.map((ws) => (
             <MenuItem key={ws.id} value={ws.id} className="cursor-pointer">
               <MenuItemText className="flex w-full items-center gap-2">
