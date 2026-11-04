@@ -187,7 +187,7 @@ function RepositoryDetailPage() {
       {/* Content */}
       <div className="mx-auto w-full max-w-7xl px-6 py-6">
         {isLoading ? (
-          <div className="flex items-center justify-center py-16">
+          <div className="flex min-h-[60vh] items-center justify-center">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
         ) : !repository ? (
