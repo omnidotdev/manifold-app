@@ -51,11 +51,15 @@ type SearchParams = {
   view?: "grid" | "list";
 };
 
-export const Route = createFileRoute("/_app/schemas/")({
+export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/schemas/")({
   // The schemas browser renders demo data and is not in the nav; the real
-  // artifact surface is /registry. Redirect here until it is wired to live data
-  beforeLoad: () => {
-    throw redirect({ to: "/registry" });
+  // artifact surface is the registry. Redirect here until it is wired to live
+  // data
+  beforeLoad: ({ params }) => {
+    throw redirect({
+      to: "/@{$workspaceSlug}/~/registry",
+      params: { workspaceSlug: params.workspaceSlug },
+    });
   },
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
     search: (search.search as string) || undefined,
@@ -73,6 +77,7 @@ export const Route = createFileRoute("/_app/schemas/")({
 });
 
 function SchemasPage() {
+  const { workspaceSlug } = Route.useParams();
   const navigate = useNavigate({ from: Route.fullPath });
   const { search, type, page, view } = Route.useSearch();
 
@@ -160,7 +165,11 @@ function SchemasPage() {
                 </Button>
               </div>
 
-              <InternalLink to="/schemas/create" variant="solid">
+              <InternalLink
+                to="/@{$workspaceSlug}/~/schemas/create"
+                params={{ workspaceSlug }}
+                variant="solid"
+              >
                 <Plus className="mr-2 h-4 w-4" />
                 New Schema
               </InternalLink>
@@ -225,8 +234,8 @@ function SchemasPage() {
             {paginatedSchemas.map((schema) => (
               <InternalLink
                 key={schema.id}
-                to="/schemas/$schemaId"
-                params={{ schemaId: schema.id }}
+                to="/@{$workspaceSlug}/~/schemas/$schemaId"
+                params={{ workspaceSlug, schemaId: schema.id }}
                 variant="unstyled"
               >
                 <Card className="group cursor-pointer transition-shadow hover:shadow-md">
@@ -325,8 +334,8 @@ function SchemasPage() {
                       className="cursor-pointer border-b transition-colors hover:bg-muted/50"
                       onClick={() =>
                         navigate({
-                          to: "/schemas/$schemaId",
-                          params: { schemaId: schema.id },
+                          to: "/@{$workspaceSlug}/~/schemas/$schemaId",
+                          params: { workspaceSlug, schemaId: schema.id },
                         })
                       }
                     >

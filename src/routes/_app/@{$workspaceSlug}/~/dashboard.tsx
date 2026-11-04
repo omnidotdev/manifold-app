@@ -68,10 +68,13 @@ const DISTRIBUTION_COLORS: Record<SchemaType, string> = {
   container: "bg-blue-500",
 };
 
-export const Route = createFileRoute("/_app/dashboard")({
-  // Demo-data overview, not in the nav; send users to the real /registry
-  beforeLoad: () => {
-    throw redirect({ to: "/registry" });
+export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/dashboard")({
+  // Demo-data overview, not in the nav; send users to the real registry
+  beforeLoad: ({ params }) => {
+    throw redirect({
+      to: "/@{$workspaceSlug}/~/registry",
+      params: { workspaceSlug: params.workspaceSlug },
+    });
   },
   head: () => ({
     meta: createMetaTags({
@@ -83,6 +86,7 @@ export const Route = createFileRoute("/_app/dashboard")({
 });
 
 function DashboardPage() {
+  const { workspaceSlug } = Route.useParams();
   const schemas = DEMO_SCHEMAS;
   const total = schemas.length;
 
@@ -190,8 +194,8 @@ function DashboardPage() {
               {recentSchemas.map((schema) => (
                 <InternalLink
                   key={schema.id}
-                  to="/schemas/$schemaId"
-                  params={{ schemaId: schema.id }}
+                  to="/@{$workspaceSlug}/~/schemas/$schemaId"
+                  params={{ workspaceSlug, schemaId: schema.id }}
                   variant="unstyled"
                   className="block"
                 >
@@ -226,7 +230,8 @@ function DashboardPage() {
             {quickActions.map((action) => (
               <InternalLink
                 key={action.type}
-                to="/schemas/create"
+                to="/@{$workspaceSlug}/~/schemas/create"
+                params={{ workspaceSlug }}
                 variant="unstyled"
               >
                 <Card className="cursor-pointer transition-shadow hover:shadow-md">
