@@ -40,6 +40,8 @@ function WorkspaceLayout() {
       ? {
           id: fallbackOrg.id,
           slug: fallbackOrg.slug,
+          name: fallbackOrg.name ?? fallbackOrg.slug,
+          logo: fallbackOrg.logo ?? null,
           type: fallbackOrg.type,
           roles: [],
           teams: [],
