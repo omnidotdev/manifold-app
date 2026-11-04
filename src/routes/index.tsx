@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
+import ManifoldMark from "@/components/brand/ManifoldMark";
 import authClient from "@/lib/auth/authClient";
 import createMetaTags from "@/lib/util/createMetaTags";
 
@@ -215,7 +216,14 @@ function HomePage() {
           <svg viewBox="0 0 400 420" className="w-full overflow-visible">
             <title>Manifold connects every artifact type in one hub</title>
             <defs>
-              <linearGradient id="mf-edge" x1="0" y1="0" x2="1" y2="1">
+              <linearGradient
+                id="mf-edge"
+                gradientUnits="userSpaceOnUse"
+                x1="60"
+                y1="60"
+                x2="340"
+                y2="340"
+              >
                 <stop offset="0" stopColor="#3b82f6" />
                 <stop offset="1" stopColor="#8b5cf6" />
               </linearGradient>
@@ -264,16 +272,13 @@ function HomePage() {
               fill="url(#mf-core)"
               style={{ filter: "drop-shadow(0 0 22px rgba(59,130,246,0.75))" }}
             />
-            <g
-              stroke="#fff"
-              strokeWidth="2.6"
-              fill="none"
-              transform="translate(183,183)"
-            >
-              <circle cx="6" cy="6" r="4.5" />
-              <circle cx="22" cy="22" r="4.5" />
-              <path d="M9.5 9.5 18.5 18.5M6 11v2a4 4 0 0 0 4 4h2M22 17v-2a4 4 0 0 0-4-4h-2" />
-            </g>
+            <ManifoldMark
+              x={177}
+              y={180}
+              width={46}
+              height={40}
+              className="text-white"
+            />
           </svg>
         </div>
       </section>
