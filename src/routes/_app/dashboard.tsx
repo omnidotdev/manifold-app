@@ -108,7 +108,7 @@ function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-muted/30">
-      <div className="container mx-auto px-6 py-6">
+      <div className="mx-auto w-full max-w-7xl px-6 py-6">
         <h1 className="mb-6 font-semibold text-2xl">Dashboard</h1>
 
         {/* Stat Cards */}

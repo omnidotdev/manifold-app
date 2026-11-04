@@ -99,7 +99,7 @@ function SchemaDetailPage() {
     <div className="min-h-screen bg-muted/30">
       {/* Header */}
       <div className="sticky top-16 z-40 border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
+        <div className="mx-auto w-full max-w-7xl px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <InternalLink to="/schemas" variant="ghost" size="icon">
@@ -140,7 +140,7 @@ function SchemaDetailPage() {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-6">
+      <div className="mx-auto w-full max-w-7xl px-6 py-6">
         {/* Description */}
         <p className="mb-6 text-muted-foreground">{schema.description}</p>
 
