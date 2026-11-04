@@ -35,6 +35,5 @@
   <text x="94" y="420" font-size="88" font-weight="bold" fill="url(#cobalt)" letter-spacing="-3">one manifold.</text>
   <text x="96" y="492" font-size="33" fill="#99a1b5">The universal artifact registry</text>
   <text x="96" y="536" font-size="25" fill="#636b80" letter-spacing="0.5">Containers · Crates · Packages · Schemas · WASM</text>
-  <rect x="0" y="624" width="1200" height="6" fill="url(#cobalt)"/>
   <text x="96" y="590" font-size="23" fill="#636b80">manifold.omni.dev</text>
 </svg>
