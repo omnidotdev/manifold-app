@@ -192,10 +192,6 @@ function HomePage() {
             <Button size="lg" variant="outline" asChild>
               <a href={DOCS_URL}>Read the docs</a>
             </Button>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#fb923c]/40 bg-[#fb923c]/10 px-3 py-1.5 font-semibold text-[#fb923c] text-xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#fb923c]" />
-              Coming soon
-            </span>
           </div>
         </div>
 
