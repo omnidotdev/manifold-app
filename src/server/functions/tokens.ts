@@ -35,7 +35,7 @@ const revokeTokenSchema = z.object({
 /**
  * Fetch all API tokens for the current user
  */
-export const fetchTokens = createServerFn()
+export const fetchTokens = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .handler(async ({ context }) => {
     const res = await fetch(`${API_BASE_URL}/api/tokens`, {

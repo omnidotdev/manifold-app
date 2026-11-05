@@ -33,4 +33,5 @@ ENV NODE_ENV=production
 COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/package.json ./
 EXPOSE 3000
-CMD ["node", ".output/server/index.mjs"]
+# Raise the max request-header size (default 16KB) so large many-workspace auth cookies do not trip HTTP 431
+CMD ["node", "--max-http-header-size=65536", ".output/server/index.mjs"]

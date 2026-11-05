@@ -63,7 +63,7 @@ const requireUserId = (
 /**
  * Get the user's active subscriptions.
  */
-export const getSubscriptions = createServerFn()
+export const getSubscriptions = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .handler(async ({ context }) => {
     return billing.listSubscriptions(
@@ -112,7 +112,7 @@ export const getCancelSubscriptionUrl = createServerFn({ method: "POST" })
 /**
  * Get subscription for a workspace.
  */
-export const getSubscription = createServerFn()
+export const getSubscription = createServerFn({ method: "POST" })
   .validator((data) => workspaceSchema.parse(data))
   .middleware([authMiddleware])
   .handler(async ({ data, context }) => {
@@ -180,7 +180,7 @@ export const reactivateSubscription = createServerFn({ method: "POST" })
 /**
  * Get subscription for an organization.
  */
-export const getOrgSubscription = createServerFn()
+export const getOrgSubscription = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator((data) => organizationSchema.parse(data))
   .handler(async ({ data, context }) => {

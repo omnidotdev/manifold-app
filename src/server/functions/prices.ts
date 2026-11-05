@@ -10,14 +10,16 @@ export type { Price };
 /**
  * Fetch all prices for this app via Aether, sorted by unit amount (ascending).
  */
-export const getPrices = createServerFn().handler(async () => {
-  if (!hasBilling) return [];
+export const getPrices = createServerFn({ method: "POST" }).handler(
+  async () => {
+    if (!hasBilling) return [];
 
-  const prices = await billing.getPrices("manifold");
+    const prices = await billing.getPrices("manifold");
 
-  return prices.sort(
-    (a, b) =>
-      (a.unit_amount ?? Number.POSITIVE_INFINITY) -
-      (b.unit_amount ?? Number.POSITIVE_INFINITY),
-  );
-});
+    return prices.sort(
+      (a, b) =>
+        (a.unit_amount ?? Number.POSITIVE_INFINITY) -
+        (b.unit_amount ?? Number.POSITIVE_INFINITY),
+    );
+  },
+);
