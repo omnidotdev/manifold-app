@@ -1,8 +1,8 @@
 {
   "$comment": "Values should match src/lib/config/app.config.ts",
-  "name": "Omni TanStack Start Template",
-  "short_name": "Omni Start",
-  "description": "Omni TanStack Start template",
+  "name": "Manifold",
+  "short_name": "Manifold",
+  "description": "The universal artifact registry. One hub for your containers, Cargo crates, npm packages, schemas, and WASM, versioned, private by default, and self-hostable.",
   "scope": "/",
   "start_url": "/?source=pwa",
   "display": "standalone",
