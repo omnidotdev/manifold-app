@@ -31,6 +31,13 @@ export const AUTH_INTERNAL_URL =
     ? process.env.AUTH_INTERNAL_URL || AUTH_BASE_URL
     : AUTH_BASE_URL;
 
+// Aether service key for server-side entitlement reads. Server-only (no VITE_
+// prefix, never read in the browser) so it is never shipped in the bundle
+export const BILLING_SERVICE_API_KEY =
+  typeof window === "undefined"
+    ? process.env.BILLING_SERVICE_API_KEY
+    : undefined;
+
 export const CONSOLE_URL = import.meta.env.VITE_CONSOLE_URL;
 
 // Feature flags
@@ -47,6 +54,14 @@ export const hasBilling = !!BILLING_BASE_URL;
 // Startup warnings for optional integrations
 if (!BILLING_BASE_URL)
   console.warn("BILLING_BASE_URL not set, billing disabled");
+if (
+  typeof window === "undefined" &&
+  BILLING_BASE_URL &&
+  !BILLING_SERVICE_API_KEY
+)
+  console.warn(
+    "BILLING_SERVICE_API_KEY not set, plan entitlement reads disabled",
+  );
 if (!AUTHZ_API_URL)
   console.warn("AUTHZ_API_URL not set, authorization disabled");
 if (!FLAGS_API_HOST)
