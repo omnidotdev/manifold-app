@@ -1,23 +1,20 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 
+import ManageSubscription from "@/components/billing/ManageSubscription";
 import { useWorkspace } from "@/lib/context";
 import { getTierFromEntitlements } from "@/lib/util";
 import { getEntitlements } from "@/server/functions/entitlements";
-import {
-  getManageBillingUrl,
-  getSubscription,
-  reactivateSubscription,
-  revokeSubscription,
-} from "@/server/functions/subscriptions";
+import { getSubscription } from "@/server/functions/subscriptions";
 
 export const Route = createFileRoute("/_app/@{$workspaceSlug}/~/billing")({
   component: WorkspaceBillingPage,
 });
 
 /**
- * Workspace billing page.
- * Integrates with Aether for subscription management.
+ * Workspace billing page: the current plan from Aether. Changing, canceling,
+ * or reactivating the plan, payment methods, and invoices are managed on the
+ * Omni account hub, which returns here
  */
 function WorkspaceBillingPage() {
   const { workspaceSlug } = Route.useParams();
@@ -46,31 +43,6 @@ function WorkspaceBillingPage() {
         data: { entityType: "organization", entityId: workspaceId },
       }).catch(() => null),
     enabled: !!workspaceId,
-  });
-
-  // Billing portal mutation
-  const billingPortalMutation = useMutation({
-    mutationFn: async () => {
-      const url = await getManageBillingUrl({
-        data: {
-          workspaceId,
-          returnUrl: window.location.href,
-        },
-      });
-      window.location.href = url;
-    },
-  });
-
-  // Cancel subscription mutation
-  const cancelMutation = useMutation({
-    mutationFn: () => revokeSubscription({ data: { workspaceId } }),
-    onSuccess: () => router.invalidate(),
-  });
-
-  // Reactivate subscription mutation
-  const reactivateMutation = useMutation({
-    mutationFn: () => reactivateSubscription({ data: { workspaceId } }),
-    onSuccess: () => router.invalidate(),
   });
 
   if (!org) return null;
@@ -127,22 +99,12 @@ function WorkspaceBillingPage() {
                 )}
               </div>
               <div className="flex gap-2">
-                {isCanceling ? (
-                  <button
-                    type="button"
-                    onClick={() => reactivateMutation.mutate()}
-                    disabled={reactivateMutation.isPending}
-                    className="rounded-lg bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-                  >
-                    {reactivateMutation.isPending
-                      ? "Reactivating..."
-                      : "Reactivate Plan"}
-                  </button>
-                ) : !isSubscribed ? (
+                {!isSubscribed ? (
                   <button
                     type="button"
                     onClick={() => {
-                      // TODO: Navigate to pricing page or open checkout
+                      // Pricing lists the plans; picking one opens the account
+                      // hub's confirm step for it and this workspace
                       router.navigate({ to: "/pricing" });
                     }}
                     className="rounded-lg bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90"
@@ -192,44 +154,15 @@ function WorkspaceBillingPage() {
           </p>
         </section>
 
-        {/* Billing Portal */}
+        {/* Payment and invoices, managed on the account hub */}
         {isSubscribed && (
           <section className="rounded-lg border p-6">
             <h2 className="mb-4 font-semibold text-lg">Payment & Invoices</h2>
             <p className="mb-4 text-muted-foreground text-sm">
-              Manage your payment methods, view invoices, and update billing
-              information.
+              Change, cancel, or reactivate your plan, manage payment methods,
+              and view invoices on your Omni account.
             </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => billingPortalMutation.mutate()}
-                disabled={billingPortalMutation.isPending}
-                className="rounded-lg border px-4 py-2 transition-colors hover:bg-muted disabled:opacity-50"
-              >
-                {billingPortalMutation.isPending
-                  ? "Opening..."
-                  : "Open Billing Portal"}
-              </button>
-              {!isCanceling && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (
-                      confirm(
-                        "Are you sure you want to cancel your subscription?",
-                      )
-                    ) {
-                      cancelMutation.mutate();
-                    }
-                  }}
-                  disabled={cancelMutation.isPending}
-                  className="rounded-lg border border-red-200 px-4 py-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
-                >
-                  {cancelMutation.isPending ? "Canceling..." : "Cancel Plan"}
-                </button>
-              )}
-            </div>
+            <ManageSubscription workspaceSlug={org.slug} />
           </section>
         )}
       </div>

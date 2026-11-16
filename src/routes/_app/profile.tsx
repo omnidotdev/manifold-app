@@ -6,7 +6,8 @@ import {
 } from "@tanstack/react-table";
 
 import { DataTable } from "@/components/core";
-import { CancelSubscription, ManageSubscription } from "@/components/profile";
+import { accountSubscriptionsUrl } from "@/lib/billing/hubLinks";
+import { ACCOUNT_URL } from "@/lib/config/env.config";
 import { getSubscriptions } from "@/server/functions/subscriptions";
 
 import type { Subscription } from "@/lib/providers/billing";
@@ -14,19 +15,6 @@ import type { Subscription } from "@/lib/providers/billing";
 const columnHelper = createColumnHelper<Subscription>();
 
 const columns = [
-  columnHelper.display({
-    header: "Actions",
-    cell: ({ row }) => (
-      <div className="flex w-full justify-center gap-1">
-        <ManageSubscription subscriptionId={row.original.id} />
-
-        <CancelSubscription subscriptionId={row.original.id} />
-      </div>
-    ),
-    meta: {
-      tableCellClassName: "text-center max-w-10",
-    },
-  }),
   columnHelper.accessor("id", {
     header: "Sub ID",
     cell: (info) => info.getValue(),
@@ -38,11 +26,13 @@ const columns = [
 ];
 
 /**
- * Profile page.
+ * Profile page. Personal subscriptions belong to no workspace, so they are
+ * managed (changed or canceled) on the Omni account hub's subscriptions list
  */
 const ProfilePage = () => {
   const { auth } = Route.useRouteContext();
   const { subscriptions } = Route.useLoaderData();
+  const manageHref = accountSubscriptionsUrl(ACCOUNT_URL);
 
   const table = useReactTable({
     columns,
@@ -68,7 +58,18 @@ const ProfilePage = () => {
         </h2>
 
         {subscriptions.length ? (
-          <DataTable table={table} containerProps="mt-6" />
+          <>
+            <DataTable table={table} containerProps="mt-6" />
+
+            {manageHref && (
+              <a
+                href={manageHref}
+                className="mt-4 w-fit rounded-lg border px-4 py-2 text-sm transition-colors hover:bg-muted"
+              >
+                Manage subscriptions
+              </a>
+            )}
+          </>
         ) : (
           <p className="mt-4">No active subscriptions.</p>
         )}
