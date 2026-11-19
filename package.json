@@ -77,7 +77,7 @@
     "@codemirror/view": "^6.43.13",
     "@lezer/highlight": "^1.2.1",
     "@icons-pack/react-simple-icons": "^13.8.0",
-    "@omnidotdev/providers": "github:omnidotdev/providers#58c4ecc0bf8ba985a491cb1f057b1cf5fc7c9dcb",
+    "@omnidotdev/providers": "github:omnidotdev/providers#v0.2.0",
     "@omnidotdev/thornberry": "github:omnidotdev/thornberry#b41f0c8e9e9237e2959534fcdfa01c23a0f021aa",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/nitro-v2-vite-plugin": "^1.155.2",
