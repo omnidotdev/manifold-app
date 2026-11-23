@@ -132,6 +132,7 @@ const CreateRepositoryModal = ({
                   options={ARTIFACT_TYPE_OPTIONS}
                   placeholder="Select type"
                   aria-label="Artifact Type"
+                  required
                 />
               </div>
               <div className="flex items-center gap-2">

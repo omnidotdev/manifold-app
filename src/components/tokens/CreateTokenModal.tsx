@@ -226,6 +226,7 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
                   options={SCOPE_OPTIONS}
                   placeholder="Select scope"
                   aria-label="Scope"
+                  required
                 />
               </div>
 
@@ -244,6 +245,7 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
                   )}
                   placeholder="Select namespace"
                   aria-label="Namespace"
+                  required
                 />
               </div>
 

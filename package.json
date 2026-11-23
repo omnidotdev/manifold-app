@@ -78,7 +78,7 @@
     "@icons-pack/react-simple-icons": "^13.8.0",
     "@lezer/highlight": "^1.2.1",
     "@omnidotdev/providers": "github:omnidotdev/providers#v0.2.0",
-    "@omnidotdev/thornberry": "github:omnidotdev/thornberry#5112736ec23776ac73a4fcf26b234477e7c22169",
+    "@omnidotdev/thornberry": "github:omnidotdev/thornberry#482b9547c18175b396de03a6dbd8f9b1052f4fa3",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/nitro-v2-vite-plugin": "^1.155.2",
     "@tanstack/react-query": "^5.100.10",
