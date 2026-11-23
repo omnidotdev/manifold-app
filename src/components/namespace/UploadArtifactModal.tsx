@@ -1,17 +1,20 @@
 import { Button } from "@omnidotdev/thornberry/button";
-import { useCallback, useState } from "react";
-
 import {
-  Dialog,
+  DialogBackdrop,
+  DialogCloseTrigger,
   DialogContent,
   DialogDescription,
-  DialogHeader,
+  DialogPortal,
+  DialogPositioner,
+  DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@omnidotdev/thornberry/dialog";
+import { Input } from "@omnidotdev/thornberry/input";
+import { Label } from "@omnidotdev/thornberry/label";
+import { Textarea } from "@omnidotdev/thornberry/textarea";
+import { useCallback, useState } from "react";
+
 import {
   useCreateArtifactMutation,
   useCreateTagMutation,
@@ -135,82 +138,93 @@ const UploadArtifactModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
+      lazyMount
+      unmountOnExit
+    >
       <DialogTrigger asChild>
         {trigger ?? <Button>Upload Artifact</Button>}
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Upload Artifact</DialogTitle>
-          <DialogDescription>
-            Upload JSON content as a new artifact version
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="file-upload">Upload File (optional)</Label>
-            <Input
-              id="file-upload"
-              type="file"
-              accept=".json"
-              onChange={handleFileUpload}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="artifact-content">Content</Label>
-            <Textarea
-              id="artifact-content"
-              value={content}
-              onChange={handleContentChange}
-              placeholder='{"persona": {...}}'
-              className="min-h-[200px] font-mono text-sm"
-              required
-            />
-          </div>
-          {digestPreview && (
-            <div className="rounded bg-muted p-2">
-              <p className="font-mono text-muted-foreground text-xs">
-                Digest: {digestPreview}
-              </p>
+      <DialogPortal>
+        <DialogBackdrop />
+        <DialogPositioner>
+          <DialogContent className="max-w-2xl">
+            <DialogCloseTrigger />
+            <div className="flex flex-col gap-1.5">
+              <DialogTitle>Upload Artifact</DialogTitle>
+              <DialogDescription>
+                Upload JSON content as a new artifact version
+              </DialogDescription>
             </div>
-          )}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="media-type">Media Type</Label>
-              <Input
-                id="media-type"
-                value={mediaType}
-                onChange={(e) => setMediaType(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="tag-name">Tag (optional)</Label>
-              <Input
-                id="tag-name"
-                value={tagName}
-                onChange={(e) => setTagName(e.target.value)}
-                placeholder="latest"
-              />
-            </div>
-          </div>
-          {error && <p className="text-destructive text-sm">{error}</p>}
-          <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending || !content}>
-              {isPending ? "Uploading..." : "Upload"}
-            </Button>
-          </div>
-        </form>
-        {children}
-      </DialogContent>
-    </Dialog>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="file-upload">Upload File (optional)</Label>
+                <Input
+                  id="file-upload"
+                  type="file"
+                  accept=".json"
+                  onChange={handleFileUpload}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="artifact-content">Content</Label>
+                <Textarea
+                  id="artifact-content"
+                  value={content}
+                  onChange={handleContentChange}
+                  placeholder='{"persona": {...}}'
+                  className="min-h-[200px] font-mono text-sm"
+                  required
+                />
+              </div>
+              {digestPreview && (
+                <div className="rounded bg-muted p-2">
+                  <p className="font-mono text-muted-foreground text-xs">
+                    Digest: {digestPreview}
+                  </p>
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="media-type">Media Type</Label>
+                  <Input
+                    id="media-type"
+                    value={mediaType}
+                    onChange={(e) => setMediaType(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="tag-name">Tag (optional)</Label>
+                  <Input
+                    id="tag-name"
+                    value={tagName}
+                    onChange={(e) => setTagName(e.target.value)}
+                    placeholder="latest"
+                  />
+                </div>
+              </div>
+              {error && <p className="text-destructive text-sm">{error}</p>}
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isPending || !content}>
+                  {isPending ? "Uploading..." : "Upload"}
+                </Button>
+              </div>
+            </form>
+            {children}
+          </DialogContent>
+        </DialogPositioner>
+      </DialogPortal>
+    </DialogRoot>
   );
 };
 

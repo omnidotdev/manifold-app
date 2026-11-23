@@ -1,4 +1,5 @@
 import { CommandPalette as CommandPaletteShell } from "@omnidotdev/thornberry/command-palette";
+import { ShortcutsDialog } from "@omnidotdev/thornberry/shortcuts-dialog";
 import {
   GLOBAL_HOTKEYS,
   hotkeyLabel,
@@ -10,10 +11,12 @@ import {
   CreditCard,
   HomeIcon,
   KeyRound,
+  Keyboard,
   Library,
   MoonStar,
   UserRound,
 } from "lucide-react";
+import { useState } from "react";
 
 import { useTheme } from "@/providers/ThemeProvider";
 
@@ -21,10 +24,11 @@ import type { CommandAction } from "@omnidotdev/thornberry/command-palette";
 
 /**
  * Global command palette (⌘/Ctrl+K). Mounted once at the app root so it works on
- * every route. Exposes top-level navigation and the theme toggle. Built on the
- * shared Thornberry palette so every Omni app shares the same behavior; this
- * wrapper only supplies Manifold's own actions. The shell owns the open state
- * and the mod+k hotkey, so no local open state is needed here.
+ * every route. Exposes top-level navigation, the theme toggle, and the keyboard
+ * shortcuts list. Built on the shared Thornberry palette so every Omni app
+ * shares the same behavior; this wrapper only supplies Manifold's own actions.
+ * The shell owns the palette's open state and the mod+k hotkey; the only local
+ * state is whether the shortcuts list is open.
  */
 const CommandPalette = () => {
   const navigate = useNavigate();
@@ -33,6 +37,8 @@ const CommandPalette = () => {
   // Root context (not the authed `_app` tree) so the palette can resolve the
   // session on any route, including public pages where there is no session.
   const { auth } = useRouteContext({ strict: false }) as { auth?: unknown };
+
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
@@ -104,8 +110,25 @@ const CommandPalette = () => {
     onSelect: toggleTheme,
   });
 
+  commands.push({
+    id: "keyboard-shortcuts",
+    label: "Keyboard shortcuts",
+    group: "Preferences",
+    icon: Keyboard,
+    keywords: ["hotkeys", "keys", "help"],
+    shortcut: hotkeyLabel(GLOBAL_HOTKEYS.showShortcuts),
+    onSelect: () => setShortcutsOpen(true),
+  });
+
   return (
-    <CommandPaletteShell commands={commands} placeholder="Search actions..." />
+    <>
+      <CommandPaletteShell
+        commands={commands}
+        placeholder="Search actions..."
+      />
+      {/* `?` opens it anywhere; the palette entry opens it too */}
+      <ShortcutsDialog open={shortcutsOpen} onOpenChange={setShortcutsOpen} />
+    </>
   );
 };
 

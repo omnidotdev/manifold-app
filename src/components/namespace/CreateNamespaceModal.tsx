@@ -1,17 +1,20 @@
 import { Button } from "@omnidotdev/thornberry/button";
-import { useState } from "react";
-
 import {
-  Dialog,
+  DialogBackdrop,
+  DialogCloseTrigger,
   DialogContent,
   DialogDescription,
-  DialogHeader,
+  DialogPortal,
+  DialogPositioner,
+  DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from "@omnidotdev/thornberry/dialog";
+import { Input } from "@omnidotdev/thornberry/input";
+import { Label } from "@omnidotdev/thornberry/label";
+import { Textarea } from "@omnidotdev/thornberry/textarea";
+import { useState } from "react";
+
 import { useCreateNamespaceMutation } from "@/generated/graphql";
 import { useWorkspace } from "@/lib/context";
 import { cleanGraphqlError } from "@/lib/graphql/cleanError";
@@ -66,58 +69,69 @@ const CreateNamespaceModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
+      lazyMount
+      unmountOnExit
+    >
       <DialogTrigger asChild>
         {trigger ?? <Button>Create Namespace</Button>}
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create Namespace</DialogTitle>
-          <DialogDescription>
-            Namespaces organize your repositories and artifacts
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="namespace-name">Name</Label>
-            <Input
-              id="namespace-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="my-namespace"
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="namespace-description">Description</Label>
-            <Textarea
-              id="namespace-description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional description"
-            />
-          </div>
-          {error ? (
-            <p className="text-destructive text-sm">
-              {cleanGraphqlError(error, "Failed to create namespace")}
-            </p>
-          ) : null}
-          <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending || !name}>
-              {isPending ? "Creating..." : "Create"}
-            </Button>
-          </div>
-        </form>
-        {children}
-      </DialogContent>
-    </Dialog>
+      <DialogPortal>
+        <DialogBackdrop />
+        <DialogPositioner>
+          <DialogContent>
+            <DialogCloseTrigger />
+            <div className="flex flex-col gap-1.5">
+              <DialogTitle>Create Namespace</DialogTitle>
+              <DialogDescription>
+                Namespaces organize your repositories and artifacts
+              </DialogDescription>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="namespace-name">Name</Label>
+                <Input
+                  id="namespace-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="my-namespace"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="namespace-description">Description</Label>
+                <Textarea
+                  id="namespace-description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Optional description"
+                />
+              </div>
+              {error ? (
+                <p className="text-destructive text-sm">
+                  {cleanGraphqlError(error, "Failed to create namespace")}
+                </p>
+              ) : null}
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isPending || !name}>
+                  {isPending ? "Creating..." : "Create"}
+                </Button>
+              </div>
+            </form>
+            {children}
+          </DialogContent>
+        </DialogPositioner>
+      </DialogPortal>
+    </DialogRoot>
   );
 };
 

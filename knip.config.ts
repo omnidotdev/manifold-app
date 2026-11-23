@@ -27,11 +27,6 @@ const knipConfig: KnipConfig = {
     "src/__tests__/**",
     "**/*.test.{ts,tsx}",
     // Reference patterns - unused in template but available for adoption
-    "src/components/ui/dialog.tsx",
-    "src/components/ui/label.tsx",
-    "src/components/ui/select.tsx",
-    "src/components/ui/switch.tsx",
-    "src/components/ui/textarea.tsx",
     "src/lib/providers/**",
     "src/lib/warden/**",
     "src/lib/context/workspace.context.tsx",

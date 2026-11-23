@@ -1,17 +1,10 @@
 import { MenuRootProvider, useMenu } from "@ark-ui/react";
-import { Button } from "@omnidotdev/thornberry/button";
-import { useMutation } from "@tanstack/react-query";
-import { useLocation, useRouteContext } from "@tanstack/react-router";
-import { ExternalLinkIcon, Menu as MenuIcon } from "lucide-react";
-
-import ManifoldMark from "@/components/brand/ManifoldMark";
-import { InternalLink } from "@/components/core";
-import { ThemeToggle } from "@/components/layout";
 import {
   AvatarFallback,
   AvatarImage,
   AvatarRoot,
-} from "@/components/ui/avatar";
+} from "@omnidotdev/thornberry/avatar";
+import { Button } from "@omnidotdev/thornberry/button";
 import {
   MenuContent,
   MenuItem,
@@ -21,7 +14,14 @@ import {
   MenuPositioner,
   MenuSeparator,
   MenuTrigger,
-} from "@/components/ui/menu";
+} from "@omnidotdev/thornberry/menu";
+import { useMutation } from "@tanstack/react-query";
+import { useLocation, useRouteContext } from "@tanstack/react-router";
+import { ExternalLinkIcon, Menu as MenuIcon } from "lucide-react";
+
+import ManifoldMark from "@/components/brand/ManifoldMark";
+import { InternalLink } from "@/components/core";
+import { ThemeToggle } from "@/components/layout";
 import WorkspaceSwitcher from "@/components/workspaces/WorkspaceSwitcher";
 import authClient from "@/lib/auth/authClient";
 import signOut from "@/lib/auth/signOut";
