@@ -65,7 +65,7 @@
     "vite-plugin-mkcert": "^1.17.9"
   },
   "dependencies": {
-    "@ark-ui/react": "^5.39.2",
+    "@ark-ui/react": "^5.30.0",
     "@codemirror/autocomplete": "^6.20.4",
     "@codemirror/commands": "^6.11.1",
     "@codemirror/lang-json": "^6",
@@ -75,8 +75,8 @@
     "@codemirror/lint": "^6.9.7",
     "@codemirror/state": "^6.7.6",
     "@codemirror/view": "^6.43.13",
-    "@icons-pack/react-simple-icons": "^13.8.0",
     "@lezer/highlight": "^1.2.1",
+    "@icons-pack/react-simple-icons": "^13.8.0",
     "@omnidotdev/providers": "github:omnidotdev/providers#v0.2.0",
     "@omnidotdev/thornberry": "github:omnidotdev/thornberry#799df3bb2ad5ae3110ea0de1c6711e7e30b5915c",
     "@tailwindcss/vite": "^4.1.18",
