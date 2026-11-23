@@ -1,5 +1,12 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
+import { Card, CardContent } from "@omnidotdev/thornberry/card";
+import {
+  TabsContent,
+  TabsList,
+  TabsRoot,
+  TabsTrigger,
+} from "@omnidotdev/thornberry/tabs";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ChevronRight,
@@ -14,8 +21,6 @@ import {
 
 import UploadArtifactModal from "@/components/namespace/UploadArtifactModal";
 import ScanBadge from "@/components/registry/ScanBadge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   useNamespaceByNameQuery,
   useRepositoryQuery,
@@ -200,7 +205,7 @@ function RepositoryDetailPage() {
             </p>
           </div>
         ) : (
-          <Tabs defaultValue="artifacts">
+          <TabsRoot defaultValue="artifacts">
             <TabsList>
               <TabsTrigger value="artifacts">
                 Artifacts ({repository.artifacts.totalCount})
@@ -365,7 +370,7 @@ function RepositoryDetailPage() {
                 </div>
               )}
             </TabsContent>
-          </Tabs>
+          </TabsRoot>
         )}
       </div>
     </div>

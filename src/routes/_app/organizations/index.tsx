@@ -1,9 +1,9 @@
 import { workspacesUrl } from "@omnidotdev/providers/react";
+import { Avatar } from "@omnidotdev/thornberry/avatar";
 import { Button, buttonVariants } from "@omnidotdev/thornberry/button";
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Boxes, Plus, RefreshCw } from "lucide-react";
 
-import { Avatar } from "@/components/ui/avatar";
 import authClient from "@/lib/auth/authClient";
 import { ACCOUNT_URL } from "@/lib/config/env.config";
 import { fetchFreshSession, signOutLocal } from "@/server/functions/auth";

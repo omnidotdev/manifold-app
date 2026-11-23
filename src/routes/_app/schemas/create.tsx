@@ -2,7 +2,11 @@ import { json } from "@codemirror/lang-json";
 import { wast } from "@codemirror/lang-wast";
 import { yaml } from "@codemirror/lang-yaml";
 import { Button } from "@omnidotdev/thornberry/button";
+import { Card, CardContent } from "@omnidotdev/thornberry/card";
 import { CodeEditor } from "@omnidotdev/thornberry/code-editor";
+import { Input } from "@omnidotdev/thornberry/input";
+import { Label } from "@omnidotdev/thornberry/label";
+import { Textarea } from "@omnidotdev/thornberry/textarea";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { graphql } from "cm6-graphql";
 import {
@@ -16,10 +20,6 @@ import {
 import { useMemo, useState } from "react";
 
 import { InternalLink } from "@/components/core";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { SCHEMA_TEMPLATES, SCHEMA_TYPE_LABELS } from "@/lib/manifold/schemas";
 import createMetaTags from "@/lib/util/createMetaTags";
 

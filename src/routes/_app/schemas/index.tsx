@@ -1,5 +1,20 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@omnidotdev/thornberry/card";
+import { ConfirmDialog } from "@omnidotdev/thornberry/confirm-dialog";
+import { Input } from "@omnidotdev/thornberry/input";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "@omnidotdev/thornberry/menu";
+import { TabsList, TabsRoot, TabsTrigger } from "@omnidotdev/thornberry/tabs";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import {
   ChevronLeft,
@@ -16,22 +31,6 @@ import {
 import { useState } from "react";
 
 import { InternalLink } from "@/components/core";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import {
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-} from "@/components/ui/menu";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DEMO_SCHEMAS,
   SCHEMA_TYPE_COLORS,
@@ -185,11 +184,11 @@ function SchemasPage() {
             </div>
 
             <div className="-mx-6 overflow-x-auto px-6 lg:mx-0 lg:px-0">
-              <Tabs
+              <TabsRoot
                 value={filterType}
-                onValueChange={(v) =>
+                onValueChange={(e) =>
                   updateSearch({
-                    type: v as SchemaType | "all",
+                    type: e.value as SchemaType | "all",
                     page: undefined,
                   })
                 }
@@ -212,7 +211,7 @@ function SchemasPage() {
                     Container ({typeCounts.container || 0})
                   </TabsTrigger>
                 </TabsList>
-              </Tabs>
+              </TabsRoot>
             </div>
           </div>
         </div>
@@ -432,28 +431,14 @@ function SchemasPage() {
       </div>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog
+      <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Schema</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete &quot;{deleteTarget?.name}&quot;?
-              This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end gap-3 pt-4">
-            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+        title={`Delete schema "${deleteTarget?.name ?? ""}"?`}
+        description="This action cannot be undone."
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

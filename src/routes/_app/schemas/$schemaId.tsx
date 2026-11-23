@@ -1,5 +1,13 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@omnidotdev/thornberry/card";
+import { ConfirmDialog } from "@omnidotdev/thornberry/confirm-dialog";
+import { TabsList, TabsRoot, TabsTrigger } from "@omnidotdev/thornberry/tabs";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   ArrowLeft,
@@ -13,15 +21,6 @@ import {
 import { useState } from "react";
 
 import { InternalLink } from "@/components/core";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   DEMO_SCHEMAS,
   SCHEMA_TYPE_COLORS,
@@ -145,15 +144,15 @@ function SchemaDetailPage() {
         <p className="mb-6 text-muted-foreground">{schema.description}</p>
 
         {/* Tabs */}
-        <Tabs
+        <TabsRoot
           value={activeTab}
-          onValueChange={(v) => setActiveTab(v as "content" | "metadata")}
+          onValueChange={(e) => setActiveTab(e.value as "content" | "metadata")}
         >
           <TabsList className="mb-6">
             <TabsTrigger value="content">Content</TabsTrigger>
             <TabsTrigger value="metadata">Metadata</TabsTrigger>
           </TabsList>
-        </Tabs>
+        </TabsRoot>
 
         {activeTab === "content" ? (
           <Card>
@@ -259,31 +258,14 @@ function SchemaDetailPage() {
       </div>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog
+      <ConfirmDialog
         open={showDeleteDialog}
         onOpenChange={(open) => !open && setShowDeleteDialog(false)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Schema</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete &quot;{schema.name}&quot;? This
-              action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end gap-3 pt-4">
-            <Button
-              variant="outline"
-              onClick={() => setShowDeleteDialog(false)}
-            >
-              Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDelete}>
-              Delete
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+        title={`Delete schema "${schema.name}"?`}
+        description="This action cannot be undone."
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

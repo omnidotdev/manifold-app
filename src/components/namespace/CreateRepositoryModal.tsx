@@ -1,29 +1,30 @@
 import { Button } from "@omnidotdev/thornberry/button";
-import { useState } from "react";
-
 import {
-  Dialog,
+  DialogBackdrop,
+  DialogCloseTrigger,
   DialogContent,
   DialogDescription,
-  DialogHeader,
+  DialogPortal,
+  DialogPositioner,
+  DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+} from "@omnidotdev/thornberry/dialog";
+import { Input } from "@omnidotdev/thornberry/input";
+import { Label } from "@omnidotdev/thornberry/label";
+import { OptionsSelect } from "@omnidotdev/thornberry/select";
+import { Textarea } from "@omnidotdev/thornberry/textarea";
+import { useState } from "react";
+
 import { useCreateRepositoryMutation } from "@/generated/graphql";
 import { ARTIFACT_TYPE_LABELS } from "@/lib/manifold/registry.types";
 
 import type { PropsWithChildren } from "react";
 import type { ArtifactType } from "@/lib/manifold/registry.types";
+
+const ARTIFACT_TYPE_OPTIONS = Object.entries(ARTIFACT_TYPE_LABELS).map(
+  ([value, label]) => ({ value, label }),
+);
 
 interface Props {
   /** Namespace ID to create the repository in */
@@ -83,89 +84,92 @@ const CreateRepositoryModal = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <DialogRoot
+      open={open}
+      onOpenChange={(details) => setOpen(details.open)}
+      lazyMount
+      unmountOnExit
+    >
       <DialogTrigger asChild>
         {trigger ?? <Button>Create Repository</Button>}
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Create Repository</DialogTitle>
-          <DialogDescription>
-            Repositories store versioned artifacts
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="repo-name">Name</Label>
-            <Input
-              id="repo-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="my-persona"
-              required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="repo-description">Description</Label>
-            <Textarea
-              id="repo-description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional description"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Artifact Type</Label>
-            <Select
-              value={artifactType}
-              onValueChange={(v) => setArtifactType(v as ArtifactType)}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.entries(ARTIFACT_TYPE_LABELS).map(([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="is-public"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
-              className="h-4 w-4 rounded border-input"
-            />
-            <Label htmlFor="is-public">Public repository</Label>
-          </div>
-          {error ? (
-            <p className="text-destructive text-sm">
-              {error instanceof Error
-                ? error.message
-                : "Failed to create repository"}
-            </p>
-          ) : null}
-          <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending || !name}>
-              {isPending ? "Creating..." : "Create"}
-            </Button>
-          </div>
-        </form>
-        {children}
-      </DialogContent>
-    </Dialog>
+      <DialogPortal>
+        <DialogBackdrop />
+        <DialogPositioner>
+          <DialogContent>
+            <DialogCloseTrigger />
+            <div className="flex flex-col gap-1.5">
+              <DialogTitle>Create Repository</DialogTitle>
+              <DialogDescription>
+                Repositories store versioned artifacts
+              </DialogDescription>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="repo-name">Name</Label>
+                <Input
+                  id="repo-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="my-persona"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="repo-description">Description</Label>
+                <Textarea
+                  id="repo-description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Optional description"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Artifact Type</Label>
+                <OptionsSelect
+                  value={artifactType}
+                  onValueChange={(v) => setArtifactType(v as ArtifactType)}
+                  options={ARTIFACT_TYPE_OPTIONS}
+                  placeholder="Select type"
+                  aria-label="Artifact Type"
+                  required
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="is-public"
+                  checked={isPublic}
+                  onChange={(e) => setIsPublic(e.target.checked)}
+                  className="h-4 w-4 rounded border-input"
+                />
+                <Label htmlFor="is-public">Public repository</Label>
+              </div>
+              {error ? (
+                <p className="text-destructive text-sm">
+                  {error instanceof Error
+                    ? error.message
+                    : "Failed to create repository"}
+                </p>
+              ) : null}
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isPending || !name}>
+                  {isPending ? "Creating..." : "Create"}
+                </Button>
+              </div>
+            </form>
+            {children}
+          </DialogContent>
+        </DialogPositioner>
+      </DialogPortal>
+    </DialogRoot>
   );
 };
 

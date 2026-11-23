@@ -1,8 +1,13 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@omnidotdev/thornberry/card";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Box, Container, FileJson, Layers, Network, Plus } from "lucide-react";
 
 import { InternalLink } from "@/components/core";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DEMO_SCHEMAS,
   SCHEMA_TYPE_LABELS,

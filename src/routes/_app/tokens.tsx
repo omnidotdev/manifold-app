@@ -1,19 +1,12 @@
 import { Badge } from "@omnidotdev/thornberry/badge";
 import { Button } from "@omnidotdev/thornberry/button";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
-import { Key, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
-
-import CreateTokenModal from "@/components/tokens/CreateTokenModal";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@omnidotdev/thornberry/card";
+import { ConfirmDialog } from "@omnidotdev/thornberry/confirm-dialog";
 import {
   Table,
   TableBody,
@@ -21,7 +14,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@omnidotdev/thornberry/table";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
+import { Key, Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
+
+import CreateTokenModal from "@/components/tokens/CreateTokenModal";
 import createMetaTags from "@/lib/util/createMetaTags";
 import { fetchTokens, revokeToken } from "@/server/functions/tokens";
 
@@ -265,46 +264,27 @@ function TokensPage() {
       />
 
       {/* Revoke Confirmation Dialog */}
-      <Dialog
+      <ConfirmDialog
         open={revokeTarget !== null}
         onOpenChange={(open) => {
           if (!open) setRevokeTarget(null);
         }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Revoke Token</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to revoke{" "}
-              <strong>{revokeTarget?.name}</strong>? This action cannot be
-              undone. Any applications using this token will lose access.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setRevokeTarget(null)}>
-              Cancel
-            </Button>
-            <Button
-              variant="destructive"
-              disabled={revokeMutation.isPending}
-              onClick={() => {
-                if (revokeTarget) {
-                  revokeMutation.mutate(revokeTarget.id);
-                }
-              }}
-            >
-              {revokeMutation.isPending ? "Revoking..." : "Revoke Token"}
-            </Button>
-          </div>
-          {revokeMutation.error ? (
-            <p className="text-destructive text-sm">
-              {revokeMutation.error instanceof Error
-                ? revokeMutation.error.message
-                : "Failed to revoke token"}
-            </p>
-          ) : null}
-        </DialogContent>
-      </Dialog>
+        title={`Revoke token "${revokeTarget?.name ?? ""}"?`}
+        description="This action cannot be undone. Any applications using this token will lose access."
+        confirmLabel="Revoke Token"
+        pendingLabel="Revoking..."
+        isPending={revokeMutation.isPending}
+        error={
+          revokeMutation.error
+            ? revokeMutation.error instanceof Error
+              ? revokeMutation.error.message
+              : "Failed to revoke token"
+            : undefined
+        }
+        onConfirm={() => {
+          if (revokeTarget) revokeMutation.mutate(revokeTarget.id);
+        }}
+      />
     </div>
   );
 }
