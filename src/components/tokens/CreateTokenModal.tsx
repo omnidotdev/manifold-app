@@ -12,11 +12,11 @@ import {
 } from "@omnidotdev/thornberry/dialog";
 import { Input } from "@omnidotdev/thornberry/input";
 import { Label } from "@omnidotdev/thornberry/label";
+import { OptionsSelect } from "@omnidotdev/thornberry/select";
 import { useMutation } from "@tanstack/react-query";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
-import FormSelect from "@/components/core/FormSelect";
 import {
   useNamespacesQuery,
   useRepositoriesByNamespaceQuery,
@@ -220,20 +220,19 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
               {/* Scope */}
               <div className="space-y-2">
                 <Label>Scope</Label>
-                <FormSelect
+                <OptionsSelect
                   value={scope}
                   onValueChange={setScope}
                   options={SCOPE_OPTIONS}
                   placeholder="Select scope"
-                  ariaLabel="Scope"
-                  required
+                  aria-label="Scope"
                 />
               </div>
 
               {/* Namespace */}
               <div className="space-y-2">
                 <Label>Namespace</Label>
-                <FormSelect
+                <OptionsSelect
                   value={namespaceId}
                   onValueChange={(val) => {
                     setNamespaceId(val);
@@ -244,8 +243,7 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
                     ns ? [{ value: ns.rowId, label: ns.name }] : [],
                   )}
                   placeholder="Select namespace"
-                  ariaLabel="Namespace"
-                  required
+                  aria-label="Namespace"
                 />
               </div>
 
@@ -253,14 +251,14 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
               {namespaceId && repositories.length > 0 && (
                 <div className="space-y-2">
                   <Label>Repository (optional)</Label>
-                  <FormSelect
+                  <OptionsSelect
                     value={repositoryId}
                     onValueChange={setRepositoryId}
                     options={repositories.flatMap((repo) =>
                       repo ? [{ value: repo.rowId, label: repo.name }] : [],
                     )}
                     placeholder="All repositories"
-                    ariaLabel="Repository"
+                    aria-label="Repository"
                   />
                 </div>
               )}
@@ -268,12 +266,12 @@ const CreateTokenModal = ({ open, onOpenChange, onSuccess }: Props) => {
               {/* Expiry */}
               <div className="space-y-2">
                 <Label>Expires</Label>
-                <FormSelect
+                <OptionsSelect
                   value={expiryDays}
                   onValueChange={setExpiryDays}
                   options={EXPIRY_OPTIONS}
                   placeholder="Select expiry"
-                  ariaLabel="Expires"
+                  aria-label="Expires"
                 />
               </div>
 

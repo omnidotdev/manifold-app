@@ -12,10 +12,10 @@ import {
 } from "@omnidotdev/thornberry/dialog";
 import { Input } from "@omnidotdev/thornberry/input";
 import { Label } from "@omnidotdev/thornberry/label";
+import { OptionsSelect } from "@omnidotdev/thornberry/select";
 import { Textarea } from "@omnidotdev/thornberry/textarea";
 import { useState } from "react";
 
-import FormSelect from "@/components/core/FormSelect";
 import { useCreateRepositoryMutation } from "@/generated/graphql";
 import { ARTIFACT_TYPE_LABELS } from "@/lib/manifold/registry.types";
 
@@ -126,13 +126,12 @@ const CreateRepositoryModal = ({
               </div>
               <div className="space-y-2">
                 <Label>Artifact Type</Label>
-                <FormSelect
+                <OptionsSelect
                   value={artifactType}
                   onValueChange={(v) => setArtifactType(v as ArtifactType)}
                   options={ARTIFACT_TYPE_OPTIONS}
                   placeholder="Select type"
-                  ariaLabel="Artifact Type"
-                  required
+                  aria-label="Artifact Type"
                 />
               </div>
               <div className="flex items-center gap-2">
