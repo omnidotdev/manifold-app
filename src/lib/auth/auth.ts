@@ -1,3 +1,4 @@
+import { redactSessionToken } from "@omnidotdev/providers/auth";
 import { getCookie } from "@tanstack/react-start/server";
 import { betterAuth } from "better-auth";
 import { customSession, genericOAuth } from "better-auth/plugins";
@@ -89,6 +90,9 @@ const auth = betterAuth({
         },
       ],
     }),
+    // Keep the session token out of get-session responses, so page scripts
+    // can never read it
+    redactSessionToken(),
     customSession(async ({ user, session }) => {
       let identityProviderId: string | null = null;
 
