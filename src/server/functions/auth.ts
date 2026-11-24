@@ -5,7 +5,7 @@ import { getRequest, setCookie } from "@tanstack/react-start/server";
 import auth from "@/lib/auth/auth";
 import { authCache } from "@/lib/auth/authCache";
 import { getAuth } from "@/lib/auth/getAuth";
-import { isSessionDegraded } from "@/lib/auth/sessionState";
+import { isSessionDegraded, toClientSession } from "@/lib/auth/sessionState";
 import {
   AUTH_BASE_URL,
   AUTH_CLIENT_ID,
@@ -35,7 +35,7 @@ const loadSession = async (forceRefreshOrgs = false) => {
   // user (who has a valid access token), and the organizations page uses it to
   // prompt a re-login instead of the silent "No organizations yet" empty state
   return {
-    session,
+    session: toClientSession(session),
     organizations: session.organizations,
     authDegraded: isSessionDegraded(session),
   };
