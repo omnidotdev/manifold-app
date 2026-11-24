@@ -32,7 +32,7 @@ import { getThemeServerFn } from "@/server/functions/theme";
 import type { OrganizationClaim } from "@omnidotdev/providers/auth";
 import type { QueryClient } from "@tanstack/react-query";
 import type { PropsWithChildren } from "react";
-import type { GetAuthSession } from "@/lib/auth/getAuth";
+import type { ClientSession } from "@/lib/auth/sessionState";
 
 /**
  * Coming soon teaser page for production.
@@ -72,7 +72,7 @@ function MaintenancePage() {
  */
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
-  auth: GetAuthSession | null;
+  auth: ClientSession | null;
   organizations: OrganizationClaim[];
   isMaintenanceMode: boolean;
   authDegraded: boolean;
@@ -103,7 +103,7 @@ export const Route = createRootRouteWithContext<{
         };
 
       return {
-        auth: session as GetAuthSession | null,
+        auth: session,
         organizations,
         isMaintenanceMode,
         authDegraded,
