@@ -28,6 +28,7 @@ import {
   MenuTrigger,
 } from "@/components/ui/menu";
 import authClient from "@/lib/auth/authClient";
+import useHubLoginHint from "@/lib/auth/useHubLoginHint";
 import { upgradePlanUrl } from "@/lib/billing/hubLinks";
 import useAppBaseUrl from "@/lib/billing/useAppBaseUrl";
 import { ACCOUNT_URL, hasBilling } from "@/lib/config/env.config";
@@ -65,6 +66,7 @@ const PriceCard = ({
   const navigate = useNavigate();
   const search = useSearch({ strict: false }) as { tier?: string };
   const baseUrl = useAppBaseUrl();
+  const loginHint = useHubLoginHint();
 
   const tier = (price.metadata?.tier as Tier) ?? "free";
   const isProTier = tier === "pro";
@@ -110,6 +112,7 @@ const PriceCard = ({
       plan: tier,
       interval,
       workspaceSlug,
+      loginHint,
     });
 
   // A new workspace is created on the account hub's workspaces console, the
@@ -117,7 +120,7 @@ const PriceCard = ({
   const handleWorkspaceSelect = (workspaceId: string) => {
     const href =
       workspaceId === "create-new"
-        ? workspacesUrl(ACCOUNT_URL)
+        ? workspacesUrl(ACCOUNT_URL, { loginHint })
         : planUrl(allOrgs.find((org) => org.id === workspaceId)?.slug);
 
     if (href) window.location.assign(href);

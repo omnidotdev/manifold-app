@@ -78,7 +78,9 @@ const Header = () => {
             </span>
           </InternalLink>
 
-          {auth && <WorkspaceSwitcher />}
+          {auth && (
+            <WorkspaceSwitcher loginHint={auth.user.identityProviderId} />
+          )}
 
           {navLinks.map(({ to, label }) => (
             <InternalLink

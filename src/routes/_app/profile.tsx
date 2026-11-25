@@ -32,7 +32,10 @@ const columns = [
 const ProfilePage = () => {
   const { auth } = Route.useRouteContext();
   const { subscriptions } = Route.useLoaderData();
-  const manageHref = accountSubscriptionsUrl(ACCOUNT_URL);
+  const manageHref = accountSubscriptionsUrl(
+    ACCOUNT_URL,
+    auth?.user.identityProviderId,
+  );
 
   const table = useReactTable({
     columns,
