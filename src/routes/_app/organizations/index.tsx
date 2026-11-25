@@ -5,6 +5,7 @@ import { Boxes, Plus, RefreshCw } from "lucide-react";
 
 import { Avatar } from "@/components/ui/avatar";
 import authClient from "@/lib/auth/authClient";
+import useHubLoginHint from "@/lib/auth/useHubLoginHint";
 import { ACCOUNT_URL } from "@/lib/config/env.config";
 import { fetchFreshSession, signOutLocal } from "@/server/functions/auth";
 
@@ -30,11 +31,12 @@ export const Route = createFileRoute("/_app/organizations/")({
 function OrganizationsPage() {
   const router = useRouter();
   const { organizations: workspaces, authDegraded } = Route.useLoaderData();
+  const loginHint = useHubLoginHint();
 
   // The account hub owns workspace creation; link out to it. Rendered only when
   // the hub URL is configured (optional env), so a missing config degrades to
   // no button rather than a dead link.
-  const newWorkspaceHref = workspacesUrl(ACCOUNT_URL);
+  const newWorkspaceHref = workspacesUrl(ACCOUNT_URL, { loginHint });
   const NewWorkspaceLink = newWorkspaceHref
     ? ({ className }: { className?: string }) => (
         <a href={newWorkspaceHref} className={buttonVariants({ className })}>

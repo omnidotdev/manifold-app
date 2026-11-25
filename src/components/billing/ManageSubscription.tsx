@@ -1,5 +1,6 @@
 import { SettingsIcon } from "lucide-react";
 
+import useHubLoginHint from "@/lib/auth/useHubLoginHint";
 import { manageSubscriptionUrl } from "@/lib/billing/hubLinks";
 import useAppBaseUrl from "@/lib/billing/useAppBaseUrl";
 import { ACCOUNT_URL } from "@/lib/config/env.config";
@@ -16,7 +17,13 @@ interface Props {
  */
 const ManageSubscription = ({ workspaceSlug }: Props) => {
   const baseUrl = useAppBaseUrl();
-  const href = manageSubscriptionUrl(ACCOUNT_URL, baseUrl, workspaceSlug);
+  const loginHint = useHubLoginHint();
+  const href = manageSubscriptionUrl(
+    ACCOUNT_URL,
+    baseUrl,
+    workspaceSlug,
+    loginHint,
+  );
 
   if (!href) {
     return (

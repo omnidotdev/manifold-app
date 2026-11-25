@@ -9,12 +9,13 @@ import { useWorkspace } from "@/lib/context";
  * active one; hidden when the user has no workspaces (signed out or none yet).
  * Wraps the shared Omni switcher, supplying the workspaces from the session
  * claims and links out to the account hub to manage them when it is configured.
+ * @param loginHint - The signed-in account's subject, so the hub opens as it
  */
-const WorkspaceSwitcher = () => {
+const WorkspaceSwitcher = ({ loginHint }: { loginHint?: string | null }) => {
   const { workspaces, activeWorkspace, setActiveWorkspace } = useWorkspace();
 
   // Empty when the account hub is not configured, which hides the manage link
-  const manageUrl = workspacesUrl(ACCOUNT_URL) || undefined;
+  const manageUrl = workspacesUrl(ACCOUNT_URL, { loginHint }) || undefined;
 
   // The manage link alone would still open a menu, so stay hidden instead
   if (!workspaces.length) return null;

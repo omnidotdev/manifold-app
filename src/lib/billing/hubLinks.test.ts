@@ -42,6 +42,19 @@ describe("upgradePlanUrl", () => {
     });
   });
 
+  test("opens the hub as the signed-in account", () => {
+    expect(
+      params(
+        upgradePlanUrl(HUB, MANIFOLD, {
+          plan: "pro",
+          interval: "month",
+          workspaceSlug: "acme",
+          loginHint: "user-123",
+        }),
+      ),
+    ).toHaveProperty("login_hint", "user-123");
+  });
+
   test("lets the hub ask for the workspace and returns to pricing", () => {
     expect(
       params(upgradePlanUrl(HUB, MANIFOLD, { plan: "team", interval: "year" })),
@@ -73,6 +86,12 @@ describe("manageSubscriptionUrl", () => {
     });
   });
 
+  test("opens the hub as the signed-in account", () => {
+    expect(
+      params(manageSubscriptionUrl(HUB, MANIFOLD, "acme", "user-123")),
+    ).toHaveProperty("login_hint", "user-123");
+  });
+
   test("is empty when no account hub is configured", () => {
     expect(manageSubscriptionUrl("", MANIFOLD, "acme")).toBe("");
   });
@@ -80,9 +99,17 @@ describe("manageSubscriptionUrl", () => {
 
 describe("accountSubscriptionsUrl", () => {
   test("opens the account hub's subscriptions", () => {
-    expect(accountSubscriptionsUrl(`${HUB}/`)).toBe(
-      `${HUB}/billing?tab=subscriptions`,
-    );
+    const url = accountSubscriptionsUrl(`${HUB}/`);
+
+    expect(url.startsWith(`${HUB}/billing?`)).toBe(true);
+    expect(params(url)).toEqual({ tab: "subscriptions" });
+  });
+
+  test("opens the hub as the signed-in account", () => {
+    expect(params(accountSubscriptionsUrl(HUB, "user-123"))).toEqual({
+      tab: "subscriptions",
+      login_hint: "user-123",
+    });
   });
 
   test("is empty when no account hub is configured", () => {
