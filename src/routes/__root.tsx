@@ -79,7 +79,8 @@ export const Route = createRootRouteWithContext<{
 }>()({
   beforeLoad: async () => {
     try {
-      const { session, organizations, authDegraded } = await fetchSession();
+      const { session, organizations, authDegraded, authBaseUrl } =
+        await fetchSession();
 
       // Pass user context for @omni.dev admin bypass
       const email = session?.user?.email as string | undefined;
@@ -100,6 +101,7 @@ export const Route = createRootRouteWithContext<{
           organizations: [],
           isMaintenanceMode,
           authDegraded: false,
+          authBaseUrl: undefined,
         };
 
       return {
@@ -107,6 +109,7 @@ export const Route = createRootRouteWithContext<{
         organizations,
         isMaintenanceMode,
         authDegraded,
+        authBaseUrl,
       };
     } catch {
       return {
@@ -114,6 +117,7 @@ export const Route = createRootRouteWithContext<{
         organizations: [],
         isMaintenanceMode: false,
         authDegraded: false,
+        authBaseUrl: undefined,
       };
     }
   },

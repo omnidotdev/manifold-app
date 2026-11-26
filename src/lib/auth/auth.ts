@@ -1,4 +1,7 @@
-import { redactSessionToken } from "@omnidotdev/providers/auth";
+import {
+  createOmniOAuthConfig,
+  redactSessionToken,
+} from "@omnidotdev/providers/auth";
 import { getCookie } from "@tanstack/react-start/server";
 import { betterAuth } from "better-auth";
 import { customSession, genericOAuth } from "better-auth/plugins";
@@ -59,24 +62,18 @@ const auth = betterAuth({
     genericOAuth({
       config: [
         {
-          providerId: "omni",
-          clientId: AUTH_CLIENT_ID!,
-          clientSecret: AUTH_CLIENT_SECRET!,
-          // set URLs explicitly instead of using discoveryUrl: BA overrides
-          // tokenUrl with the discovery doc's token_endpoint, which uses the
-          // external URL unreachable from inside Docker
-          authorizationUrl: `${AUTH_BASE_URL}/oauth2/authorize`,
-          tokenUrl: `${AUTH_INTERNAL_URL}/oauth2/token`,
-          userInfoUrl: `${AUTH_INTERNAL_URL}/userinfo`,
-          scopes: [
-            "openid",
-            "profile",
-            "email",
-            "offline_access",
-            "organization",
-          ],
-          accessType: "offline",
-          pkce: true,
+          ...createOmniOAuthConfig({
+            clientId: AUTH_CLIENT_ID!,
+            clientSecret: AUTH_CLIENT_SECRET!,
+            authBaseUrl: AUTH_BASE_URL!,
+            authInternalUrl: AUTH_INTERNAL_URL!,
+          }),
+          // better-auth 1.7 expects `authorizationUrlParams` to be a Record; the
+          // helper returns a function (used only for screen_hint, which this
+          // app does not use), so clear it to satisfy the new type
+          authorizationUrlParams: undefined,
+          // Keep the defensive claim mapping: a missing name or email maps to
+          // an empty string rather than undefined
           mapProfileToUser: (profile) => ({
             name: typeof profile.name === "string" ? profile.name : "",
             email: typeof profile.email === "string" ? profile.email : "",
